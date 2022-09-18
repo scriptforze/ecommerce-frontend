@@ -3,8 +3,7 @@ import {
   NotificationOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { MenuProps } from "antd";
-import { Menu, Layout } from "antd";
+import { MenuProps, Menu, Layout } from "antd";
 import React from "react";
 import { StyledSideBar } from "./styled";
 
