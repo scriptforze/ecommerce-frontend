@@ -18,6 +18,6 @@
     "baseUrl": "src",
     "paths": { "@/*": ["./*"] }
   },
-  "include": [".eslintrc", "src"],
+  "include": ["src", ".eslintrc", "vite.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
