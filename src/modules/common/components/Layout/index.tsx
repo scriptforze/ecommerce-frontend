@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { LayoutProps } from "antd";
 import { StyledLayout } from "./styled";
 

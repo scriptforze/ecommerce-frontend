@@ -1,0 +1,58 @@
+{
+	"Crear un slice de redux": {
+		"prefix": "redux-slice",
+		"body": [
+			"import { createSlice } from '@reduxjs/toolkit';",
+			"",
+			"export const ${1:$TM_FILENAME_BASE} = createSlice({",
+			"  name: '${2:name}',",
+			"  initialState: {",
+			"    $3",
+			"  },",
+			"  reducers: {",
+			"    ${4:action}: (state, ${6:action}) => {",
+			"      $5",
+			"    },",
+			"  }",
+			"});",
+			"",
+			"export const { ${4:action} } = ${1:$TM_FILENAME_BASE}.actions;"
+		],
+		"description": "Crear un slice de redux",
+		"scope": "javascript,typescript"
+	},
+	"Export index": {
+		"prefix": "exindex",
+		"body": [
+			"export ${2:*} from '$1';",
+		],
+		"description": "Export index",
+		"scope": "javascript,typescript"
+	},
+	"Crea una funcionalidad dentro de un thunk": {
+		"prefix": "redux-thunk",
+		"body": [
+			"export const start$1 = ($2) => {",
+			"  return async (dispatch, ${3:getState}) => {",
+			"    $4",
+			"  }",
+			"}",
+		],
+		"description": "Crea una funcionalidad dentro de un thunk",
+		"scope": "javascript,typescript"
+	},
+	"React funcional component": {
+		"prefix": "fr",
+		"body": [
+			"export const $TM_FILENAME_BASE = () => {",
+			"  return (",
+			"    <>",
+			"      ${1:<div>$TM_FILENAME_BASE</div>}",
+			"    </>",
+			"  );",
+			"};"
+		],
+		"description": "React funcional component",
+		"scope": "javascriptreact,typescriptreact"
+	},
+}
