@@ -8,7 +8,25 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
     },
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        presets: ["@babel/preset-typescript"],
+        plugins: [
+          "@babel/plugin-transform-typescript",
+          [
+            "babel-plugin-styled-components",
+            {
+              ssr: false,
+              pure: true,
+              displayName: true,
+              fileName: false,
+            },
+          ],
+        ],
+      },
+    }),
+  ],
   css: {
     preprocessorOptions: {
       less: {
