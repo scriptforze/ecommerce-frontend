@@ -11,7 +11,6 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
-    "@scriptforze/component-library": "^1.0.1-ci-2914303140.0",
     "axios": "^0.27.2",
     "openapi-typescript-codegen": "^0.23.0",
     "react": "^18.2.0",
