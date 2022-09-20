@@ -1,7 +1,6 @@
 import { Route } from "react-router-dom";
 import { RoutesWithNotFound } from "@/modules/common/utils/RoutesWithNotFound";
-import { LoginPage } from "../pages/LoginPage";
-import { RegisterPage } from "../pages/RegisterPage";
+import { LoginPage, RegisterPage } from "../pages";
 
 export const AuthRoutes = () => {
   return (
