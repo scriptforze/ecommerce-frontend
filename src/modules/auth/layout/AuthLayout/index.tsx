@@ -1,19 +1,17 @@
-import { Card, Col, Layout, Typography } from "antd";
+import { Card, Col, Layout } from "antd";
+import { Outlet } from "react-router-dom";
 import { StyledRow } from "./styled";
-import { AuthLayoutType } from "./types";
 
 const { Content } = Layout;
-const { Title } = Typography;
 
-export const AuthLayout = ({ children, title }: AuthLayoutType) => {
+export const AuthLayout = () => {
   return (
     <Layout>
       <Content>
         <StyledRow justify="center" align="middle">
           <Col xs={20} sm={20} md={20} lg={8}>
             <Card>
-              <Title level={2}>{title}</Title>
-              {children}
+              <Outlet />
             </Card>
           </Col>
         </StyledRow>

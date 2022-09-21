@@ -2,11 +2,10 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import { Controller, useForm } from "react-hook-form";
 import { FormItem } from "@/modules/common/components/Form";
-import { AuthLayout } from "../../layout/AuthLayout";
 import { LOGIN_DEFAULT } from "./consts";
 import { LoginData } from "./types";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 export const LoginPage = () => {
   const { control, handleSubmit } = useForm<LoginData>({
@@ -14,12 +13,13 @@ export const LoginPage = () => {
     defaultValues: LOGIN_DEFAULT,
   });
 
-  const singIn = (data: LoginData) => {
+  const singIn = () => {
     // TODO: implement singIn function
   };
 
   return (
-    <AuthLayout title="Login">
+    <>
+      <Title level={2}>Login</Title>
       <Form layout="vertical" onFinish={handleSubmit(singIn)}>
         <FormItem label="Username or E-mail" name="username">
           <Controller
@@ -71,6 +71,6 @@ export const LoginPage = () => {
           </Button>
         </FormItem>
       </Form>
-    </AuthLayout>
+    </>
   );
 };
