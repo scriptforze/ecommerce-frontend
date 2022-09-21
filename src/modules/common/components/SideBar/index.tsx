@@ -4,8 +4,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { MenuProps, Menu, Layout } from "antd";
-import React from "react";
+import React, { FC } from "react";
 import { StyledSideBar } from "./styled";
+import { SideBarProps } from "./types";
+
+const { Content } = Layout;
 
 const items2: MenuProps["items"] = [
   UserOutlined,
@@ -29,7 +32,7 @@ const items2: MenuProps["items"] = [
   };
 });
 
-const SideBar = () => {
+const SideBarContent: FC<SideBarProps> = ({ children }) => {
   return (
     <Layout>
       <StyledSideBar>
@@ -39,8 +42,9 @@ const SideBar = () => {
           items={items2}
         />
       </StyledSideBar>
+      <Content>{children}</Content>
     </Layout>
   );
 };
 
-export default SideBar;
+export default SideBarContent;

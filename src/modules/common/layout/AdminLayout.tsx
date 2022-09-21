@@ -1,10 +1,13 @@
-import { SideBar, Layout, NavBar } from "@/modules/common/components";
+import { Outlet } from "react-router-dom";
+import { SideBarContent, Layout, NavBar } from "@/modules/common/components";
 
 const AdminLayout = () => {
   return (
     <Layout>
       <NavBar />
-      <SideBar />
+      <SideBarContent>
+        <Outlet />
+      </SideBarContent>
     </Layout>
   );
 };
