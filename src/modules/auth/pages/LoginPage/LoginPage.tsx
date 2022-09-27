@@ -1,26 +1,41 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import { Controller, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { FormItem } from "@/modules/common/components/Form";
-import { LOGIN_DEFAULT } from "./consts";
-import { LoginData } from "./types";
+import { LOGIN_DEFAULT } from "./constants";
+import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
 
 const { Text, Title } = Typography;
 
 export const LoginPage = () => {
-  const { control, handleSubmit } = useForm<LoginData>({
+  const { control, handleSubmit } = useForm<LoginAuthRequest>({
     mode: "onChange",
     defaultValues: LOGIN_DEFAULT,
   });
+  const [
+    signIn,
+    { data: signInData, isError: isSignInError, error: signInError },
+  ] = useSignInMutation();
 
-  const singIn = () => {
-    // TODO: implement singIn function
+  useEffect(() => {
+    // TODO: logic to signIn
+  }, [signInData]);
+
+  useEffect(() => {
+    if (isSignInError) {
+      // TODO: logic to show errors
+    }
+  }, [isSignInError, signInError]);
+
+  const onSignIn = ({ username, password }: LoginAuthRequest) => {
+    signIn({ loginAuthRequest: { password, username } });
   };
 
   return (
     <>
       <Title level={2}>Login</Title>
-      <Form layout="vertical" onFinish={handleSubmit(singIn)}>
+      <Form layout="vertical" onFinish={handleSubmit(onSignIn)}>
         <FormItem label="Username or E-mail" name="username">
           <Controller
             control={control}
