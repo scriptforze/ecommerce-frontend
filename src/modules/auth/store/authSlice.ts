@@ -14,7 +14,7 @@ export const authSlice = createSlice({
     logout: (state, { payload }: PayloadAction<InitialAuthState>) => {
       state.status = AuthStatuses.notAuthenticated;
       state.token = null;
-      state.errorMessage = payload;
+      state.errorMessage = payload.errorMessage;
     },
     checkingCredentials: (state) => {
       state.status = AuthStatuses.checking;

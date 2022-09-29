@@ -34,6 +34,7 @@
     "react/jsx-props-no-spreading": "off",
     "react/function-component-definition": "off",
     "react/no-unstable-nested-components": "off",
+    "react-hooks/exhaustive-deps": "off",
     "import/prefer-default-export": "off",
     "import/extensions": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
