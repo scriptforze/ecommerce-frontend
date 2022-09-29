@@ -1,3 +1,5 @@
+import { BadRequestException, ValidationException } from "@/services/auth";
+
 export enum AuthStatuses {
   checking = "checking",
   notAuthenticated = "not-authenticated",
@@ -7,5 +9,5 @@ export enum AuthStatuses {
 export interface InitialAuthState {
   status: AuthStatuses;
   token?: string | null;
-  errorMessage?: unknown | null;
+  errorMessage?: BadRequestException | ValidationException | string | null;
 }

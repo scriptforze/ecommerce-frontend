@@ -5,31 +5,36 @@ import { useEffect } from "react";
 import { FormItem } from "@/modules/common/components/Form";
 import { LOGIN_DEFAULT } from "./constants";
 import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
+import { useAppDispatch } from "@/modules/common/hooks";
+import { InitialAuthState, login, logout } from "../../store";
 
 const { Text, Title } = Typography;
 
 export const LoginPage = () => {
+  const dispatch = useAppDispatch();
+
   const { control, handleSubmit } = useForm<LoginAuthRequest>({
     mode: "onChange",
     defaultValues: LOGIN_DEFAULT,
   });
-  const [
-    signIn,
-    { data: signInData, isError: isSignInError, error: signInError },
-  ] = useSignInMutation();
+
+  const [signIn, { data: signInData, error: signInError }] =
+    useSignInMutation();
 
   useEffect(() => {
-    // TODO: logic to signIn
+    if (signInData) {
+      dispatch(login({ token: signInData.access_token }));
+    }
   }, [signInData]);
 
   useEffect(() => {
-    if (isSignInError) {
-      // TODO: logic to show errors
+    if (signInError && "data" in signInError) {
+      dispatch(logout({ errorMessage: signInError.data } as InitialAuthState));
     }
-  }, [isSignInError, signInError]);
+  }, [signInError]);
 
-  const onSignIn = ({ username, password }: LoginAuthRequest) => {
-    signIn({ loginAuthRequest: { password, username } });
+  const onSignIn = async ({ username, password }: LoginAuthRequest) => {
+    await signIn({ loginAuthRequest: { password, username } }).unwrap();
   };
 
   return (
