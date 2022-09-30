@@ -8,7 +8,7 @@ export const AuthRoutes = () => {
   return (
     <RoutesWithNotFound>
       <Route path="/" element={<AuthLayout />}>
-        <Route path={AuthRoutesList.LONGIN} element={<LoginPage />} />
+        <Route path={AuthRoutesList.LOGIN} element={<LoginPage />} />
         <Route path={AuthRoutesList.REGISTER} element={<RegisterPage />} />
       </Route>
     </RoutesWithNotFound>

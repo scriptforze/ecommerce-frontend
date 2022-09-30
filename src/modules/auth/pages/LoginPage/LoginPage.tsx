@@ -6,7 +6,8 @@ import { FormItem } from "@/modules/common/components/Form";
 import { LOGIN_DEFAULT } from "./constants";
 import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
 import { useAppDispatch } from "@/modules/common/hooks";
-import { InitialAuthState, login, logout } from "../../store";
+import { login } from "../../store";
+import { isErrorWithMessage } from "@/modules/common/helpers/queryExceptionValidator";
 
 const { Text, Title } = Typography;
 
@@ -28,8 +29,8 @@ export const LoginPage = () => {
   }, [signInData]);
 
   useEffect(() => {
-    if (signInError && "data" in signInError) {
-      dispatch(logout({ errorMessage: signInError.data } as InitialAuthState));
+    if (signInError && isErrorWithMessage(signInError)) {
+      // TODO: Perform the error behavior if is an object or string
     }
   }, [signInError]);
 

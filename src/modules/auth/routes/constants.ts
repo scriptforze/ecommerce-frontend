@@ -1,5 +1,5 @@
 export const AuthRoutesList = {
   AUTH: "auth",
-  LONGIN: "login",
+  LOGIN: "login",
   REGISTER: "register",
 };
