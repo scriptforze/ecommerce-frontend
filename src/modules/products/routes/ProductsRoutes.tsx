@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import { RoutesWithNotFound } from "@/modules/common/utils/RoutesWithNotFound";
+import { RoutesWithNotFound } from "@/modules/common/components";
 import CreateProduct from "../pages/CreateProduct";
 import AdminLayout from "@/modules/common/layout/AdminLayout";
 
