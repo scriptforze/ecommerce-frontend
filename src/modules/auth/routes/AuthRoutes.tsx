@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import { RoutesWithNotFound } from "@/modules/common/utils";
+import { RoutesWithNotFound } from "@/modules/common/components";
 import { LoginPage, RegisterPage } from "../pages";
 import { AuthLayout } from "../layout";
 import { AuthRoutesList } from "./constants";

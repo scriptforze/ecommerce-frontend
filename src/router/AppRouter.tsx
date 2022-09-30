@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { AuthRoutes, AuthRoutesList } from "@/modules/auth";
-import { RoutesWithNotFound } from "@/modules/common/utils";
+import { RoutesWithNotFound } from "@/modules/common/components";
 import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
 
 export const AppRouter = () => {
