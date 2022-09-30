@@ -1,41 +1,55 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useEffect } from "react";
 import { FormItem } from "@/modules/common/components/Form";
-import { LOGIN_DEFAULT } from "./constants";
-import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
+import { isErrorWithMessage } from "@/modules/common/helpers";
 import { useAppDispatch } from "@/modules/common/hooks";
-import { login } from "../../store";
-import { isErrorWithMessage } from "@/modules/common/helpers/queryExceptionValidator";
+import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
+import { InitialAuthState, login, logout } from "../../store";
+import { ALERT_VISIBILITY_DEFAULT, LOGIN_DEFAULT } from "./constants";
+import { StyledAlert } from "./styled";
+import { IAlertVisibility } from "./types";
 
 const { Text, Title } = Typography;
 
 export const LoginPage = () => {
   const dispatch = useAppDispatch();
+  const [visibleAlert, setVisibleAlert] = useState<IAlertVisibility>(
+    ALERT_VISIBILITY_DEFAULT
+  );
 
   const { control, handleSubmit } = useForm<LoginAuthRequest>({
     mode: "onChange",
     defaultValues: LOGIN_DEFAULT,
   });
 
-  const [signIn, { data: signInData, error: signInError }] =
+  const [signIn, { data: signInData, error: signInError, isLoading }] =
     useSignInMutation();
 
   useEffect(() => {
     if (signInData) {
-      dispatch(login({ token: signInData.access_token }));
+      dispatch(login({ token: signInData.access_token } as InitialAuthState));
     }
   }, [signInData]);
 
   useEffect(() => {
     if (signInError && isErrorWithMessage(signInError)) {
-      // TODO: Perform the error behavior if is an object or string
+      dispatch(logout());
+      if (typeof signInError.data.error === "object") {
+        // TODO: set form errors
+      } else {
+        setVisibleAlert({ isVisible: true, message: signInError.data.error });
+      }
     }
   }, [signInError]);
 
-  const onSignIn = async ({ username, password }: LoginAuthRequest) => {
-    await signIn({ loginAuthRequest: { password, username } }).unwrap();
+  const onSignIn = ({ username, password }: LoginAuthRequest) => {
+    signIn({ loginAuthRequest: { password, username } });
+  };
+
+  const handleClose = () => {
+    setVisibleAlert({ isVisible: false, message: "" });
   };
 
   return (
@@ -86,8 +100,16 @@ export const LoginPage = () => {
             )}
           />
         </FormItem>
+        {visibleAlert.isVisible && (
+          <StyledAlert
+            message={visibleAlert.message}
+            type="error"
+            closable
+            afterClose={handleClose}
+          />
+        )}
         <FormItem>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isLoading}>
             Sign In
           </Button>
         </FormItem>
