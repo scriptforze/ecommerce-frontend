@@ -1,7 +1,5 @@
-import ProductsList from "../ProductsList";
+import { ProductsList } from "../ProductsList";
 
-const CreateProduct = () => {
+export const CreateProduct = () => {
   return <ProductsList />;
 };
-
-export default CreateProduct;
