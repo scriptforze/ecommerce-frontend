@@ -14,6 +14,10 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ["Auth"],
       }),
+      getAuthUser: build.query<GetAuthUserApiResponse, GetAuthUserApiArg>({
+        query: () => ({ url: `/api/v1/auth/me` }),
+        providesTags: ["Auth"],
+      }),
       signInOrSignUpWithSocialNetwork: build.mutation<
         SignInOrSignUpWithSocialNetworkApiResponse,
         SignInOrSignUpWithSocialNetworkApiArg
@@ -44,6 +48,10 @@ export type SignInApiResponse = /** status 200 success */ {
 export type SignInApiArg = {
   loginAuthRequest: LoginAuthRequest;
 };
+export type GetAuthUserApiResponse = /** status 200 success */ {
+  data?: User;
+};
+export type GetAuthUserApiArg = void;
 export type SignInOrSignUpWithSocialNetworkApiResponse =
   /** status 200 success */ {
     access_token?: string;
@@ -73,6 +81,36 @@ export type LoginAuthRequest = {
   username: string;
   password: string;
 };
+export type Status = {
+  id: number;
+  name: string;
+  type: string;
+};
+export type Permission = {
+  id: number;
+  name: string;
+  module: string;
+};
+export type Role = {
+  id: number;
+  name: string;
+  permissions?: Permission[];
+};
+export type SocialNetwork = {
+  id: number;
+  provider: string;
+  provider_id: string;
+  avatar: string;
+};
+export type User = {
+  id: number;
+  name: string;
+  email?: string;
+  username?: string;
+  status?: Status;
+  roles?: Role[];
+  socialNetworks?: SocialNetwork[];
+};
 export type ProviderAuthRequest = {
   token: string;
 };
@@ -85,6 +123,7 @@ export type RegisterAuthRequest = {
 };
 export const {
   useSignInMutation,
+  useGetAuthUserQuery,
   useSignInOrSignUpWithSocialNetworkMutation,
   useSignUpMutation,
 } = injectedRtkApi;
