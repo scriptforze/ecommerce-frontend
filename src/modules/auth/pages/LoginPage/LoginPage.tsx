@@ -3,10 +3,13 @@ import { Button, Form, Input, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { FormItem } from "@/modules/common/components/Form";
-import { isErrorWithMessage } from "@/modules/common/helpers";
+import {
+  isErrorWithMessage,
+  persistLocalStorage,
+} from "@/modules/common/helpers";
 import { useAppDispatch } from "@/modules/common/hooks";
 import { LoginAuthRequest, useSignInMutation } from "@/services/auth";
-import { InitialAuthState, login, logout } from "../../store";
+import { InitialAuthState, login, logout, TOKEN_KEY } from "../../store";
 import { ALERT_VISIBILITY_DEFAULT, LOGIN_DEFAULT } from "./constants";
 import { StyledAlert } from "./styled";
 import { IAlertVisibility } from "./types";
@@ -29,6 +32,7 @@ export const LoginPage = () => {
 
   useEffect(() => {
     if (signInData) {
+      persistLocalStorage<string>(TOKEN_KEY, signInData.access_token!);
       dispatch(login({ token: signInData.access_token } as InitialAuthState));
     }
   }, [signInData]);

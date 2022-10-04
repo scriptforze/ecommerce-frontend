@@ -7,7 +7,12 @@ const config: ConfigFile = {
   exportName: "ecommerceApi",
   outputFiles: {
     "./src/services/auth.ts": {
-      filterEndpoints: ["signIn", "signUp", "signInOrSignUpWithSocialNetwork"],
+      filterEndpoints: [
+        "signIn",
+        "getAuthUser",
+        "signUp",
+        "signInOrSignUpWithSocialNetwork",
+      ],
     },
   },
   hooks: true,

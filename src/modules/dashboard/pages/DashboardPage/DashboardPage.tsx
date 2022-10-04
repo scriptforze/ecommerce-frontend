@@ -1,3 +1,7 @@
+import { useAppSelector } from "@/modules/common/hooks";
+
 export const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  const { user } = useAppSelector((state) => state.auth);
+
+  return <div>DashboardPage {user?.name}</div>;
 };
