@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 export const StyledSideBar = styled(Layout.Sider)`
   width: 255px;
-  padding-top: 64px;
 
   & > div.ant-layout-sider-children {
     & > ul.ant-menu {

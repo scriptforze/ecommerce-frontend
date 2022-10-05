@@ -10,11 +10,11 @@ import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
 export const AppRouter = () => {
   return (
     <RoutesWithNotFound>
+      <Route path={`${AuthRoutesList.AUTH}/*`} element={<AuthRoutes />} />
       <Route
         path="/"
         element={<Navigate to={`${DashboardRoutesList.DASHBOARD}`} />}
       />
-      <Route path={`${AuthRoutesList.AUTH}/*`} element={<AuthRoutes />} />
       <Route
         path={`${DashboardRoutesList.DASHBOARD}/*`}
         element={<DashboardRoutes />}
