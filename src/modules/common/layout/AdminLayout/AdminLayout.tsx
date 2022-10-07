@@ -3,18 +3,18 @@ import { useEffect, useMemo, useState } from "react";
 import { Layout, Menu } from "antd";
 import { InitialAuthState, logout, setUser } from "@/modules/auth";
 import { useGetAuthUserQuery } from "@/services/auth";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import Logo from "@/assets/images/Logo.png";
 import {
   StyledLogo,
   StyledMenuFoldOutlined,
   StyledMenuUnfoldOutlined,
-} from "./AdminLayout/styled";
-import { menuTitles } from "./AdminLayout/menuTitles";
+} from "./styled";
+import { menuTitles } from "./menuTitles";
 
 const { Header, Sider, Content } = Layout;
 
-const AdminLayout = () => {
+export const AdminLayout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -87,5 +87,3 @@ const AdminLayout = () => {
     </Layout>
   );
 };
-
-export default AdminLayout;

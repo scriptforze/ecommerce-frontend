@@ -1,11 +1,8 @@
 import { Navigate, Route } from "react-router-dom";
 import { AuthRoutes, AuthRoutesList } from "@/modules/auth";
 import { RoutesWithNotFound } from "@/modules/common/components";
-import {
-  DashboardRoutes,
-  DashboardRoutesList,
-} from "@/modules/dashboard/routes";
-import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
+import { AdminLayoutRoutes } from "@/modules/common/layout/AdminLayout/AdminLayoutRoutes";
+import { DashboardRoutesList } from "@/modules/dashboard/routes";
 
 export const AppRouter = () => {
   return (
@@ -15,11 +12,7 @@ export const AppRouter = () => {
         path="/"
         element={<Navigate to={`${DashboardRoutesList.DASHBOARD}`} />}
       />
-      <Route
-        path={`${DashboardRoutesList.DASHBOARD}/*`}
-        element={<DashboardRoutes />}
-      />
-      <Route path="/products/*" element={<ProductsRoutes />} />
+      <Route path="/*" element={<AdminLayoutRoutes />} />
     </RoutesWithNotFound>
   );
 };
