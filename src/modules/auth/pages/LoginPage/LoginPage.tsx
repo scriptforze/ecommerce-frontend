@@ -2,7 +2,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Button, Form, Input, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { FormItem } from "@/modules/common/components/Form";
+import { FormItem } from "@/modules/common/components";
 import {
   isErrorWithMessage,
   persistLocalStorage,
