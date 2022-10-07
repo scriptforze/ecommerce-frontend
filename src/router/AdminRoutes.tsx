@@ -4,10 +4,10 @@ import {
   DashboardRoutesList,
 } from "@/modules/dashboard/routes";
 import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
-import { AdminLayout } from "./AdminLayout";
-import { RoutesWithNotFound } from "../../components";
+import { AdminLayout } from "@/modules/common/layout";
+import { RoutesWithNotFound } from "@/modules/common/components";
 
-export const AdminLayoutRoutes = () => {
+export const AdminRoutes = () => {
   return (
     <RoutesWithNotFound>
       <Route path="/" element={<AdminLayout />}>

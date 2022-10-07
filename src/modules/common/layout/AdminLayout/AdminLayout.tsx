@@ -56,7 +56,7 @@ export const AdminLayout = () => {
           {!collapsed ? <img src={Logo} alt="Logo" /> : <strong>Logo</strong>}
         </StyledLogo>
         <Menu
-          style={{ height: "100vh" }}
+          style={{ height: "calc(100vh - 64px)" }}
           theme="light"
           mode="inline"
           defaultSelectedKeys={[location.pathname]}

@@ -1,1 +1,1 @@
-export * from "./AdminLayoutRoutes";
+export * from "./AdminLayout";
