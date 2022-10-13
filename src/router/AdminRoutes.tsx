@@ -6,6 +6,7 @@ import {
 import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
 import { AdminLayout } from "@/modules/common/layout";
 import { RoutesWithNotFound } from "@/modules/common/components";
+import { CategoriesRoutesList, CategoriesRoutes } from "@/modules/categories";
 
 export const AdminRoutes = () => {
   return (
@@ -16,6 +17,10 @@ export const AdminRoutes = () => {
           element={<DashboardRoutes />}
         />
         <Route path="/products/*" element={<ProductsRoutes />} />
+        <Route
+          path={`${CategoriesRoutesList.CATEGORIES}/*`}
+          element={<CategoriesRoutes />}
+        />
       </Route>
     </RoutesWithNotFound>
   );

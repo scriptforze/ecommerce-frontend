@@ -14,6 +14,9 @@ const config: ConfigFile = {
         "signInOrSignUpWithSocialNetwork",
       ],
     },
+    "./src/services/categories.ts": {
+      filterEndpoints: [/categories/i, /category/i],
+    },
   },
   hooks: true,
   tag: true,

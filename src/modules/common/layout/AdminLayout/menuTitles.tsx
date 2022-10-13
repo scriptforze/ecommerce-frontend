@@ -1,5 +1,5 @@
 import {
-  // BookOutlined,
+  BookOutlined,
   // BorderlessTableOutlined,
   DashboardOutlined,
   ShoppingCartOutlined,
@@ -17,6 +17,6 @@ export const menuTitles: MenuItemType[] = [
     label: "Products",
     icon: <ShoppingCartOutlined />,
   },
-  // { key: 3, label: "Categories", icon: <BookOutlined /> },
+  { key: "/categories", label: "Categories", icon: <BookOutlined /> },
   // { key: 4, label: "Tags", icon: <BorderlessTableOutlined /> },
 ];
