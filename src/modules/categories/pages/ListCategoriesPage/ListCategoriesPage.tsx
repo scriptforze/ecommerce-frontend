@@ -1,8 +1,23 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Input, Row, Table, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Input,
+  Row,
+  Table,
+  TablePaginationConfig,
+  Typography,
+} from "antd";
 import { useState } from "react";
-import { useGetAllCategoriesQuery } from "@/services/categories";
+import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import {
+  Category,
+  GetAllCategoriesApiArg,
+  useGetAllCategoriesQuery,
+} from "@/services/categories";
 import { columns, INITIAL_CATEGORIES_API_ARG } from "./constants";
+import { useDebounce } from "@/modules/common/hooks";
 
 const { Title } = Typography;
 
@@ -11,8 +26,27 @@ export const ListCategoriesPage = () => {
     INITIAL_CATEGORIES_API_ARG
   );
 
-  const { data: getAllCategoriesData, isLoading } =
-    useGetAllCategoriesQuery(categoriesApiArgs);
+  const debouncedSearchQuery = useDebounce<GetAllCategoriesApiArg>(
+    categoriesApiArgs,
+    500
+  );
+
+  const { data: getAllCategoriesData, isFetching } =
+    useGetAllCategoriesQuery(debouncedSearchQuery);
+
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    _: Record<string, FilterValue | null>,
+    sorter: SorterResult<Category> | SorterResult<Category>[]
+  ) => {
+    const { column } = sorter as SorterResult<Category>;
+
+    setCategoriesApiArgs({
+      ...categoriesApiArgs,
+      page: pagination.current,
+      sortBy: column?.key as string,
+    });
+  };
 
   return (
     <>
@@ -45,10 +79,16 @@ export const ListCategoriesPage = () => {
         </Row>
 
         <Table
-          loading={isLoading}
+          loading={isFetching}
           rowKey={(record) => record.id}
           dataSource={getAllCategoriesData?.data}
+          pagination={{
+            current: categoriesApiArgs.page,
+            pageSize: categoriesApiArgs.perPage,
+            total: getAllCategoriesData?.meta?.total,
+          }}
           columns={columns}
+          onChange={handleTableChange}
         />
       </Card>
     </>

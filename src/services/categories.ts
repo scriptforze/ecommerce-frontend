@@ -90,6 +90,7 @@ export type DeleteCategoryApiArg = {
 };
 export type GetAllCategoriesApiResponse = /** status 200 success */ {
   data?: Category[];
+  meta?: Pagination;
 };
 export type GetAllCategoriesApiArg = {
   /** Relationships of resource */
@@ -151,6 +152,14 @@ export type UpdateCategoryRequest = {
   name?: string | null;
   image?: any | null;
   parent_id?: number | null;
+};
+export type Pagination = {
+  current_page?: number;
+  from?: number;
+  last_page?: number;
+  per_page?: number;
+  to?: number;
+  total?: number;
 };
 export type StoreCategoryRequest = {
   name: string;

@@ -13,15 +13,21 @@ export const columns: ColumnsType<Category> = [
     title: "ID",
     dataIndex: "id",
     key: "id",
+    width: "10%",
+    sorter: true,
+    sortDirections: ["ascend"],
   },
   {
     title: "Nombre",
     dataIndex: "name",
     key: "name",
+    sorter: true,
+    sortDirections: ["ascend"],
   },
   {
     title: "Acciones",
     key: "actions",
+    width: "15%",
     render: () => (
       <>
         <Button type="link" icon={<EditOutlined />} size="large" />
