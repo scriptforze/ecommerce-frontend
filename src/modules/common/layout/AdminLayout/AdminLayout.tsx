@@ -46,7 +46,9 @@ export const AdminLayout = () => {
   }
 
   const onMenuClick = ({ key }: { key: string }) => {
-    navigate(key);
+    const fistKey = key.split("/")[1];
+
+    navigate(`/${fistKey}`);
   };
 
   return (
