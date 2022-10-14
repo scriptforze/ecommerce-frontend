@@ -1,3 +1,3 @@
 export const DashboardRoutesList = {
-  DASHBOARD: "dashboard",
+  DASHBOARD: "/dashboard",
 };
