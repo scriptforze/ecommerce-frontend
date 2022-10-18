@@ -8,20 +8,22 @@ import {
   useGetAllCategoriesQuery,
   useSaveCategoryMutation,
 } from "@/services/categories";
-import { STORE_CATEGORY_DEFAULT } from "./constants";
+import { CategoriesFieldsType, STORE_CATEGORY_DEFAULT } from "./constants";
 import { FormItem } from "@/modules/common/components";
 import { StyledUpload } from "./styled";
 import { CategoriesRoutesList } from "@/modules/categories";
+import { isErrorWithMessage } from "@/modules/common/helpers";
 
 const { Text } = Typography;
 
 export const StoreCategoryForm = () => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState<string>();
-  const { control, handleSubmit, setValue } = useForm<StoreCategoryRequest>({
-    mode: "onChange",
-    defaultValues: STORE_CATEGORY_DEFAULT,
-  });
+  const { control, handleSubmit, setValue, setError } =
+    useForm<StoreCategoryRequest>({
+      mode: "onChange",
+      defaultValues: STORE_CATEGORY_DEFAULT,
+    });
 
   const [saveCategory, { error: saveCategoryError, isLoading, isSuccess }] =
     useSaveCategoryMutation();
@@ -36,6 +38,21 @@ export const StoreCategoryForm = () => {
       navigate(CategoriesRoutesList.CATEGORIES);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (saveCategoryError && isErrorWithMessage(saveCategoryError)) {
+      const errors = saveCategoryError.data.error;
+
+      if (typeof errors === "object") {
+        Object.entries(errors).forEach((error) => {
+          setError(error[0] as CategoriesFieldsType, {
+            type: "custom",
+            message: error[1].join("\r\n"),
+          });
+        });
+      }
+    }
+  }, [saveCategoryError]);
 
   const onStoreCategory = ({
     name,
@@ -74,9 +91,12 @@ export const StoreCategoryForm = () => {
             control={control}
             name="image"
             rules={{
-              required: {
-                value: true,
-                message: "Image is required",
+              validate: (value: Blob) => {
+                if (value.size === 0) {
+                  return "Image is required";
+                }
+
+                return true;
               },
             }}
             render={({ field: { name, ref }, fieldState: { error } }) => (
