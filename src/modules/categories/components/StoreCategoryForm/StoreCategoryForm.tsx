@@ -43,9 +43,12 @@ export const StoreCategoryForm = () => {
     parent_id,
   }: StoreCategoryRequest) => {
     const formData = new FormData();
-    formData.append("parent_id", parent_id as unknown as string);
     formData.append("name", name);
     formData.append("image", image);
+
+    if (parent_id) {
+      formData.append("parent_id", parent_id as unknown as string);
+    }
 
     saveCategory({
       storeCategoryRequest: formData as unknown as StoreCategoryRequest,
