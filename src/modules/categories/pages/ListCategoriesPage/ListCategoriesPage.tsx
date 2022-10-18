@@ -17,9 +17,12 @@ import {
   GetAllCategoriesApiArg,
   useGetAllCategoriesQuery,
 } from "@/services/categories";
-import { columns, INITIAL_CATEGORIES_API_ARG } from "./constants";
+import { INITIAL_CATEGORIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { CategoriesRoutesList } from "@/modules/categories";
+import {
+  CategoriesRoutesList,
+  CategoryTableColums,
+} from "@/modules/categories";
 
 const { Title } = Typography;
 
@@ -92,7 +95,7 @@ export const ListCategoriesPage = () => {
             pageSize: categoriesApiArgs.perPage,
             total: getAllCategoriesData?.meta?.total,
           }}
-          columns={columns}
+          columns={CategoryTableColums}
           onChange={handleTableChange}
         />
       </Card>

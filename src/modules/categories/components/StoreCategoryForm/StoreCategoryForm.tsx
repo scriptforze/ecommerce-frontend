@@ -73,6 +73,12 @@ export const StoreCategoryForm = () => {
           <Controller
             control={control}
             name="image"
+            rules={{
+              required: {
+                value: true,
+                message: "Image is required",
+              },
+            }}
             render={({ field: { name, ref }, fieldState: { error } }) => (
               <>
                 <StyledUpload
