@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import { Link } from "react-router-dom";
 import {
   Category,
   GetAllCategoriesApiArg,
@@ -18,6 +19,7 @@ import {
 } from "@/services/categories";
 import { columns, INITIAL_CATEGORIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
+import { CategoriesRoutesList } from "@/modules/categories";
 
 const { Title } = Typography;
 
@@ -60,21 +62,24 @@ export const ListCategoriesPage = () => {
               onChange={(e) =>
                 setCategoriesApiArgs({
                   ...categoriesApiArgs,
+                  page: 1,
                   search: e.target.value,
                 })
               }
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              Nueva categoría
-            </Button>
+            <Link to={CategoriesRoutesList.CREATE_CATEGORY}>
+              <Button
+                style={{ float: "right" }}
+                type="primary"
+                shape="round"
+                icon={<PlusOutlined />}
+                size="middle"
+              >
+                Nueva categoría
+              </Button>
+            </Link>
           </Col>
         </Row>
 

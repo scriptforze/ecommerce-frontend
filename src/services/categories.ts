@@ -163,8 +163,8 @@ export type Pagination = {
 };
 export type StoreCategoryRequest = {
   name: string;
-  image: any;
-  parent_id?: number | null;
+  image: Blob;
+  parent_id?: number;
 };
 export const {
   useGetCategoryByIdQuery,
