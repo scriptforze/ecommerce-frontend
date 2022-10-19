@@ -12,11 +12,7 @@ import {
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
-import {
-  Category,
-  GetAllCategoriesApiArg,
-  useGetAllCategoriesQuery,
-} from "@/services/categories";
+import { Category, useGetAllCategoriesQuery } from "@/services/categories";
 import { INITIAL_CATEGORIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
 import {
@@ -31,13 +27,15 @@ export const ListCategoriesPage = () => {
     INITIAL_CATEGORIES_API_ARG
   );
 
-  const debouncedSearchQuery = useDebounce<GetAllCategoriesApiArg>(
-    categoriesApiArgs,
+  const debouncedSearchQuery = useDebounce<string | undefined>(
+    categoriesApiArgs.search,
     500
   );
 
-  const { data: getAllCategoriesData, isFetching } =
-    useGetAllCategoriesQuery(debouncedSearchQuery);
+  const { data: getAllCategoriesData, isFetching } = useGetAllCategoriesQuery({
+    ...categoriesApiArgs,
+    search: debouncedSearchQuery,
+  });
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
