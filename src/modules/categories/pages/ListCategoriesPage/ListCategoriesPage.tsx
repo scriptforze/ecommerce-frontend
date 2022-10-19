@@ -11,13 +11,14 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
-import {
-  Category,
-  GetAllCategoriesApiArg,
-  useGetAllCategoriesQuery,
-} from "@/services/categories";
-import { columns, INITIAL_CATEGORIES_API_ARG } from "./constants";
+import { Link } from "react-router-dom";
+import { Category, useGetAllCategoriesQuery } from "@/services/categories";
+import { INITIAL_CATEGORIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
+import {
+  CategoriesRoutesList,
+  CategoryTableColums,
+} from "@/modules/categories";
 
 const { Title } = Typography;
 
@@ -26,13 +27,15 @@ export const ListCategoriesPage = () => {
     INITIAL_CATEGORIES_API_ARG
   );
 
-  const debouncedSearchQuery = useDebounce<GetAllCategoriesApiArg>(
-    categoriesApiArgs,
+  const debouncedSearchQuery = useDebounce<string | undefined>(
+    categoriesApiArgs.search,
     500
   );
 
-  const { data: getAllCategoriesData, isFetching } =
-    useGetAllCategoriesQuery(debouncedSearchQuery);
+  const { data: getAllCategoriesData, isFetching } = useGetAllCategoriesQuery({
+    ...categoriesApiArgs,
+    search: debouncedSearchQuery,
+  });
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -60,21 +63,24 @@ export const ListCategoriesPage = () => {
               onChange={(e) =>
                 setCategoriesApiArgs({
                   ...categoriesApiArgs,
+                  page: 1,
                   search: e.target.value,
                 })
               }
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              Nueva categoría
-            </Button>
+            <Link to={CategoriesRoutesList.CREATE_CATEGORY}>
+              <Button
+                style={{ float: "right" }}
+                type="primary"
+                shape="round"
+                icon={<PlusOutlined />}
+                size="middle"
+              >
+                Nueva categoría
+              </Button>
+            </Link>
           </Col>
         </Row>
 
@@ -87,7 +93,7 @@ export const ListCategoriesPage = () => {
             pageSize: categoriesApiArgs.perPage,
             total: getAllCategoriesData?.meta?.total,
           }}
-          columns={columns}
+          columns={CategoryTableColums}
           onChange={handleTableChange}
         />
       </Card>

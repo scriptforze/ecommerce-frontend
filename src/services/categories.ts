@@ -12,6 +12,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
+          params: { include: queryArg.include },
         }),
         providesTags: ["Categories"],
       }),
@@ -23,6 +24,7 @@ const injectedRtkApi = api
           url: `/api/v1/categories/${queryArg.category}`,
           method: "PUT",
           body: queryArg.updateCategoryRequest,
+          params: { include: queryArg.include },
         }),
         invalidatesTags: ["Categories"],
       }),
@@ -33,6 +35,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
           method: "DELETE",
+          params: { include: queryArg.include },
         }),
         invalidatesTags: ["Categories"],
       }),
@@ -58,6 +61,7 @@ const injectedRtkApi = api
             url: `/api/v1/categories`,
             method: "POST",
             body: queryArg.storeCategoryRequest,
+            params: { include: queryArg.include },
           }),
           invalidatesTags: ["Categories"],
         }
@@ -72,6 +76,8 @@ export type GetCategoryByIdApiResponse = /** status 200 success */ {
 export type GetCategoryByIdApiArg = {
   /** Id of category */
   category: number;
+  /** Relationships of resource */
+  include?: string;
 };
 export type UpdateCategoryApiResponse = /** status 200 success */ {
   data?: Category;
@@ -79,6 +85,8 @@ export type UpdateCategoryApiResponse = /** status 200 success */ {
 export type UpdateCategoryApiArg = {
   /** Id of category */
   category: number;
+  /** Relationships of resource */
+  include?: string;
   updateCategoryRequest: UpdateCategoryRequest;
 };
 export type DeleteCategoryApiResponse = /** status 200 success */ {
@@ -87,6 +95,8 @@ export type DeleteCategoryApiResponse = /** status 200 success */ {
 export type DeleteCategoryApiArg = {
   /** Id of category */
   category: number;
+  /** Relationships of resource */
+  include?: string;
 };
 export type GetAllCategoriesApiResponse = /** status 200 success */ {
   data?: Category[];
@@ -108,6 +118,8 @@ export type SaveCategoryApiResponse = /** status 200 success */ {
   data?: Category;
 };
 export type SaveCategoryApiArg = {
+  /** Relationships of resource */
+  include?: string;
   storeCategoryRequest: StoreCategoryRequest;
 };
 export type Status = {
@@ -163,8 +175,8 @@ export type Pagination = {
 };
 export type StoreCategoryRequest = {
   name: string;
-  image: any;
-  parent_id?: number | null;
+  image: Blob;
+  parent_id?: number;
 };
 export const {
   useGetCategoryByIdQuery,
