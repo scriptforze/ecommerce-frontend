@@ -12,7 +12,7 @@ import { CategoriesFieldsType, STORE_CATEGORY_DEFAULT } from "./constants";
 import { FormItem } from "@/modules/common/components";
 import { StyledUpload } from "./styled";
 import { CategoriesRoutesList } from "@/modules/categories";
-import { isErrorWithMessage } from "@/modules/common/helpers";
+import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
 
 const { Text } = Typography;
 
@@ -35,6 +35,12 @@ export const StoreCategoryForm = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      pushNotification({
+        type: "success",
+        title: "Category created",
+        message: "Category was created successfully.",
+      });
+
       navigate(CategoriesRoutesList.CATEGORIES);
     }
   }, [isSuccess]);

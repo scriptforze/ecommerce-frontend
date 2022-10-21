@@ -1,9 +1,10 @@
 import { DeleteOutlined, UndoOutlined } from "@ant-design/icons";
-import { Button, notification } from "antd";
+import { Button } from "antd";
 import { useEffect } from "react";
 import { useDeleteCategoryMutation } from "@/services/categories";
 import { DeleteOrRestoreCategoryButtonType } from "./types";
 import { GeneralStatuses } from "@/modules/common/constants";
+import { pushNotification } from "@/modules/common/helpers";
 
 export const DeleteOrRestoreCategoryButton = ({
   category,
@@ -14,15 +15,13 @@ export const DeleteOrRestoreCategoryButton = ({
   useEffect(() => {
     if (isSuccess) {
       const statusName = deleteCategoryData?.data?.status?.name;
-      const word =
+      const state =
         statusName === GeneralStatuses.ENABLED ? "restored" : "removed";
 
-      notification.open({
-        message: `Resource ${word}`,
-        description: `category was ${word} successfully.`,
-        // onClose: () => {
-        //   console.log("was cosed");
-        // },
+      pushNotification({
+        type: "success",
+        title: `Category ${state}`,
+        message: `Category was ${state} successfully.`,
       });
     }
   }, [isSuccess]);

@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { BASE_URL_API } from "@/config/api";
 import type { RootState } from "./store";
 
 export const ecommerceApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://ecommerceapi.scriptforze.com",
+    baseUrl: BASE_URL_API,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).auth;
 
