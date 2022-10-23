@@ -1,14 +1,12 @@
 import { Route, Routes } from "react-router-dom";
+import { NotFound } from "../NotFound";
+import { RoutesWithNotFoundProps } from "./types";
 
-interface Props {
-  children: JSX.Element[] | JSX.Element;
-}
-
-export const RoutesWithNotFound = ({ children }: Props) => {
+export const RoutesWithNotFound = ({ children }: RoutesWithNotFoundProps) => {
   return (
     <Routes>
       {children}
-      <Route path="*" element={<div>Not Found</div>} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

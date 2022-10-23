@@ -10,7 +10,7 @@ export const AppRouter = () => {
       <Route path={`${AuthRoutesList.AUTH}/*`} element={<AuthRoutes />} />
       <Route
         path="/"
-        element={<Navigate to={`${DashboardRoutesList.DASHBOARD}`} />}
+        element={<Navigate to={DashboardRoutesList.DASHBOARD} />}
       />
       <Route path="/*" element={<AdminRoutes />} />
     </RoutesWithNotFound>
