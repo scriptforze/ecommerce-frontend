@@ -1,8 +1,10 @@
 import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Link } from "react-router-dom";
 import { Category } from "@/services/categories";
 import { DeleteOrRestoreCategoryButton } from "../DeleteOrRestoreCategoryButton";
+import { CategoriesRoutesList } from "@/modules/categories";
 
 export const CategoryTableColums: ColumnsType<Category> = [
   {
@@ -32,7 +34,9 @@ export const CategoryTableColums: ColumnsType<Category> = [
     width: "15%",
     render: (_, record) => (
       <>
-        <Button type="link" icon={<EditOutlined />} size="large" />
+        <Link to={`${record.id}/${CategoriesRoutesList.EDIT_CATEGORY}`}>
+          <Button type="link" icon={<EditOutlined />} size="large" />
+        </Link>
         <DeleteOrRestoreCategoryButton category={record} />
       </>
     ),

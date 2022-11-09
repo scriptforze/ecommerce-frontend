@@ -1,4 +1,5 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
+
 export const addTagTypes = ["Categories"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
@@ -22,7 +23,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
-          method: "PUT",
+          method: "POST",
           body: queryArg.updateCategoryRequest,
           params: { include: queryArg.include },
         }),
@@ -161,9 +162,10 @@ export type ValidationException = {
   code?: number;
 };
 export type UpdateCategoryRequest = {
-  name?: string | null;
-  image?: any | null;
-  parent_id?: number | null;
+  _method: "PUT";
+  name?: string;
+  image?: Blob;
+  parent_id?: number;
 };
 export type Pagination = {
   current_page?: number;
