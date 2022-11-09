@@ -7,6 +7,8 @@ const { Title } = Typography;
 const { Item: BreadcrumbItem } = Breadcrumb;
 
 export const CreateCategoryPage = () => {
+  document.title = "Ecommerce - New category";
+
   return (
     <>
       <Row justify="space-between">

@@ -23,6 +23,8 @@ import {
 const { Title } = Typography;
 
 export const ListCategoriesPage = () => {
+  document.title = "Ecommerce - Categories";
+
   const [categoriesApiArgs, setCategoriesApiArgs] = useState(
     INITIAL_CATEGORIES_API_ARG
   );
