@@ -1,6 +1,7 @@
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { DeleteOrRestoreCityButton } from "../DeleteOrRestoreCityButton";
 import { City } from "@/services/cities";
 
 export const CityTableColums: ColumnsType<City> = [
@@ -29,10 +30,10 @@ export const CityTableColums: ColumnsType<City> = [
     title: "Acciones",
     key: "actions",
     width: "15%",
-    render: () => (
+    render: (_, record) => (
       <>
         <Button type="link" icon={<EditOutlined />} size="large" />
-        <Button type="link" icon={<DeleteOutlined />} size="large" danger />
+        <DeleteOrRestoreCityButton city={record} />
       </>
     ),
   },
