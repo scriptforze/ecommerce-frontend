@@ -2,14 +2,16 @@ import {
   BookOutlined,
   // BorderlessTableOutlined,
   DashboardOutlined,
+  GlobalOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import { MenuItemType } from "antd/lib/menu/hooks/useItems";
+import { ItemType } from "antd/lib/menu/hooks/useItems";
 import { CategoriesRoutesList } from "@/modules/categories";
 import { DashboardRoutesList } from "@/modules/dashboard";
 import { currentMenuKey } from "./utils";
+import { CitiesRoutesList } from "@/modules/cities";
 
-export const menuTitles: MenuItemType[] = [
+export const menuTitles: ItemType[] = [
   {
     key: currentMenuKey(DashboardRoutesList.DASHBOARD),
     label: "Dashboard",
@@ -26,4 +28,15 @@ export const menuTitles: MenuItemType[] = [
     icon: <BookOutlined />,
   },
   // { key: 4, label: "Tags", icon: <BorderlessTableOutlined /> },
+  {
+    key: "zones",
+    label: "Zones",
+    children: [
+      {
+        key: currentMenuKey(CitiesRoutesList.CITIES),
+        label: "Cities",
+      },
+    ],
+    icon: <GlobalOutlined />,
+  },
 ];

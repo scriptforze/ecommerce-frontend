@@ -7,6 +7,7 @@ import { ProductsRoutes } from "@/modules/products/routes/ProductsRoutes";
 import { AdminLayout } from "@/modules/common/layout";
 import { RoutesWithNotFound } from "@/modules/common/components";
 import { CategoriesRoutesList, CategoriesRoutes } from "@/modules/categories";
+import { CitiesRoutes, CitiesRoutesList } from "@/modules/cities";
 
 export const AdminRoutes = () => {
   return (
@@ -20,6 +21,10 @@ export const AdminRoutes = () => {
         <Route
           path={`${CategoriesRoutesList.CATEGORIES}/*`}
           element={<CategoriesRoutes />}
+        />
+        <Route
+          path={`${CitiesRoutesList.CITIES}/*`}
+          element={<CitiesRoutes />}
         />
       </Route>
     </RoutesWithNotFound>
