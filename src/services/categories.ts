@@ -1,5 +1,4 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
-
 export const addTagTypes = ["Categories"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
