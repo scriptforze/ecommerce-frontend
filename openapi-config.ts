@@ -20,6 +20,9 @@ const config: ConfigFile = {
     "./src/services/categories.ts": {
       filterEndpoints: [/categories/i, /category/i],
     },
+    "./src/services/cities.ts": {
+      filterEndpoints: [/cities/i, /city/i],
+    },
   },
   hooks: true,
   tag: true,
