@@ -14,7 +14,7 @@ export const CityTableColums: ColumnsType<City> = [
     sortDirections: ["ascend"],
   },
   {
-    title: "Nombre",
+    title: "Name",
     dataIndex: "name",
     key: "name",
     sorter: true,
@@ -27,7 +27,7 @@ export const CityTableColums: ColumnsType<City> = [
     render: (_, record) => <span>{record.status?.name}</span>,
   },
   {
-    title: "Acciones",
+    title: "Actions",
     key: "actions",
     width: "15%",
     render: (_, record) => (
