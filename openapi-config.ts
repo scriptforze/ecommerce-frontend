@@ -23,6 +23,9 @@ const config: ConfigFile = {
     "./src/services/countries.ts": {
       filterEndpoints: [/countries/i, /country/i],
     },
+    "./src/services/states.ts": {
+      filterEndpoints: [/states/i, /state/i],
+    },
     "./src/services/cities.ts": {
       filterEndpoints: [/cities/i, /city/i],
     },
