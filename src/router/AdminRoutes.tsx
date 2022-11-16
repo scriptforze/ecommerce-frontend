@@ -9,6 +9,7 @@ import { RoutesWithNotFound } from "@/modules/common/components";
 import { CategoriesRoutesList, CategoriesRoutes } from "@/modules/categories";
 import { CitiesRoutes, CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutes, CountriesRoutesList } from "@/modules/countries";
+import { StatesRoutes, StatesRoutesList } from "@/modules/states";
 
 export const AdminRoutes = () => {
   return (
@@ -26,6 +27,10 @@ export const AdminRoutes = () => {
         <Route
           path={`${CountriesRoutesList.COUNTRIES}/*`}
           element={<CountriesRoutes />}
+        />
+        <Route
+          path={`${StatesRoutesList.STATES}/*`}
+          element={<StatesRoutes />}
         />
         <Route
           path={`${CitiesRoutesList.CITIES}/*`}

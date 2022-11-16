@@ -11,6 +11,7 @@ import { DashboardRoutesList } from "@/modules/dashboard";
 import { currentMenuKey } from "./utils";
 import { CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutesList } from "@/modules/countries";
+import { StatesRoutesList } from "@/modules/states";
 
 export const menuTitles: ItemType[] = [
   {
@@ -36,6 +37,10 @@ export const menuTitles: ItemType[] = [
       {
         key: currentMenuKey(CountriesRoutesList.COUNTRIES),
         label: "Countries",
+      },
+      {
+        key: currentMenuKey(StatesRoutesList.STATES),
+        label: "States",
       },
       {
         key: currentMenuKey(CitiesRoutesList.CITIES),
