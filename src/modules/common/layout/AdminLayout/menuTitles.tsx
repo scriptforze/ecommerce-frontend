@@ -1,4 +1,5 @@
 import {
+  ApartmentOutlined,
   BookOutlined,
   BorderlessTableOutlined,
   DashboardOutlined,
@@ -13,6 +14,7 @@ import { CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutesList } from "@/modules/countries";
 import { StatesRoutesList } from "@/modules/states";
 import { TagsRoutesList } from "@/modules/tags";
+import { ProductAttributesRoutesList } from "@/modules/productAttributes";
 
 export const menuTitles: ItemType[] = [
   {
@@ -24,6 +26,11 @@ export const menuTitles: ItemType[] = [
     key: currentMenuKey("/products"),
     label: "Products",
     icon: <ShoppingCartOutlined />,
+  },
+  {
+    key: currentMenuKey(ProductAttributesRoutesList.PRODUCT_ATTRIBUTES),
+    label: "Product attributes",
+    icon: <ApartmentOutlined />,
   },
   {
     key: currentMenuKey(CategoriesRoutesList.CATEGORIES),

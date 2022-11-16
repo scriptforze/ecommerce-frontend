@@ -17,6 +17,15 @@ const config: ConfigFile = {
         "signInOrSignUpWithSocialNetwork",
       ],
     },
+    "./src/services/productAttributes.ts": {
+      filterEndpoints: [
+        "getAllProductAttributes",
+        "getProductAttributeById",
+        "saveProductAttribute",
+        "updateProductAttribute",
+        "deleteProductAttribute",
+      ],
+    },
     "./src/services/categories.ts": {
       filterEndpoints: [/categories/i, /category/i],
     },
