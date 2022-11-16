@@ -8,6 +8,7 @@ import { AdminLayout } from "@/modules/common/layout";
 import { RoutesWithNotFound } from "@/modules/common/components";
 import { CategoriesRoutesList, CategoriesRoutes } from "@/modules/categories";
 import { CitiesRoutes, CitiesRoutesList } from "@/modules/cities";
+import { CountriesRoutes, CountriesRoutesList } from "@/modules/countries";
 
 export const AdminRoutes = () => {
   return (
@@ -21,6 +22,10 @@ export const AdminRoutes = () => {
         <Route
           path={`${CategoriesRoutesList.CATEGORIES}/*`}
           element={<CategoriesRoutes />}
+        />
+        <Route
+          path={`${CountriesRoutesList.COUNTRIES}/*`}
+          element={<CountriesRoutes />}
         />
         <Route
           path={`${CitiesRoutesList.CITIES}/*`}
