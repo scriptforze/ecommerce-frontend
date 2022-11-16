@@ -1,6 +1,6 @@
 import {
   BookOutlined,
-  // BorderlessTableOutlined,
+  BorderlessTableOutlined,
   DashboardOutlined,
   GlobalOutlined,
   ShoppingCartOutlined,
@@ -12,6 +12,7 @@ import { currentMenuKey } from "./utils";
 import { CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutesList } from "@/modules/countries";
 import { StatesRoutesList } from "@/modules/states";
+import { TagsRoutesList } from "@/modules/tags";
 
 export const menuTitles: ItemType[] = [
   {
@@ -29,7 +30,11 @@ export const menuTitles: ItemType[] = [
     label: "Categories",
     icon: <BookOutlined />,
   },
-  // { key: 4, label: "Tags", icon: <BorderlessTableOutlined /> },
+  {
+    key: currentMenuKey(TagsRoutesList.TAGS),
+    label: "Tags",
+    icon: <BorderlessTableOutlined />,
+  },
   {
     key: "zones",
     label: "Zones",

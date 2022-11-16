@@ -10,6 +10,7 @@ import { CategoriesRoutesList, CategoriesRoutes } from "@/modules/categories";
 import { CitiesRoutes, CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutes, CountriesRoutesList } from "@/modules/countries";
 import { StatesRoutes, StatesRoutesList } from "@/modules/states";
+import { TagsRoutes, TagsRoutesList } from "@/modules/tags";
 
 export const AdminRoutes = () => {
   return (
@@ -24,6 +25,7 @@ export const AdminRoutes = () => {
           path={`${CategoriesRoutesList.CATEGORIES}/*`}
           element={<CategoriesRoutes />}
         />
+        <Route path={`${TagsRoutesList.TAGS}/*`} element={<TagsRoutes />} />
         <Route
           path={`${CountriesRoutesList.COUNTRIES}/*`}
           element={<CountriesRoutes />}
