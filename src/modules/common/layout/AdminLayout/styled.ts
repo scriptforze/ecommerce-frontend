@@ -15,7 +15,7 @@ export const StyledMenuUnfoldOutlined = styled(MenuUnfoldOutlined)`
   transition: color 0.3s;
 
   &:hover {
-    color: #00d1b0;
+    color: ${({ theme }) => theme.token?.colorPrimary};
   }
 `;
 
