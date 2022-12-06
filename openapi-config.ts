@@ -41,6 +41,9 @@ const config: ConfigFile = {
     "./src/services/cities.ts": {
       filterEndpoints: [/cities/i, /city/i],
     },
+    "./src/services/products.ts": {
+      filterEndpoints: [/products/i],
+    },
   },
   hooks: true,
   tag: true,

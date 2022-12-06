@@ -139,6 +139,7 @@ export type Category = {
   parent_id?: number;
   status?: Status;
   image?: Resource;
+  children?: Category[];
 };
 export type ModelNotFoundException = {
   error?: string;
