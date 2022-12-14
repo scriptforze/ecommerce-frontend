@@ -51,9 +51,10 @@ export const StoreCategoryForm = () => {
 
       if (typeof errors === "object") {
         Object.entries(errors).forEach((error) => {
-          setError(error[0] as CategoriesFieldsType, {
+          const [fieldType, message] = error || [];
+          setError(fieldType as CategoriesFieldsType, {
             type: "custom",
-            message: error[1].join("\r\n"),
+            message: message.join("\r\n"),
           });
         });
       }
