@@ -1,41 +1,13 @@
-import { BookOutlined } from "@ant-design/icons";
-import { Breadcrumb, Card, Col, Row, Typography } from "antd";
-import { Link } from "react-router-dom";
-import { CategoriesRoutesList, StoreCategoryForm } from "@/modules/categories";
-
-const { Title } = Typography;
-const { Item: BreadcrumbItem } = Breadcrumb;
+import { Card } from "antd";
+import { StoreCategoryForm } from "@/modules/categories";
+import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
+import { BREADCRUMB_ITEMS } from "./constants";
 
 export const CreateCategoryPage = () => {
   document.title = "Ecommerce - New category";
-
   return (
     <>
-      <Row justify="space-between">
-        <Col span={12}>
-          <Title level={1}>New category</Title>
-        </Col>
-        <Col
-          span={12}
-          style={{
-            display: "flex",
-            justifyContent: "end",
-            alignItems: "end",
-            marginBottom: "19px",
-          }}
-        >
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to={CategoriesRoutesList.CATEGORIES}>
-                <BookOutlined style={{ marginRight: "5px" }} />
-                <span>Categories</span>
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem>New category</BreadcrumbItem>
-          </Breadcrumb>
-        </Col>
-      </Row>
-
+      <PageHeader title="Create category" breadCrumbItems={BREADCRUMB_ITEMS} />
       <Card style={{ background: "#fff" }}>
         <StoreCategoryForm />
       </Card>
