@@ -104,10 +104,11 @@ export const AdminLayout = () => {
         </Header>
         <Content
           style={{
-            marginTop: "64px",
             padding: 24,
-            minHeight: "calc(100vh - 64px)",
+            marginTop: "64px",
+            position: "relative",
             background: "#f8f8f8",
+            minHeight: "calc(100vh - 64px)",
           }}
         >
           <Outlet />

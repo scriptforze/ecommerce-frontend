@@ -8,7 +8,7 @@ export const CreateCategoryPage = () => {
   return (
     <>
       <PageHeader title="Create category" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <Card style={{ background: "#fff" }}>
+      <Card>
         <StoreCategoryForm />
       </Card>
     </>
