@@ -1,8 +1,10 @@
-import { Card, Steps } from "antd";
+import { Card, Steps, Row, Col, Button } from "antd";
 import { useState } from "react";
+import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import { BREADCRUMB_ITEMS, STEPS_ITEMS } from "./constants";
-import { CustomAffixContainer } from "../../components";
+import { CustomAffixContainer, GeneralStep } from "../../components";
+import { StyledSpace, StyledSpaceButtons } from "./styled";
 
 export const CreateProduct = () => {
   const [affixed, setAffixed] = useState(false);
@@ -22,22 +24,39 @@ export const CreateProduct = () => {
         onChange={onAffixChanged}
       >
         <Card>
-          <Steps current={0} labelPlacement="vertical" items={STEPS_ITEMS} />
+          <Row justify="space-evenly" gutter={[24, 24]}>
+            <Col span={7}>
+              <StyledSpace $affixed={affixed}>
+                <h2>{BREADCRUMB_ITEMS[1].title}</h2>
+              </StyledSpace>
+            </Col>
+            <Col span={10}>
+              <Steps
+                current={0}
+                labelPlacement="vertical"
+                items={STEPS_ITEMS}
+              />
+            </Col>
+            <Col span={7}>
+              <StyledSpaceButtons className="space-buttons">
+                <Button
+                  className="space-buttons__button--discard"
+                  icon={<CloseOutlined />}
+                >
+                  Discard
+                </Button>
+                <Button
+                  className="space-buttons__button--continue"
+                  icon={<ArrowRightOutlined />}
+                >
+                  Next
+                </Button>
+              </StyledSpaceButtons>
+            </Col>
+          </Row>
         </Card>
       </CustomAffixContainer>
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
+      <GeneralStep $affixed={affixed} />
     </>
   );
 };

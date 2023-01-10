@@ -16,9 +16,9 @@ export const STEPS_ITEMS = [
     title: "General",
   },
   {
-    title: "Variaciones",
+    title: "Stocks",
   },
   {
-    title: "Especificaciones",
+    title: "Specifications",
   },
 ];
