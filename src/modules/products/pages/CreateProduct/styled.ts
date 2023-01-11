@@ -1,4 +1,4 @@
-import { Space, Form } from "antd";
+import { Space, Form, Steps } from "antd";
 import styled, { keyframes, css } from "styled-components";
 
 const animateFadeIn = keyframes`
@@ -21,13 +21,13 @@ const animateFadeOut = keyframes`
 `;
 
 export const StyledSpace = styled(Space)<{ $affixed: boolean }>`
+  opacity: 0;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   animation: ${animateFadeOut} 200ms;
-  opacity: 0;
   ${({ $affixed }) =>
     $affixed &&
     css`
@@ -49,16 +49,47 @@ export const StyledSpaceButtons = styled(Space)`
         background: #ffffff;
         border: 1px solid #ff8855;
         border-radius: 10px;
-        padding: 12px, 16px, 12px, 16px;
         color: #ff8855;
+        :hover {
+          background: #ff8855;
+          border: 1px solid #ff8855;
+          color: #ffffff;
+        }
       }
       &--continue {
+        background: #3e79f7;
+        border: 1px solid #3e79f7;
+        border-radius: 10px;
+        color: #ffffff;
+        :hover {
+          background: #ffffff;
+          border: 1px solid #3e79f7;
+          color: #3e79f7;
+        }
+      }
+      &--back {
         background: #ffffff;
         border: 1px solid #3e79f7;
         border-radius: 10px;
-        padding: 12px, 16px, 12px, 16px;
-        background: #3e79f7;
-        color: white;
+        color: #3e79f7;
+        :hover {
+          background: #3e79f7;
+          border: 1px solid #3e79f7;
+          border-radius: 10px;
+          color: #ffffff;
+        }
+      }
+      &--submit {
+        background: #ff8855;
+        border: 1px solid #ff8855;
+        border-radius: 10px;
+        color: #ffffff;
+        :hover {
+          background: #ffffff;
+          border: 1px solid #ff8855;
+          border-radius: 10px;
+          color: #ff8855;
+        }
       }
     }
   }
@@ -66,4 +97,37 @@ export const StyledSpaceButtons = styled(Space)`
 
 export const FormGeneralStep = styled(Form)`
   margin-top: 20px;
+`;
+
+export const CustomStepProduct = styled(Steps)`
+  .ant-steps-item-wait {
+    .ant-steps-item-container {
+      .ant-steps-item-icon {
+        background: #ffffff;
+        border: 1px solid #ff8855;
+        span.ant-steps-icon {
+          color: #ff8855;
+        }
+      }
+    }
+  }
+  .ant-steps-item {
+    .ant-steps-item-container {
+      .ant-steps-item-content {
+        margin-top: 5px;
+        .ant-steps-item-title {
+          font-size: 10pt;
+        }
+      }
+    }
+  }
+  .ant-steps-item-process {
+    .ant-steps-item-container {
+      .ant-steps-item-content {
+        .ant-steps-item-title {
+          color: #00d1b0;
+        }
+      }
+    }
+  }
 `;

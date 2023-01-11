@@ -7,6 +7,7 @@ import {
   Button,
   TreeSelect,
   Typography,
+  Select,
 } from "antd";
 import {
   DollarCircleOutlined,
@@ -14,11 +15,18 @@ import {
   PlusOutlined,
   CloseOutlined,
   CheckOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { FormGeneralStep, CustomCard, CustomBadge } from "./styled";
-import { GeneralStepProps } from "./types";
+import {
+  FormGeneralStep,
+  CustomCard,
+  CustomBadge,
+  AttributesHeader,
+} from "./styled";
+import { AttributeProps, GeneralStepProps } from "./types";
 import { FormItem } from "@/modules/common/components";
+import { EMPTY_ATTRIBUTE } from "./constants";
 
 export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
   const { Text, Title } = Typography;
@@ -55,6 +63,11 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
       ],
     },
   ];
+  const tagsData = [
+    { label: "Tag1", value: "tag1" },
+    { label: "Tag2", value: "tag2" },
+    { label: "Tag3", value: "tag3" },
+  ];
   const propsCount = {
     formatter: (info: { value: string; count: number; maxLength?: number }) =>
       `${info.count} of ${info.maxLength} characters`,
@@ -69,6 +82,13 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
   const [image2Url, setImage2Url] = useState<string>();
   const [image3Url, setImage3Url] = useState<string>();
   const [image4Url, setImage4Url] = useState<string>();
+  const [attributesForms, setAttributesForms] = useState<AttributeProps[]>([
+    EMPTY_ATTRIBUTE,
+  ]);
+  const addNewAttribute = () => {
+    setAttributesForms(() => [...attributesForms, EMPTY_ATTRIBUTE]);
+  };
+
   return (
     <FormGeneralStep
       layout="vertical"
@@ -130,6 +150,68 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
                   </FormItem>
                 </Col>
               </Row>
+            </CustomCard>
+            <CustomCard>
+              <AttributesHeader>
+                <Col span={24}>
+                  <Space className="attributes-header">
+                    <Title
+                      level={5}
+                      className="attributes-header__attribute--title"
+                    >
+                      Attributes
+                    </Title>
+                    <Button
+                      type="link"
+                      className="attributes-header__attribute--addbutton"
+                      icon={<PlusCircleOutlined />}
+                      onClick={addNewAttribute}
+                      size="large"
+                    >
+                      Add new attribute
+                    </Button>
+                  </Space>
+                </Col>
+              </AttributesHeader>
+              {attributesForms &&
+                attributesForms.map((attribute) => (
+                  <Row key={null} gutter={[24, 24]}>
+                    <Col span={12}>
+                      <FormItem>
+                        <Text type="secondary">
+                          Name/Type
+                          <Text type="danger"> *</Text>
+                        </Text>
+                        <Select
+                          style={{ width: "100%" }}
+                          options={[
+                            {
+                              value: "lucy",
+                              label: "Lucy",
+                            },
+                          ]}
+                        />
+                      </FormItem>
+                    </Col>
+                    <Col span={12}>
+                      <FormItem>
+                        <Text type="secondary">
+                          Values
+                          <Text type="danger"> *</Text>
+                        </Text>
+                        <Select
+                          style={{ width: "100%" }}
+                          options={[
+                            {
+                              value: "lucy",
+                              label: "Lucy",
+                            },
+                          ]}
+                        />
+                      </FormItem>
+                    </Col>
+                  </Row>
+                ))}
             </CustomCard>
           </Space>
         </Col>
@@ -294,14 +376,14 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
                   Select a category
                 </Text>
                 <TreeSelect
-                  size="large"
                   showSearch
-                  style={{ width: "80%" }}
+                  style={{ width: "100%" }}
                   dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
                   placeholder="Please select"
                   allowClear
                   treeDefaultExpandAll
                   treeData={treeData}
+                  size="large"
                 />
               </FormItem>
               <FormItem>
@@ -309,15 +391,15 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
                 <Text type="secondary">
                   Put labels on your products to improve your search
                 </Text>
-                <TreeSelect
-                  size="large"
-                  showSearch
-                  style={{ width: "80%" }}
-                  dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
-                  placeholder="Please select"
+                <Select
+                  mode="tags"
                   allowClear
-                  treeDefaultExpandAll
-                  treeData={treeData}
+                  style={{ width: "100%" }}
+                  placeholder="Please select"
+                  defaultValue={["tag1", "tag2"]}
+                  // onChange={handleChange}
+                  options={tagsData}
+                  size="large"
                 />
               </FormItem>
             </CustomCard>

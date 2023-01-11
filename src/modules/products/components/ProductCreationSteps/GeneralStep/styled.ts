@@ -1,4 +1,4 @@
-import { Card, Form, Badge } from "antd";
+import { Card, Form, Badge, Row } from "antd";
 import styled, { keyframes, css } from "styled-components";
 
 const animateFadeIn = keyframes`
@@ -88,6 +88,26 @@ export const CustomBadge = styled(Badge)`
         border-radius: 15px;
         border-spacing: 1px;
         width: auto !important;
+      }
+    }
+  }
+`;
+
+export const AttributesHeader = styled(Row)`
+  .attributes-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    justify-content: space-between;
+    &__attribute {
+      &--title {
+        margin-bottom: 0px;
+      }
+      &--addbutton {
+        color: #3e79f7;
+        border: none;
+        box-shadow: none;
       }
     }
   }

@@ -9,6 +9,11 @@ export enum ProductCreationSteps {
   THIRD = 2,
 }
 
+export interface StepScreenProps {
+  step: number;
+  affixed: boolean;
+}
+
 export interface ButtonState {
   title: string;
   nextStep: number;

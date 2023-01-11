@@ -1,4 +1,4 @@
-import { Card, Steps, Row, Col, Button } from "antd";
+import { Card, Row, Col, Button } from "antd";
 import { useState, useReducer } from "react";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import {
@@ -6,12 +6,9 @@ import {
   BREADCRUMB_ITEMS,
   INITIAL_STEP_BUTTONS_STATE,
 } from "./constants";
-import {
-  GeneralStep,
-  CustomAffixContainer,
-} from "@/modules/products/components";
-import { StyledSpace, StyledSpaceButtons } from "./styled";
-import { buttonStepReducer } from "./utils";
+import { CustomAffixContainer } from "@/modules/products/components";
+import { CustomStepProduct, StyledSpace, StyledSpaceButtons } from "./styled";
+import { buttonStepReducer, renderScreenByStep } from "./utils";
 import { ButtonActions } from "./types";
 
 export const CreateProduct = () => {
@@ -62,19 +59,20 @@ export const CreateProduct = () => {
       >
         <Card>
           <Row justify="space-evenly" gutter={[24, 24]}>
-            <Col span={7}>
+            <Col sm={7} xs={24}>
               <StyledSpace $affixed={affixed}>
                 <h2>{BREADCRUMB_ITEMS[1].title}</h2>
               </StyledSpace>
             </Col>
-            <Col span={10}>
-              <Steps
+            <Col sm={10} xs={24}>
+              <CustomStepProduct
                 current={step}
                 items={STEPS_ITEMS}
                 labelPlacement="vertical"
+                responsive
               />
             </Col>
-            <Col span={7}>
+            <Col sm={7} xs={24}>
               <StyledSpaceButtons className="space-buttons">
                 <Button
                   icon={discard.icon}
@@ -95,7 +93,7 @@ export const CreateProduct = () => {
           </Row>
         </Card>
       </CustomAffixContainer>
-      <GeneralStep $affixed={affixed} />
+      {renderScreenByStep({ step, affixed })}
     </>
   );
 };

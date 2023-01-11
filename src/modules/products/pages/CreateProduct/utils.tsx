@@ -3,11 +3,13 @@ import {
   ArrowRightOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
+import { GeneralStep, PricingStep, ShipmentStep } from "../../components";
 import { INITIAL_STEP_BUTTONS_STATE } from "./constants";
 import {
   ButtonStateAction,
   ProductCreationSteps,
   StepButtonsState,
+  StepScreenProps,
 } from "./types";
 
 export const buttonStepReducer = (
@@ -60,5 +62,18 @@ export const buttonStepReducer = (
       };
     default:
       return { ...state };
+  }
+};
+
+export const renderScreenByStep = ({ step, affixed }: StepScreenProps) => {
+  switch (step) {
+    case ProductCreationSteps.FIRST:
+      return <GeneralStep $affixed={affixed} />;
+    case ProductCreationSteps.SECOND:
+      return <PricingStep />;
+    case ProductCreationSteps.THIRD:
+      return <ShipmentStep />;
+    default:
+      return null;
   }
 };
