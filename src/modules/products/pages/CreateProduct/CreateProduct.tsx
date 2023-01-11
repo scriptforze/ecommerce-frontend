@@ -1,18 +1,55 @@
 import { Card, Steps, Row, Col, Button } from "antd";
-import { useState } from "react";
-import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
+import { useState, useReducer } from "react";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
-import { BREADCRUMB_ITEMS, STEPS_ITEMS } from "./constants";
-import { CustomAffixContainer, GeneralStep } from "../../components";
+import {
+  STEPS_ITEMS,
+  BREADCRUMB_ITEMS,
+  INITIAL_STEP_BUTTONS_STATE,
+} from "./constants";
+import {
+  GeneralStep,
+  CustomAffixContainer,
+} from "@/modules/products/components";
 import { StyledSpace, StyledSpaceButtons } from "./styled";
+import { buttonStepReducer } from "./utils";
+import { ButtonActions } from "./types";
 
 export const CreateProduct = () => {
-  const [affixed, setAffixed] = useState(false);
   document.title = "Ecommerce - New Product";
+  const [affixed, setAffixed] = useState(false);
+
+  const [stepButtonsState, stepButtonsDispatch] = useReducer(
+    buttonStepReducer,
+    INITIAL_STEP_BUTTONS_STATE
+  );
+
+  const { submit, discard, step } = stepButtonsState;
+
+  const dispatchButtonAction = (action: ButtonActions, nextStep: number) => {
+    switch (action) {
+      case "next-back":
+        stepButtonsDispatch({ step: nextStep });
+        break;
+      default:
+        throw Error(`dispatchButtonAction: ${action} not supported yet.`);
+    }
+  };
 
   const onAffixChanged = (affixValue?: boolean) => {
-    const isAffixed = affixValue !== undefined ? affixValue : false;
+    const isAffixed = affixValue || false;
     setAffixed(isAffixed);
+  };
+
+  const onSubmit = () => {
+    stepButtonsDispatch({ step });
+    const { action, nextStep } = submit;
+    dispatchButtonAction(action, nextStep);
+  };
+
+  const onDiscard = () => {
+    stepButtonsDispatch({ step });
+    const { action, nextStep } = discard;
+    dispatchButtonAction(action, nextStep);
   };
 
   return (
@@ -32,24 +69,26 @@ export const CreateProduct = () => {
             </Col>
             <Col span={10}>
               <Steps
-                current={0}
-                labelPlacement="vertical"
+                current={step}
                 items={STEPS_ITEMS}
+                labelPlacement="vertical"
               />
             </Col>
             <Col span={7}>
               <StyledSpaceButtons className="space-buttons">
                 <Button
-                  className="space-buttons__button--discard"
-                  icon={<CloseOutlined />}
+                  icon={discard.icon}
+                  onClick={onDiscard}
+                  className={discard.className}
                 >
-                  Discard
+                  {discard.title}
                 </Button>
                 <Button
-                  className="space-buttons__button--continue"
-                  icon={<ArrowRightOutlined />}
+                  icon={submit.icon}
+                  onClick={onSubmit}
+                  className={submit.className}
                 >
-                  Next
+                  {submit.title}
                 </Button>
               </StyledSpaceButtons>
             </Col>

@@ -7,4 +7,14 @@ export const StyledItem = styled(Form.Item)`
     color: red;
     content: "* ";
   } */
+
+  h5.ant-typography {
+    margin-top: 16px;
+  }
+
+  span.ant-typography {
+    font-size: 9pt;
+    display: inline-block;
+    margin-bottom: 3px;
+  }
 `;

@@ -1,4 +1,4 @@
-import { Card, Form } from "antd";
+import { Card, Form, Badge } from "antd";
 import styled, { keyframes, css } from "styled-components";
 
 const animateFadeIn = keyframes`
@@ -44,48 +44,51 @@ export const CustomCard = styled(Card)`
   .ant-card-body {
     padding-top: 0px;
   }
+
+  .custom-card {
+    &__footer {
+      &--text {
+        justify-content: center;
+        width: 100%;
+        align-items: center;
+      }
+      &--text p::before {
+        color: #00d1b0;
+        content: "*";
+      }
+    }
+  }
 `;
 
-// export const StyledSpace = styled(Space)<{ affixed: boolean }>`
-//   height: 100%;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: flex-start;
-//   animation: ${animateFadeOut} 200ms;
-//   opacity: 0;
-//   ${({ affixed }) =>
-//     affixed &&
-//     css`
-//       opacity: 1;
-//       animation: ${animateFadeIn};
-//       animation-duration: 200ms;
-//     `}
-// `;
-
-// export const StyledSpaceButtons = styled(Space)`
-//   height: 100%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: end;
-//   align-items: center;
-//   .space-buttons {
-//     &__button {
-//       &--discard {
-//         background: #ffffff;
-//         border: 1px solid #ff8855;
-//         border-radius: 10px;
-//         padding: 12px, 16px, 12px, 16px;
-//         color: #ff8855;
-//       }
-//       &--continue {
-//         background: #ffffff;
-//         border: 1px solid #3e79f7;
-//         border-radius: 10px;
-//         padding: 12px, 16px, 12px, 16px;
-//         background: #3e79f7;
-//         color: white;
-//       }
-//     }
-//   }
-// `;
+export const CustomBadge = styled(Badge)`
+  .button-badge {
+    &__button {
+      &--remove {
+        background-color: red;
+        border: 1px solid red;
+        border-radius: 15px;
+        padding: 2px 5px;
+        color: #ffffff;
+        font-size: 8pt;
+        margin-right: 8px;
+        height: auto;
+      }
+      &--remove:hover {
+        border: 1px solid red;
+        color: #ffffff;
+      }
+      &--checked {
+        background-color: white;
+        border: 1px solid #00d1b0;
+        color: #00d1b0;
+        font-size: 8pt;
+        margin-right: 8px;
+        padding: 5px 5px;
+        height: auto;
+        border-radius: 15px;
+        border-spacing: 1px;
+        width: auto !important;
+      }
+    }
+  }
+`;

@@ -1,15 +1,60 @@
-import { Card, Row, Col, Space, Input, Upload, UploadFile } from "antd";
+import {
+  Row,
+  Col,
+  Space,
+  Input,
+  Upload,
+  Button,
+  TreeSelect,
+  Typography,
+} from "antd";
 import {
   DollarCircleOutlined,
   PercentageOutlined,
   PlusOutlined,
+  CloseOutlined,
+  CheckOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { FormGeneralStep, CustomCard } from "./styled";
+import { FormGeneralStep, CustomCard, CustomBadge } from "./styled";
 import { GeneralStepProps } from "./types";
 import { FormItem } from "@/modules/common/components";
 
 export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
+  const { Text, Title } = Typography;
+  const spacingCards = 15;
+  const treeData = [
+    {
+      value: "parent 1",
+      title: "parent 1",
+      children: [
+        {
+          value: "parent 1-0",
+          title: "parent 1-0",
+          children: [
+            {
+              value: "leaf1",
+              title: "leaf1",
+            },
+            {
+              value: "leaf2",
+              title: "leaf2",
+            },
+          ],
+        },
+        {
+          value: "parent 1-1",
+          title: "parent 1-1",
+          children: [
+            {
+              value: "leaf3",
+              title: <b style={{ color: "#08c" }}>leaf3</b>,
+            },
+          ],
+        },
+      ],
+    },
+  ];
   const propsCount = {
     formatter: (info: { value: string; count: number; maxLength?: number }) =>
       `${info.count} of ${info.maxLength} characters`,
@@ -30,9 +75,13 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
       encType="multipart/form-data"
       $affixed={$affixed}
     >
-      <Row gutter={[16, 16]}>
+      <Row gutter={[spacingCards, spacingCards]}>
         <Col span={15}>
-          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+          <Space
+            direction="vertical"
+            size={spacingCards}
+            style={{ display: "flex" }}
+          >
             <CustomCard title="Basic Information">
               <FormItem label="Product name">
                 <Input size="large" placeholder="Product name" />
@@ -62,12 +111,22 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
               <Row gutter={[24, 24]}>
                 <Col span={12}>
                   <FormItem label="Base price">
-                    <Input size="large" prefix={<DollarCircleOutlined />} />
+                    <Input
+                      type="number"
+                      min={0}
+                      size="large"
+                      prefix={<DollarCircleOutlined />}
+                    />
                   </FormItem>
                 </Col>
                 <Col span={12}>
                   <FormItem label="Tasks">
-                    <Input size="large" prefix={<PercentageOutlined />} />
+                    <Input
+                      type="number"
+                      min={0}
+                      size="large"
+                      prefix={<PercentageOutlined />}
+                    />
                   </FormItem>
                 </Col>
               </Row>
@@ -75,34 +134,193 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
           </Space>
         </Col>
         <Col span={9}>
-          <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+          <Space
+            direction="vertical"
+            size={spacingCards}
+            style={{ display: "flex" }}
+          >
             <CustomCard title="Photographs">
-              <Upload
-                id="image1"
-                listType="picture-card"
-                showUploadList={false}
-                multiple={false}
-                beforeUpload={(file) => {
-                  const image = URL.createObjectURL(file);
-
-                  // setValue("image", file);
-                  setImage1Url(image);
-
-                  return false;
-                }}
-              >
-                {image1Url ? (
-                  <img
-                    src={image1Url}
-                    alt="category"
-                    style={{ width: "100%" }}
-                  />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
+              <Space align="start" size={20} wrap>
+                <CustomBadge
+                  count={
+                    <Space className="button-badge__button--checked">
+                      <CheckOutlined />
+                    </Space>
+                  }
+                >
+                  <Space>
+                    <Upload
+                      id="image1"
+                      listType="picture-card"
+                      showUploadList={false}
+                      multiple={false}
+                      beforeUpload={(file) => {
+                        const image = URL.createObjectURL(file);
+                        setImage1Url(image);
+                        return false;
+                      }}
+                    >
+                      {image1Url ? (
+                        <img
+                          src={image1Url}
+                          alt="category"
+                          style={{
+                            width: "100%",
+                            maxHeight: "100%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      ) : (
+                        uploadButton
+                      )}
+                    </Upload>
+                  </Space>
+                </CustomBadge>
+                <CustomBadge
+                  count={
+                    <Button className="button-badge__button--remove">
+                      <CloseOutlined />
+                    </Button>
+                  }
+                >
+                  <Space>
+                    <Upload
+                      id="image2"
+                      listType="picture-card"
+                      showUploadList={false}
+                      multiple={false}
+                      beforeUpload={(file) => {
+                        const image = URL.createObjectURL(file);
+                        setImage2Url(image);
+                        return false;
+                      }}
+                    >
+                      {image2Url ? (
+                        <img
+                          src={image2Url}
+                          alt="category"
+                          style={{
+                            width: "100%",
+                            maxHeight: "100%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      ) : (
+                        uploadButton
+                      )}
+                    </Upload>
+                  </Space>
+                </CustomBadge>
+                <CustomBadge
+                  count={
+                    <Button className="button-badge__button--remove">
+                      <CloseOutlined />
+                    </Button>
+                  }
+                >
+                  <Space>
+                    <Upload
+                      id="image3"
+                      listType="picture-card"
+                      showUploadList={false}
+                      multiple={false}
+                      beforeUpload={(file) => {
+                        const image = URL.createObjectURL(file);
+                        setImage3Url(image);
+                        return false;
+                      }}
+                    >
+                      {image3Url ? (
+                        <img
+                          src={image3Url}
+                          alt="category"
+                          style={{
+                            width: "100%",
+                            maxHeight: "100%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      ) : (
+                        uploadButton
+                      )}
+                    </Upload>
+                  </Space>
+                </CustomBadge>
+                <CustomBadge
+                  count={
+                    <Button className="button-badge__button--remove">
+                      <CloseOutlined />
+                    </Button>
+                  }
+                >
+                  <Space>
+                    <Upload
+                      id="image4"
+                      listType="picture-card"
+                      showUploadList={false}
+                      multiple={false}
+                      beforeUpload={(file) => {
+                        const image = URL.createObjectURL(file);
+                        setImage4Url(image);
+                        return false;
+                      }}
+                    >
+                      {image4Url ? (
+                        <img
+                          src={image4Url}
+                          alt="category"
+                          style={{
+                            width: "100%",
+                            maxHeight: "100%",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      ) : (
+                        uploadButton
+                      )}
+                    </Upload>
+                  </Space>
+                </CustomBadge>
+              </Space>
+              <Space className="custom-card__footer--text" size={1}>
+                <p>Select main photo</p>
+              </Space>
             </CustomCard>
-            <Card>asñdkjasñ</Card>
+            <CustomCard>
+              <FormItem>
+                <Title level={5}>Category</Title>
+                <Text type="secondary">
+                  <Text type="danger">*</Text>
+                  Select a category
+                </Text>
+                <TreeSelect
+                  size="large"
+                  showSearch
+                  style={{ width: "80%" }}
+                  dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+                  placeholder="Please select"
+                  allowClear
+                  treeDefaultExpandAll
+                  treeData={treeData}
+                />
+              </FormItem>
+              <FormItem>
+                <Title level={5}>Tags</Title>
+                <Text type="secondary">
+                  Put labels on your products to improve your search
+                </Text>
+                <TreeSelect
+                  size="large"
+                  showSearch
+                  style={{ width: "80%" }}
+                  dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
+                  placeholder="Please select"
+                  allowClear
+                  treeDefaultExpandAll
+                  treeData={treeData}
+                />
+              </FormItem>
+            </CustomCard>
           </Space>
         </Col>
       </Row>
