@@ -127,10 +127,18 @@ export type Status = {
   name: string;
   type: string;
 };
+export type ResourceUrls = {
+  original: string;
+  thumb?: string;
+  small?: string;
+  medium?: string;
+};
 export type Resource = {
   id: number;
-  url: string;
-  type_resource: string;
+  owner_id?: number;
+  type_resource?: string;
+  urls: ResourceUrls;
+  options?: object;
 };
 export type Category = {
   id: number;
@@ -164,7 +172,7 @@ export type ValidationException = {
 export type UpdateCategoryRequest = {
   _method: "PUT";
   name?: string;
-  image?: Blob;
+  image?: number;
   parent_id?: number;
 };
 export type Pagination = {
@@ -177,7 +185,7 @@ export type Pagination = {
 };
 export type StoreCategoryRequest = {
   name: string;
-  image: Blob;
+  image: number;
   parent_id?: number;
 };
 export const {
