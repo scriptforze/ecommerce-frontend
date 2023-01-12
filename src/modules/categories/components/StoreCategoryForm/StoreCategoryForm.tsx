@@ -1,6 +1,6 @@
 import { Input, Typography, Form, Button, Row, Col, TreeSelect } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import { PlusOutlined } from "@ant-design/icons";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -13,6 +13,10 @@ import { FormItem } from "@/modules/common/components";
 import { StyledUpload } from "./styled";
 import { CategoriesRoutesList } from "@/modules/categories";
 import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
+import {
+  StoreResourceDto,
+  useSaveResourceMutation,
+} from "@/services/resources";
 
 const { Text } = Typography;
 
@@ -27,6 +31,15 @@ export const StoreCategoryForm = () => {
 
   const [saveCategory, { error: saveCategoryError, isLoading, isSuccess }] =
     useSaveCategoryMutation();
+
+  const [
+    saveResource,
+    {
+      isSuccess: isResourceSuccess,
+      isLoading: isResourceLoading,
+      data: dataResource,
+    },
+  ] = useSaveResourceMutation();
 
   const { data: getAllCategoriesData } = useGetAllCategoriesQuery({
     include: "children",
@@ -44,6 +57,13 @@ export const StoreCategoryForm = () => {
       navigate(CategoriesRoutesList.CATEGORIES);
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isResourceSuccess) {
+      setValue("image", dataResource!.data!.id);
+      setImageUrl(dataResource?.data?.urls.small);
+    }
+  }, [isResourceSuccess]);
 
   useEffect(() => {
     if (saveCategoryError && isErrorWithMessage(saveCategoryError)) {
@@ -66,40 +86,41 @@ export const StoreCategoryForm = () => {
     image,
     parent_id,
   }: StoreCategoryRequest) => {
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("image", image);
-
-    if (parent_id) {
-      formData.append("parent_id", parent_id as unknown as string);
-    }
-
     saveCategory({
-      storeCategoryRequest: formData as unknown as StoreCategoryRequest,
+      storeCategoryRequest: {
+        name,
+        image,
+        parent_id,
+      },
     });
   };
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Image</div>
+      {isResourceLoading ? (
+        <>
+          <LoadingOutlined />
+          <div style={{ marginTop: 8 }}>Uploading</div>
+        </>
+      ) : (
+        <>
+          <PlusOutlined />
+          <div style={{ marginTop: 8 }}>Image</div>
+        </>
+      )}
     </div>
   );
 
   return (
-    <Form
-      layout="vertical"
-      onFinish={handleSubmit(onStoreCategory)}
-      encType="multipart/form-data"
-    >
+    <Form layout="vertical" onFinish={handleSubmit(onStoreCategory)}>
       <Row justify="space-between" gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
         <Col span={6}>
           <Controller
             control={control}
             name="image"
             rules={{
-              validate: (value: Blob) => {
-                if (value.size === 0) {
+              validate: (value) => {
+                if (!value) {
                   return "Image is required";
                 }
 
@@ -115,13 +136,13 @@ export const StoreCategoryForm = () => {
                   listType="picture-card"
                   showUploadList={false}
                   multiple={false}
-                  beforeUpload={(file) => {
-                    const image = URL.createObjectURL(file);
+                  customRequest={async (options) => {
+                    const formData = new FormData();
+                    formData.append("file", options.file);
 
-                    setValue("image", file);
-                    setImageUrl(image);
-
-                    return false;
+                    await saveResource({
+                      storeResourceDto: formData as unknown as StoreResourceDto,
+                    });
                   }}
                 >
                   {imageUrl ? (

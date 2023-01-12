@@ -1,6 +1,6 @@
 import { Input, Typography, Form, Button, Row, Col, TreeSelect } from "antd";
 import { Controller, useForm } from "react-hook-form";
-import { PlusOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,13 +14,17 @@ import { StyledUpload } from "./styled";
 import { CategoriesRoutesList } from "@/modules/categories";
 import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
 import { EditCategoryFormProps } from "./types";
+import {
+  StoreResourceDto,
+  useSaveResourceMutation,
+} from "@/services/resources";
 
 const { Text } = Typography;
 
 export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
   const navigate = useNavigate();
   const [imageUrl, setImageUrl] = useState<string | undefined>(
-    category.image?.url
+    category.image?.urls.small
   );
   const { control, handleSubmit, setValue, setError } =
     useForm<UpdateCategoryRequest>({
@@ -30,6 +34,15 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
 
   const [updateCategory, { error: updateCategoryError, isLoading }] =
     useUpdateCategoryMutation();
+
+  const [
+    saveResource,
+    {
+      isSuccess: isResourceSuccess,
+      isLoading: isResourceLoading,
+      data: dataResource,
+    },
+  ] = useSaveResourceMutation();
 
   const { data: getAllCategoriesData } = useGetAllCategoriesQuery({
     include: "children",
@@ -45,6 +58,13 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
 
     navigate(CategoriesRoutesList.CATEGORIES);
   };
+
+  useEffect(() => {
+    if (isResourceSuccess) {
+      setValue("image", dataResource!.data!.id);
+      setImageUrl(dataResource?.data?.urls.small);
+    }
+  }, [isResourceSuccess]);
 
   useEffect(() => {
     if (updateCategoryError && isErrorWithMessage(updateCategoryError)) {
@@ -66,24 +86,14 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
     image,
     parent_id,
   }: UpdateCategoryRequest) => {
-    const formData = new FormData();
-    formData.append("_method", "PUT");
-
-    if (name) {
-      formData.append("name", name);
-    }
-
-    if (image) {
-      formData.append("image", image);
-    }
-
-    if (parent_id) {
-      formData.append("parent_id", parent_id as unknown as string);
-    }
-
     await updateCategory({
       category: category.id,
-      updateCategoryRequest: formData as unknown as UpdateCategoryRequest,
+      updateCategoryRequest: {
+        _method: "PUT",
+        name,
+        image,
+        parent_id,
+      },
     });
 
     onSuccess();
@@ -91,8 +101,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Image</div>
+      <LoadingOutlined />
+      <div style={{ marginTop: 8 }}>Uploading</div>
     </div>
   );
 
@@ -116,16 +126,16 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                   listType="picture-card"
                   showUploadList={false}
                   multiple={false}
-                  beforeUpload={(file) => {
-                    const image = URL.createObjectURL(file);
+                  customRequest={async (options) => {
+                    const formData = new FormData();
+                    formData.append("file", options.file);
 
-                    setValue("image", file);
-                    setImageUrl(image);
-
-                    return false;
+                    await saveResource({
+                      storeResourceDto: formData as unknown as StoreResourceDto,
+                    });
                   }}
                 >
-                  {imageUrl ? (
+                  {imageUrl && !isResourceLoading ? (
                     <img
                       src={imageUrl}
                       alt="category"
