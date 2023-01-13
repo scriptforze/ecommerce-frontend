@@ -1,16 +1,52 @@
-import { Card, Steps } from "antd";
-import { useState } from "react";
+import { Card, Row, Col, Button } from "antd";
+import { useState, useReducer } from "react";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
-import { BREADCRUMB_ITEMS, STEPS_ITEMS } from "./constants";
-import { CustomAffixContainer } from "../../components";
+import {
+  STEPS_ITEMS,
+  BREADCRUMB_ITEMS,
+  INITIAL_STEP_BUTTONS_STATE,
+} from "./constants";
+import { CustomAffixContainer } from "@/modules/products/components";
+import { CustomStepProduct, StyledSpace, StyledSpaceButtons } from "./styled";
+import { buttonStepReducer, renderScreenByStep } from "./utils";
+import { ButtonActions } from "./types";
 
 export const CreateProduct = () => {
-  const [affixed, setAffixed] = useState(false);
   document.title = "Ecommerce - New Product";
+  const [affixed, setAffixed] = useState(false);
+
+  const [stepButtonsState, stepButtonsDispatch] = useReducer(
+    buttonStepReducer,
+    INITIAL_STEP_BUTTONS_STATE
+  );
+
+  const { submit, discard, step } = stepButtonsState;
+
+  const dispatchButtonAction = (action: ButtonActions, nextStep: number) => {
+    switch (action) {
+      case "next-back":
+        stepButtonsDispatch({ step: nextStep });
+        break;
+      default:
+        throw Error(`dispatchButtonAction: ${action} not supported yet.`);
+    }
+  };
 
   const onAffixChanged = (affixValue?: boolean) => {
-    const isAffixed = affixValue !== undefined ? affixValue : false;
+    const isAffixed = affixValue || false;
     setAffixed(isAffixed);
+  };
+
+  const onSubmit = () => {
+    stepButtonsDispatch({ step });
+    const { action, nextStep } = submit;
+    dispatchButtonAction(action, nextStep);
+  };
+
+  const onDiscard = () => {
+    stepButtonsDispatch({ step });
+    const { action, nextStep } = discard;
+    dispatchButtonAction(action, nextStep);
   };
 
   return (
@@ -22,22 +58,42 @@ export const CreateProduct = () => {
         onChange={onAffixChanged}
       >
         <Card>
-          <Steps current={0} labelPlacement="vertical" items={STEPS_ITEMS} />
+          <Row justify="space-evenly" gutter={[24, 24]}>
+            <Col sm={7} xs={24}>
+              <StyledSpace $affixed={affixed}>
+                <h2>{BREADCRUMB_ITEMS[1].title}</h2>
+              </StyledSpace>
+            </Col>
+            <Col sm={10} xs={24}>
+              <CustomStepProduct
+                current={step}
+                items={STEPS_ITEMS}
+                labelPlacement="vertical"
+                responsive
+              />
+            </Col>
+            <Col sm={7} xs={24}>
+              <StyledSpaceButtons className="space-buttons">
+                <Button
+                  icon={discard.icon}
+                  onClick={onDiscard}
+                  className={discard.className}
+                >
+                  {discard.title}
+                </Button>
+                <Button
+                  icon={submit.icon}
+                  onClick={onSubmit}
+                  className={submit.className}
+                >
+                  {submit.title}
+                </Button>
+              </StyledSpaceButtons>
+            </Col>
+          </Row>
         </Card>
       </CustomAffixContainer>
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
-      <PageHeader title="New product" breadCrumbItems={BREADCRUMB_ITEMS} />
+      {renderScreenByStep({ step, affixed })}
     </>
   );
 };
