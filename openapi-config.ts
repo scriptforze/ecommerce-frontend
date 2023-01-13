@@ -44,6 +44,9 @@ const config: ConfigFile = {
     "./src/services/products.ts": {
       filterEndpoints: [/products/i],
     },
+    "./src/services/resources.ts": {
+      filterEndpoints: ["saveResource"],
+    },
   },
   hooks: true,
   tag: true,

@@ -14,7 +14,14 @@
     "plugin:prettier/recommended",
     "prettier"
   ],
-  "overrides": [],
+  "overrides": [
+    {
+      "files": ["src/services/*"],
+      "rules": {
+        "import/newline-after-import": "off"
+      }
+    }
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",

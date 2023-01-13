@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { Upload } from "antd";
 
 export const StyledUpload = styled(Upload)`
-  & > .ant-upload-select-picture-card {
-    width: 100%;
-    height: 146px;
+  height: 100%;
+
+  & > .ant-upload.ant-upload-select {
+    width: 100% !important;
+    height: 145px !important;
     margin-right: 0;
     margin-bottom: 0;
     overflow: hidden;
