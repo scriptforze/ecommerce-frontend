@@ -1,11 +1,11 @@
 {
   "name": "ecommerce-ui-vite",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
     "preview": "vite preview",
+    "build": "tsc && vite build --base=/ecommerce-frontend/",
     "apigen": "npx @rtk-query/codegen-openapi openapi-config.ts",
     "prepare": "husky install"
   },
