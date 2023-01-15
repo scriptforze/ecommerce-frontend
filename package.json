@@ -1,7 +1,7 @@
 {
   "name": "ecommerce-frontend",
   "homepage": "https://scriptforze.github.io/ecommerce-frontend",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
