@@ -3,6 +3,7 @@ export interface GeneralStepProps {
 }
 
 export interface AttributeProps {
+  id: number;
   name: string;
   type: string;
 }
