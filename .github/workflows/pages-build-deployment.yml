@@ -24,6 +24,8 @@ jobs:
 
       - name: Build project
         run: npm run build-prod
+        env:
+          VITE_BASE_URL_API: ${{ secrets.VITE_BASE_URL_API }}
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
