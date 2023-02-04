@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { GlobalStyle } from "./GlobalStyle";
 import { AppRouter } from "./router";
 import { store } from "./store";
@@ -11,9 +11,9 @@ const App = () => {
     <Provider store={store}>
       <GlobalStyle />
       <GlobalThemeProvider theme={theme}>
-        <BrowserRouter>
+        <HashRouter>
           <AppRouter />
-        </BrowserRouter>
+        </HashRouter>
       </GlobalThemeProvider>
     </Provider>
   );
