@@ -4,13 +4,14 @@ on:
   push:
     branches:
       - develop
-env:
-  VITE_BASE_URL_API: ${{ vars.VITE_BASE_URL_API }}
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    environment: development
+    env:
+      VITE_BASE_URL_API: ${{ vars.VITE_BASE_URL_API }}
 
     steps:
       - name: Checkout repo
