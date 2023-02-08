@@ -23,6 +23,7 @@ import {
   CustomCard,
   CustomBadge,
   AttributesHeader,
+  CustomSpace,
 } from "./styled";
 import { AttributeProps, GeneralStepProps } from "./types";
 import { FormItem } from "@/modules/common/components";
@@ -86,7 +87,17 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
     EMPTY_ATTRIBUTE,
   ]);
   const addNewAttribute = () => {
-    setAttributesForms(() => [...attributesForms, EMPTY_ATTRIBUTE]);
+    const attributeData = EMPTY_ATTRIBUTE;
+    attributeData.id = attributesForms.length;
+    // console.log(attributesForms);
+    setAttributesForms((currentAttributes) => [
+      ...currentAttributes,
+      attributeData,
+    ]);
+  };
+
+  const removeAttribute = () => {
+    console.log(attributesForms);
   };
 
   return (
@@ -174,9 +185,9 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
                 </Col>
               </AttributesHeader>
               {attributesForms &&
-                attributesForms.map((attribute) => (
-                  <Row key={null} gutter={[24, 24]}>
-                    <Col span={12}>
+                attributesForms.map((attribute, index) => (
+                  <Row key={index} gutter={[24, 24]}>
+                    <Col span={10}>
                       <FormItem>
                         <Text type="secondary">
                           Name/Type
@@ -190,25 +201,39 @@ export const GeneralStep = ({ $affixed }: GeneralStepProps) => {
                               label: "Lucy",
                             },
                           ]}
+                          size="large"
                         />
                       </FormItem>
                     </Col>
-                    <Col span={12}>
+                    <Col span={10}>
                       <FormItem>
                         <Text type="secondary">
                           Values
                           <Text type="danger"> *</Text>
                         </Text>
                         <Select
+                          mode="tags"
+                          allowClear
                           style={{ width: "100%" }}
-                          options={[
-                            {
-                              value: "lucy",
-                              label: "Lucy",
-                            },
-                          ]}
+                          placeholder="Please select"
+                          defaultValue={["tag1", "tag2"]}
+                          // onChange={handleChange}
+                          options={tagsData}
+                          size="large"
                         />
                       </FormItem>
+                    </Col>
+                    <Col span={4}>
+                      <CustomSpace align="end" size={20}>
+                        <Button
+                          type="link"
+                          danger
+                          size="large"
+                          onClick={removeAttribute}
+                        >
+                          Remove
+                        </Button>
+                      </CustomSpace>
                     </Col>
                   </Row>
                 ))}

@@ -1,4 +1,4 @@
-import { Card, Form, Badge, Row } from "antd";
+import { Card, Form, Badge, Row, Space } from "antd";
 import styled, { keyframes, css } from "styled-components";
 
 const animateFadeIn = keyframes`
@@ -111,4 +111,11 @@ export const AttributesHeader = styled(Row)`
       }
     }
   }
+`;
+
+export const CustomSpace = styled(Space)`
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  height: 65px;
 `;
