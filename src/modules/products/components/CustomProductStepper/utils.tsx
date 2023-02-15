@@ -1,79 +1,77 @@
 import {
+  SaveOutlined,
   ArrowLeftOutlined,
   ArrowRightOutlined,
-  SaveOutlined,
 } from "@ant-design/icons";
-import { GeneralStep, PricingStep, ShipmentStep } from "../../components";
+import { createContext, useContext } from "react";
 import { INITIAL_STEP_BUTTONS_STATE } from "./constants";
 import {
+  StepButtonsState,
   ButtonStateAction,
   ProductCreationSteps,
-  StepButtonsState,
-  StepScreenProps,
 } from "./types";
 
 export const buttonStepReducer = (
   state: StepButtonsState,
-  action: ButtonStateAction
+  { currentStep }: ButtonStateAction
 ): StepButtonsState => {
-  switch (action.step) {
+  switch (currentStep) {
     case ProductCreationSteps.FIRST:
-      return {
-        ...state,
-        ...INITIAL_STEP_BUTTONS_STATE,
-      };
+      return INITIAL_STEP_BUTTONS_STATE;
     case ProductCreationSteps.SECOND:
       return {
-        ...state,
-        step: action.step,
+        currentStep,
         discard: {
-          nextStep: 0,
+          targetStep: 0,
+          action: "back",
           title: "Previus",
-          action: "next-back",
           icon: <ArrowLeftOutlined />,
           className: "space-buttons__button--back",
         },
         submit: {
-          nextStep: 2,
-          title: "Next",
-          action: "next-back",
+          targetStep: 2,
+          action: "next",
+          title: "Save & Next",
           icon: <ArrowRightOutlined />,
           className: "space-buttons__button--continue",
         },
       };
     case ProductCreationSteps.THIRD:
       return {
-        ...state,
-        step: action.step,
+        currentStep,
         discard: {
-          nextStep: 1,
+          targetStep: 1,
+          action: "back",
           title: "Previus",
-          action: "next-back",
           icon: <ArrowLeftOutlined />,
           className: "space-buttons__button--back",
         },
         submit: {
-          nextStep: 2,
-          title: "Save",
+          targetStep: 2,
           action: "submit",
+          title: "Save & Close",
           icon: <SaveOutlined />,
           className: "space-buttons__button--submit",
         },
       };
     default:
-      return { ...state };
+      return state;
   }
 };
 
-export const renderScreenByStep = ({ step, affixed }: StepScreenProps) => {
-  switch (step) {
-    case ProductCreationSteps.FIRST:
-      return <GeneralStep $affixed={affixed} />;
-    case ProductCreationSteps.SECOND:
-      return <PricingStep />;
-    case ProductCreationSteps.THIRD:
-      return <ShipmentStep />;
-    default:
-      return null;
-  }
+export const CustomProductStepperContext = createContext<{
+  stepperState: StepButtonsState;
+  stepButtonsDispatch: (value: ButtonStateAction) => void;
+}>({
+  stepperState: INITIAL_STEP_BUTTONS_STATE,
+  stepButtonsDispatch: () => {},
+});
+
+export const useProductStepperContext = () => {
+  const context = useContext(CustomProductStepperContext);
+  if (!context)
+    throw new Error(
+      "useProductStepperContext must be used within the CustomProductStepperProvider"
+    );
+  return context;
 };

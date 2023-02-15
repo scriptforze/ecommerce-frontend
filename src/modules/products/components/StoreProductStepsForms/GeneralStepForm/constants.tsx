@@ -1,5 +1,5 @@
 export const EMPTY_ATTRIBUTE = {
-  id: 0,
+  id: 1,
   name: "",
   type: "",
 };
