@@ -42,7 +42,13 @@ const config: ConfigFile = {
       filterEndpoints: [/cities/i, /city/i],
     },
     "./src/services/products.ts": {
-      filterEndpoints: [/products/i],
+      filterEndpoints: ["saveProduct"],
+    },
+    "./src/services/productsStocks.ts": {
+      filterEndpoints: ["saveProductStockByProduct"],
+    },
+    "./src/services/productAttributeOptions.ts": {
+      filterEndpoints: ["getAllProductAttributeOptionsByProductAttribute"],
     },
     "./src/services/resources.ts": {
       filterEndpoints: ["saveResource"],

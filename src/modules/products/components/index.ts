@@ -1,2 +1,2 @@
 export * from "./CustomAffixContainer";
-export * from "./ProductCreationSteps";
+export * from "./StoreProductStepsForms";

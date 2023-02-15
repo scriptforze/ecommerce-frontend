@@ -1,31 +1,36 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
-export const addTagTypes = ["Products"] as const;
+export const addTagTypes = ["Product stocks by product"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      saveProduct: build.mutation<SaveProductApiResponse, SaveProductApiArg>({
+      saveProductStockByProduct: build.mutation<
+        SaveProductStockByProductApiResponse,
+        SaveProductStockByProductApiArg
+      >({
         query: (queryArg) => ({
-          url: `/api/v1/products`,
+          url: `/api/v1/products/${queryArg.product}/product_stocks`,
           method: "POST",
-          body: queryArg.storeProductDto,
+          body: queryArg.storeProductStockDto,
           params: { include: queryArg.include },
         }),
-        invalidatesTags: ["Products"],
+        invalidatesTags: ["Product stocks by product"],
       }),
     }),
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
-export type SaveProductApiResponse = /** status 200 success */ {
-  data?: Product;
+export type SaveProductStockByProductApiResponse = /** status 200 success */ {
+  data?: ProductStock;
 };
-export type SaveProductApiArg = {
+export type SaveProductStockByProductApiArg = {
+  /** Id of product */
+  product: number;
   /** Relationships of resource */
   include?: string;
-  storeProductDto: StoreProductDto;
+  storeProductStockDto: StoreProductStockDto;
 };
 export type Status = {
   id: number;
@@ -80,20 +85,6 @@ export type ProductAttributeOption = {
   status?: Status;
   productAttribute?: ProductAttribute;
 };
-export type ProductStock = {
-  id: number;
-  price: string;
-  sku: string;
-  stock?: number;
-  width?: number;
-  height?: number;
-  length?: number;
-  weight?: number;
-  status?: Status;
-  product?: Product;
-  productAttributeOptions?: ProductAttributeOption[];
-  images?: Resource[];
-};
 export type Product = {
   id: number;
   type: string;
@@ -119,6 +110,20 @@ export type Product = {
   productStocks?: ProductStock[];
   specifications?: ProductSpecification[];
 };
+export type ProductStock = {
+  id: number;
+  price: string;
+  sku: string;
+  stock?: number;
+  width?: number;
+  height?: number;
+  length?: number;
+  weight?: number;
+  status?: Status;
+  product?: Product;
+  productAttributeOptions?: ProductAttributeOption[];
+  images?: Resource[];
+};
 export type BadRequestException = {
   error?: string;
   code?: number;
@@ -135,24 +140,14 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type StoreProductDto = {
-  name: string;
-  category_id: number;
+export type StoreProductStockDto = {
   price: number;
-  tax: number;
-  short_description?: string;
-  description: string;
-  is_variable: boolean;
+  product_attribute_options: number[];
   stock?: number;
   width?: number;
   height?: number;
   length?: number;
   weight?: number;
-  images: {
-    id: number;
-    location: number;
-  }[];
-  tags: number[];
-  product_attribute_options?: number[];
+  images?: number[];
 };
-export const { useSaveProductMutation } = injectedRtkApi;
+export const { useSaveProductStockByProductMutation } = injectedRtkApi;
