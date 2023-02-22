@@ -5,4 +5,8 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0px;
     box-sizing: border-box;
 }
+
+.ant-notification {
+    z-index: 1101;
+}
 `;

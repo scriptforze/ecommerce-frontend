@@ -66,7 +66,7 @@ export const CategoryTagsGroup = () => {
           options={tags?.data}
           style={{ width: "100%" }}
           placeholder="Please select"
-          onChange={(value) => setValue("tags", value)}
+          onChange={(value) => setValue("tags.attach", value)}
         />
       </FormItem>
     </CustomCard>

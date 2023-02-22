@@ -6,11 +6,38 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      saveProduct: build.mutation<SaveProductApiResponse, SaveProductApiArg>({
+      finishProduct: build.mutation<
+        FinishProductApiResponse,
+        FinishProductApiArg
+      >({
         query: (queryArg) => ({
-          url: `/api/v1/products`,
+          url: `/api/v1/products/${queryArg.product}/finish`,
           method: "POST",
-          body: queryArg.storeProductDto,
+          body: queryArg.finishProductDto,
+          params: { include: queryArg.include },
+        }),
+        invalidatesTags: ["Products"],
+      }),
+      saveProductGeneral: build.mutation<
+        SaveProductGeneralApiResponse,
+        SaveProductGeneralApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/general`,
+          method: "POST",
+          body: queryArg.storeProductGeneralDto,
+          params: { include: queryArg.include },
+        }),
+        invalidatesTags: ["Products"],
+      }),
+      updateProductGeneral: build.mutation<
+        UpdateProductGeneralApiResponse,
+        UpdateProductGeneralApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}/general`,
+          method: "POST",
+          body: queryArg.updateProductGeneralDto,
           params: { include: queryArg.include },
         }),
         invalidatesTags: ["Products"],
@@ -19,13 +46,33 @@ const injectedRtkApi = api
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
-export type SaveProductApiResponse = /** status 200 success */ {
+export type FinishProductApiResponse = /** status 200 success */ {
   data?: Product;
 };
-export type SaveProductApiArg = {
+export type FinishProductApiArg = {
+  /** Id of product */
+  product: number;
   /** Relationships of resource */
   include?: string;
-  storeProductDto: StoreProductDto;
+  finishProductDto: FinishProductDto;
+};
+export type SaveProductGeneralApiResponse = /** status 200 success */ {
+  data?: Product;
+};
+export type SaveProductGeneralApiArg = {
+  /** Relationships of resource */
+  include?: string;
+  storeProductGeneralDto: StoreProductGeneralDto;
+};
+export type UpdateProductGeneralApiResponse = /** status 200 success */ {
+  data?: Product;
+};
+export type UpdateProductGeneralApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  updateProductGeneralDto: UpdateProductGeneralDto;
 };
 export type Status = {
   id: number;
@@ -135,7 +182,13 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type StoreProductDto = {
+export type FinishProductDto = {
+  specifications: {
+    name: string;
+    value: string;
+  }[];
+};
+export type StoreProductGeneralDto = {
   name: string;
   category_id: number;
   price: number;
@@ -149,10 +202,48 @@ export type StoreProductDto = {
   length?: number;
   weight?: number;
   images: {
-    id: number;
-    location: number;
-  }[];
-  tags: number[];
-  product_attribute_options?: number[];
+    attach: {
+      id: number;
+      location: number;
+    }[];
+  };
+  tags: {
+    attach: number[];
+  };
+  product_attribute_options?: {
+    attach: number[];
+  };
 };
-export const { useSaveProductMutation } = injectedRtkApi;
+export type UpdateProductGeneralDto = {
+  _method: "PUT";
+  name?: string;
+  category_id?: number;
+  short_description?: string;
+  description?: string;
+  is_variable?: boolean;
+  stock?: number;
+  width?: number;
+  height?: number;
+  length?: number;
+  weight?: number;
+  images?: {
+    attach?: {
+      id: number;
+      location: number;
+    }[];
+    detach?: number[];
+  };
+  tags?: {
+    attach?: number[];
+    detach?: number[];
+  };
+  product_attribute_options?: {
+    attach?: number[];
+    detach?: number[];
+  };
+};
+export const {
+  useFinishProductMutation,
+  useSaveProductGeneralMutation,
+  useUpdateProductGeneralMutation,
+} = injectedRtkApi;
