@@ -3,10 +3,10 @@ import { useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
 import { CustomCard } from "@/modules/products/components/StoreProductStepsForms/GeneralStepForm/styled";
 import { characterCount } from "@/modules/products/components/StoreProductStepsForms/GeneralStepForm/utils";
-import { StoreProductDto } from "@/services/products";
+import { CustomStoreProductDto } from "../../StoreProductStepsForms/GeneralStepForm/types";
 
 export const OtherInfoGroup = () => {
-  const { register, setValue } = useFormContext<StoreProductDto>();
+  const { register, setValue } = useFormContext<CustomStoreProductDto>();
   return (
     <CustomCard title="Additional product data">
       <FormItem label="Description">
