@@ -1,7 +1,9 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Link } from "react-router-dom";
 import { Tag } from "@/services/tags";
+import { TagsRoutesList } from "../../routes";
 
 export const TagTableColums: ColumnsType<Tag> = [
   {
@@ -34,9 +36,11 @@ export const TagTableColums: ColumnsType<Tag> = [
     title: "Actions",
     key: "actions",
     width: "15%",
-    render: () => (
+    render: (_, record) => (
       <>
-        <Button type="link" icon={<EditOutlined />} size="large" />
+        <Link to={`${record.id}/${TagsRoutesList.EDIT_TAGS}`}>
+          <Button type="link" icon={<EditOutlined />} size="large" />
+        </Link>
         <Button type="link" icon={<DeleteOutlined />} size="large" danger />
       </>
     ),
