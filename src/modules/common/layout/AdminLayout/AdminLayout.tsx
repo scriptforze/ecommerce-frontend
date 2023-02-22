@@ -90,7 +90,7 @@ export const AdminLayout = () => {
           style={{
             padding: 0,
             position: "fixed",
-            zIndex: 10000,
+            zIndex: 1100,
             width: "100%",
           }}
         >
