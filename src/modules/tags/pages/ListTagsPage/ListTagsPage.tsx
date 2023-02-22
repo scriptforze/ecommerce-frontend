@@ -11,9 +11,10 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import { Link } from "react-router-dom";
 import { INITIAL_TAGS_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { TagTableColums } from "@/modules/tags";
+import { TagsRoutesList, TagTableColums } from "@/modules/tags";
 import { Tag, useGetAllTagsQuery } from "@/services/tags";
 
 const { Title } = Typography;
@@ -67,15 +68,17 @@ export const ListTagsPage = () => {
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              New tag
-            </Button>
+            <Link to={TagsRoutesList.CREATE_TAGS}>
+              <Button
+                style={{ float: "right" }}
+                type="primary"
+                shape="round"
+                icon={<PlusOutlined />}
+                size="middle"
+              >
+                New tag
+              </Button>
+            </Link>
           </Col>
         </Row>
 
