@@ -155,8 +155,8 @@ export type ValidationException = {
   code?: number;
 };
 export type UpdateProductAttributeRequest = {
-  name?: string | null;
-  type?: string | null;
+  name?: string;
+  type?: "selector" | "button" | "color";
 };
 export type Pagination = {
   current_page?: number;
@@ -168,7 +168,7 @@ export type Pagination = {
 };
 export type StoreProductAttributeRequest = {
   name: string;
-  type: string;
+  type: "selector" | "button" | "color";
 };
 export const {
   useGetProductAttributeByIdQuery,

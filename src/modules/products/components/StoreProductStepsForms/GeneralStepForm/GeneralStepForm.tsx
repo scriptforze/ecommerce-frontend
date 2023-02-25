@@ -14,7 +14,7 @@ import { CustomProductStepper } from "../../CustomProductStepper/CustomProductSt
 import { useProductStepperContext } from "../../CustomProductStepper/utils";
 import { ActionToPerform, CustomStoreProductDto } from "./types";
 import {
-  StoreProductGeneralDto,
+  StoreProductGeneralRequest,
   useSaveProductGeneralMutation,
 } from "@/services/products";
 import { parseDataByAction } from "./utils";
@@ -61,8 +61,9 @@ export const GeneralStepForm = () => {
     const parsedData = parseDataByAction(formAction, data);
     switch (formAction) {
       case "create": {
-        const storeProductGeneralDto = parsedData as StoreProductGeneralDto;
-        createProduct({ storeProductGeneralDto });
+        const storeProductGeneralRequest =
+          parsedData as StoreProductGeneralRequest;
+        createProduct({ storeProductGeneralRequest });
         break;
       }
       default:

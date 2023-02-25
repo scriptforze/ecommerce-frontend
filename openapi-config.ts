@@ -52,7 +52,12 @@ const config: ConfigFile = {
       filterEndpoints: ["saveProductStockByProduct"],
     },
     "./src/services/productAttributeOptions.ts": {
-      filterEndpoints: ["getAllProductAttributeOptionsByProductAttribute"],
+      filterEndpoints: [
+        "saveProductAttributeOption",
+        "updateProductAttributeOption",
+        "deleteProductAttributeOption",
+        "getAllProductAttributeOptionsByProductAttribute",
+      ],
     },
     "./src/services/resources.ts": {
       filterEndpoints: ["saveResource"],
