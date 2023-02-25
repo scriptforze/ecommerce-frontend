@@ -22,7 +22,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
-          method: "POST",
+          method: "PUT",
           body: queryArg.updateCategoryRequest,
           params: { include: queryArg.include },
         }),
@@ -170,7 +170,6 @@ export type ValidationException = {
   code?: number;
 };
 export type UpdateCategoryRequest = {
-  _method: "PUT";
   name?: string;
   image?: number;
   parent_id?: number;

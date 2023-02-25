@@ -1,6 +1,6 @@
 import {
-  StoreProductGeneralDto,
-  UpdateProductGeneralDto,
+  StoreProductGeneralRequest,
+  UpdateProductGeneralRequest,
 } from "@/services/products";
 import { ActionToPerform, CustomStoreProductDto } from "./types";
 
@@ -12,7 +12,7 @@ export const characterCount = {
 export const parseDataByAction = (
   action: ActionToPerform,
   data: CustomStoreProductDto
-): StoreProductGeneralDto | UpdateProductGeneralDto => {
+): StoreProductGeneralRequest | UpdateProductGeneralRequest => {
   switch (action) {
     case "create": {
       const { product_attribute_options: options, images: productImages } =
@@ -48,7 +48,7 @@ export const parseDataByAction = (
         is_variable,
         type: "product",
         product_attribute_options,
-      } as StoreProductGeneralDto;
+      } as StoreProductGeneralRequest;
     }
     default:
       throw new Error(`The form action ${action} is not supported`);

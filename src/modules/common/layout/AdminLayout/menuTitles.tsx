@@ -14,7 +14,7 @@ import { CitiesRoutesList } from "@/modules/cities";
 import { CountriesRoutesList } from "@/modules/countries";
 import { StatesRoutesList } from "@/modules/states";
 import { TagsRoutesList } from "@/modules/tags";
-import { ProductAttributesRoutesList } from "@/modules/productAttributes";
+import { ProductAttributesRoutesList } from "@/modules/product-attributes";
 
 export const menuTitles: ItemType[] = [
   {

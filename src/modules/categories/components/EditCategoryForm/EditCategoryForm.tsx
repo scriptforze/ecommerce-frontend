@@ -15,7 +15,7 @@ import { CategoriesRoutesList } from "@/modules/categories";
 import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
 import { EditCategoryFormProps } from "./types";
 import {
-  StoreResourceDto,
+  StoreResourceRequest,
   useSaveResourceMutation,
 } from "@/services/resources";
 
@@ -89,7 +89,6 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
     await updateCategory({
       category: category.id,
       updateCategoryRequest: {
-        _method: "PUT",
         name,
         image,
         parent_id,
@@ -131,7 +130,8 @@ export const EditCategoryForm = ({ category }: EditCategoryFormProps) => {
                     formData.append("file", options.file);
 
                     await saveResource({
-                      storeResourceDto: formData as unknown as StoreResourceDto,
+                      storeResourceRequest:
+                        formData as unknown as StoreResourceRequest,
                     });
                   }}
                 >

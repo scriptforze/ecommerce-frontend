@@ -12,7 +12,7 @@ import {
   CustomBadge,
 } from "@/modules/products/components/StoreProductStepsForms/GeneralStepForm/styled";
 import {
-  StoreResourceDto,
+  StoreResourceRequest,
   useSaveResourceMutation,
 } from "@/services/resources";
 import { CustomStoreProductDto } from "../../StoreProductStepsForms/GeneralStepForm/types";
@@ -131,7 +131,8 @@ export const ImagesGroup = () => {
                     setResourceToEdit({ index, id, url });
 
                     await saveResource({
-                      storeResourceDto: formData as unknown as StoreResourceDto,
+                      storeResourceRequest:
+                        formData as unknown as StoreResourceRequest,
                     });
                   }}
                 >
@@ -173,7 +174,8 @@ export const ImagesGroup = () => {
                 formData.append("file", options.file);
 
                 await saveResource({
-                  storeResourceDto: formData as unknown as StoreResourceDto,
+                  storeResourceRequest:
+                    formData as unknown as StoreResourceRequest,
                 });
               }}
             >

@@ -14,7 +14,7 @@ import { StyledUpload } from "./styled";
 import { CategoriesRoutesList } from "@/modules/categories";
 import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
 import {
-  StoreResourceDto,
+  StoreResourceRequest,
   useSaveResourceMutation,
 } from "@/services/resources";
 
@@ -141,7 +141,8 @@ export const StoreCategoryForm = () => {
                     formData.append("file", options.file);
 
                     await saveResource({
-                      storeResourceDto: formData as unknown as StoreResourceDto,
+                      storeResourceRequest:
+                        formData as unknown as StoreResourceRequest,
                     });
                   }}
                 >

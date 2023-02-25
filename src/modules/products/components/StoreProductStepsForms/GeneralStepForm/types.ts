@@ -1,4 +1,4 @@
-import { StoreProductGeneralDto } from "@/services/products";
+import { StoreProductGeneralRequest } from "@/services/products";
 
 export interface AttributeProps {
   id: number;
@@ -9,7 +9,10 @@ export interface AttributeProps {
 export type ActionToPerform = "create" | "update";
 
 export interface CustomStoreProductDto
-  extends Omit<StoreProductGeneralDto, "product_attribute_options" | "images"> {
+  extends Omit<
+    StoreProductGeneralRequest,
+    "product_attribute_options" | "images"
+  > {
   product_attribute_options?: { attribute?: number; value?: number[] }[];
   images: { id: number; url: string }[];
 }

@@ -1,9 +1,10 @@
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Link } from "react-router-dom";
 import { ProductAttribute } from "@/services/productAttributes";
 
-export const ProductAttributeTableColums: ColumnsType<ProductAttribute> = [
+export const ProductAttributesTableColums: ColumnsType<ProductAttribute> = [
   {
     title: "ID",
     dataIndex: "id",
@@ -34,9 +35,11 @@ export const ProductAttributeTableColums: ColumnsType<ProductAttribute> = [
     title: "Actions",
     key: "actions",
     width: "15%",
-    render: () => (
+    render: (_, record) => (
       <>
-        <Button type="link" icon={<EditOutlined />} size="large" />
+        <Link to={`edit/${record.id}`}>
+          <Button type="link" icon={<EditOutlined />} size="large" />
+        </Link>
         <Button type="link" icon={<DeleteOutlined />} size="large" danger />
       </>
     ),

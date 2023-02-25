@@ -1,7 +1,5 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
-export const addTagTypes = [
-  "Product attribute options by product attribute",
-] as const;
+export const addTagTypes = ["Product attribute options"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
@@ -22,7 +20,39 @@ const injectedRtkApi = api
             sort_by: queryArg.sortBy,
           },
         }),
-        providesTags: ["Product attribute options by product attribute"],
+        providesTags: ["Product attribute options"],
+      }),
+      updateProductAttributeOption: build.mutation<
+        UpdateProductAttributeOptionApiResponse,
+        UpdateProductAttributeOptionApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/product_attribute_options/${queryArg.productAttributeOption}`,
+          method: "PUT",
+          body: queryArg.updateProductAttributeOptionRequest,
+        }),
+        invalidatesTags: ["Product attribute options"],
+      }),
+      deleteProductAttributeOption: build.mutation<
+        DeleteProductAttributeOptionApiResponse,
+        DeleteProductAttributeOptionApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/product_attribute_options/${queryArg.productAttributeOption}`,
+          method: "DELETE",
+        }),
+        invalidatesTags: ["Product attribute options"],
+      }),
+      saveProductAttributeOption: build.mutation<
+        SaveProductAttributeOptionApiResponse,
+        SaveProductAttributeOptionApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/product_attribute_options`,
+          method: "POST",
+          body: queryArg.storeProductAttributeOptionRequest,
+        }),
+        invalidatesTags: ["Product attribute options"],
       }),
     }),
     overrideExisting: false,
@@ -45,6 +75,29 @@ export type GetAllProductAttributeOptionsByProductAttributeApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+};
+export type UpdateProductAttributeOptionApiResponse =
+  /** status 200 success */ {
+    data?: ProductAttributeOption;
+  };
+export type UpdateProductAttributeOptionApiArg = {
+  /** Id of product attribute option */
+  productAttributeOption: number;
+  updateProductAttributeOptionRequest: UpdateProductAttributeOptionRequest;
+};
+export type DeleteProductAttributeOptionApiResponse =
+  /** status 200 success */ {
+    data?: ProductAttributeOption;
+  };
+export type DeleteProductAttributeOptionApiArg = {
+  /** Id of product attribute option */
+  productAttributeOption: number;
+};
+export type SaveProductAttributeOptionApiResponse = /** status 200 success */ {
+  data?: ProductAttributeOption;
+};
+export type SaveProductAttributeOptionApiArg = {
+  storeProductAttributeOptionRequest: StoreProductAttributeOptionRequest;
 };
 export type Status = {
   id: number;
@@ -80,5 +133,23 @@ export type ModelNotFoundException = {
   error?: string;
   code?: number;
 };
-export const { useGetAllProductAttributeOptionsByProductAttributeQuery } =
-  injectedRtkApi;
+export type ValidationException = {
+  error?: object;
+  code?: number;
+};
+export type UpdateProductAttributeOptionRequest = {
+  name?: string;
+  product_attribute_id?: number;
+  option?: string;
+};
+export type StoreProductAttributeOptionRequest = {
+  name: string;
+  product_attribute_id: number;
+  option?: string;
+};
+export const {
+  useGetAllProductAttributeOptionsByProductAttributeQuery,
+  useUpdateProductAttributeOptionMutation,
+  useDeleteProductAttributeOptionMutation,
+  useSaveProductAttributeOptionMutation,
+} = injectedRtkApi;
