@@ -14,7 +14,7 @@ import { TagsRoutes, TagsRoutesList } from "@/modules/tags";
 import {
   ProductAttributesRoutes,
   ProductAttributesRoutesList,
-} from "@/modules/productAttributes";
+} from "@/modules/product-attributes";
 
 export const AdminRoutes = () => {
   return (

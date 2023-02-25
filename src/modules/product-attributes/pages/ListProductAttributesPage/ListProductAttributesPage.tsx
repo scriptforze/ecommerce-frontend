@@ -11,9 +11,10 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import { Link } from "react-router-dom";
 import { INITIAL_PRODUCT_ATTRIBUTES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { ProductAttributeTableColums } from "@/modules/productAttributes";
+import { ProductAttributesTableColums } from "@/modules/product-attributes";
 import {
   ProductAttribute,
   useGetAllProductAttributesQuery,
@@ -73,15 +74,17 @@ export const ListProductAttributesPage = () => {
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              New product attribute
-            </Button>
+            <Link to="create">
+              <Button
+                size="middle"
+                shape="round"
+                type="primary"
+                icon={<PlusOutlined />}
+                style={{ float: "right" }}
+              >
+                New product attribute
+              </Button>
+            </Link>
           </Col>
         </Row>
 
@@ -94,7 +97,7 @@ export const ListProductAttributesPage = () => {
             pageSize: productAttributesApiArgs.perPage,
             total: getAllProductAttributesData?.meta?.total,
           }}
-          columns={ProductAttributeTableColums}
+          columns={ProductAttributesTableColums}
           onChange={handleTableChange}
         />
       </Card>

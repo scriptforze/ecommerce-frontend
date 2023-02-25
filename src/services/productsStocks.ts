@@ -13,7 +13,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/products/${queryArg.product}/product_stocks`,
           method: "POST",
-          body: queryArg.storeProductStockDto,
+          body: queryArg.storeProductStockRequest,
           params: { include: queryArg.include },
         }),
         invalidatesTags: ["Product stocks by product"],
@@ -30,7 +30,7 @@ export type SaveProductStockByProductApiArg = {
   product: number;
   /** Relationships of resource */
   include?: string;
-  storeProductStockDto: StoreProductStockDto;
+  storeProductStockRequest: StoreProductStockRequest;
 };
 export type Status = {
   id: number;
@@ -140,7 +140,7 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type StoreProductStockDto = {
+export type StoreProductStockRequest = {
   price: number;
   product_attribute_options: number[];
   stock?: number;

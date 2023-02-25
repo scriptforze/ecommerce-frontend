@@ -11,7 +11,7 @@ const injectedRtkApi = api
           query: (queryArg) => ({
             url: `/api/v1/resources`,
             method: "POST",
-            body: queryArg.storeResourceDto,
+            body: queryArg.storeResourceRequest,
           }),
           invalidatesTags: ["Resources"],
         }
@@ -24,7 +24,7 @@ export type SaveResourceApiResponse = /** status 200 success */ {
   data?: Resource;
 };
 export type SaveResourceApiArg = {
-  storeResourceDto: StoreResourceDto;
+  storeResourceRequest: StoreResourceRequest;
 };
 export type ResourceUrls = {
   original: string;
@@ -55,7 +55,7 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type StoreResourceDto = {
+export type StoreResourceRequest = {
   file: Blob;
 };
 export const { useSaveResourceMutation } = injectedRtkApi;

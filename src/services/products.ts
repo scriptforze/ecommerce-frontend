@@ -13,7 +13,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/products/${queryArg.product}/finish`,
           method: "POST",
-          body: queryArg.finishProductDto,
+          body: queryArg.finishProductRequest,
           params: { include: queryArg.include },
         }),
         invalidatesTags: ["Products"],
@@ -25,7 +25,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/products/general`,
           method: "POST",
-          body: queryArg.storeProductGeneralDto,
+          body: queryArg.storeProductGeneralRequest,
           params: { include: queryArg.include },
         }),
         invalidatesTags: ["Products"],
@@ -36,8 +36,8 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/products/${queryArg.product}/general`,
-          method: "POST",
-          body: queryArg.updateProductGeneralDto,
+          method: "PUT",
+          body: queryArg.updateProductGeneralRequest,
           params: { include: queryArg.include },
         }),
         invalidatesTags: ["Products"],
@@ -54,7 +54,7 @@ export type FinishProductApiArg = {
   product: number;
   /** Relationships of resource */
   include?: string;
-  finishProductDto: FinishProductDto;
+  finishProductRequest: FinishProductRequest;
 };
 export type SaveProductGeneralApiResponse = /** status 200 success */ {
   data?: Product;
@@ -62,7 +62,7 @@ export type SaveProductGeneralApiResponse = /** status 200 success */ {
 export type SaveProductGeneralApiArg = {
   /** Relationships of resource */
   include?: string;
-  storeProductGeneralDto: StoreProductGeneralDto;
+  storeProductGeneralRequest: StoreProductGeneralRequest;
 };
 export type UpdateProductGeneralApiResponse = /** status 200 success */ {
   data?: Product;
@@ -72,7 +72,7 @@ export type UpdateProductGeneralApiArg = {
   product: number;
   /** Relationships of resource */
   include?: string;
-  updateProductGeneralDto: UpdateProductGeneralDto;
+  updateProductGeneralRequest: UpdateProductGeneralRequest;
 };
 export type Status = {
   id: number;
@@ -182,13 +182,14 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type FinishProductDto = {
+export type FinishProductRequest = {
   specifications: {
     name: string;
     value: string;
   }[];
 };
-export type StoreProductGeneralDto = {
+export type StoreProductGeneralRequest = {
+  type: "product" | "service";
   name: string;
   category_id: number;
   price: number;
@@ -214,8 +215,8 @@ export type StoreProductGeneralDto = {
     attach: number[];
   };
 };
-export type UpdateProductGeneralDto = {
-  _method: "PUT";
+export type UpdateProductGeneralRequest = {
+  type?: "product" | "service";
   name?: string;
   category_id?: number;
   short_description?: string;
