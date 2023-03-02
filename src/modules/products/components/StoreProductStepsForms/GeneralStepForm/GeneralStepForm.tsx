@@ -1,6 +1,7 @@
 import { Row, Col, Space } from "antd";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { FormGeneralStep } from "./styled";
 import {
   PriceGroup,
@@ -19,12 +20,14 @@ import {
 } from "@/services/products";
 import { parseDataByAction } from "./utils";
 import { pushNotification } from "@/modules/common/helpers";
+import { ProductsRoutesList } from "@/modules/products/routes";
 
 export const GeneralStepForm = () => {
   const methods = useForm<CustomStoreProductDto>({
     mode: "onChange",
     defaultValues: { product_attribute_options: [{}] },
   });
+  const navigate = useNavigate();
   const [affixed, setAffixed] = useState(false);
   const [formAction] = useState<ActionToPerform>("create");
   const { stepperState, stepButtonsDispatch } = useProductStepperContext();
@@ -53,8 +56,12 @@ export const GeneralStepForm = () => {
   };
 
   const onPrevious = () => {
-    const { targetStep } = stepperState.discard;
+    const { targetStep, action } = stepperState.discard;
     stepButtonsDispatch({ currentStep: targetStep });
+
+    if (action === "discard") {
+      navigate(ProductsRoutesList.PRODUCTS);
+    }
   };
 
   const onSubmit = (data: CustomStoreProductDto) => {
@@ -97,8 +104,8 @@ export const GeneralStepForm = () => {
 
           <Col span={9}>
             <Space
-              direction="vertical"
               size={spacingCards}
+              direction="vertical"
               style={{ display: "flex" }}
             >
               <ImagesGroup />

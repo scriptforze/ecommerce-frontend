@@ -3,7 +3,7 @@ import {
   StyledSpace,
   CustomStepProduct,
   StyledSpaceButtons,
-} from "../../pages/CreateProduct/styled";
+} from "../../pages/CreateProductPage/styled";
 import { CustomAffixContainer } from "../CustomAffixContainer";
 import { STEPS_ITEMS } from "./constants";
 import { CustomProductStepperProps } from "./types";
