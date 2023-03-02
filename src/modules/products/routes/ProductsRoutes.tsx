@@ -1,6 +1,6 @@
 import { Navigate, Route } from "react-router-dom";
 import { RoutesWithNotFound } from "@/modules/common/components";
-import { CreateProduct, ProductsList } from "../pages";
+import { CreateProductPage, ListProductPage } from "../pages";
 import {
   GeneralStepForm,
   ShipmentStepForm,
@@ -23,8 +23,8 @@ export const ProductsRoutes = () => {
   return (
     <RoutesWithNotFound>
       <Route element={<AuthGuard />}>
-        <Route path="/" element={<ProductsList />} />
-        <Route path="/create/*" element={<CreateProduct />}>
+        <Route path="/" element={<ListProductPage />} />
+        <Route path="/create/*" element={<CreateProductPage />}>
           <Route index element={RedirectToGeneralCreationStep} />
           <Route path={CREATE_PRODUCT_STOCKS} element={<StocksStepForm />} />
           <Route path={CREATE_PRODUCT_GENERAL} element={<GeneralStepForm />} />

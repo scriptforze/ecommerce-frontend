@@ -3,7 +3,7 @@ import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import { BREADCRUMB_ITEMS } from "./constants";
 import { CustomProductStepperProvider } from "../../components/CustomProductStepper/CustomProductStepperProvider";
 
-export const CreateProduct = () => {
+export const CreateProductPage = () => {
   document.title = "Ecommerce - New Product";
   return (
     <>

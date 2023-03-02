@@ -53,6 +53,7 @@ const config: ConfigFile = {
     },
     "./src/services/productAttributeOptions.ts": {
       filterEndpoints: [
+        "getAllProducts",
         "saveProductAttributeOption",
         "updateProductAttributeOption",
         "deleteProductAttributeOption",
