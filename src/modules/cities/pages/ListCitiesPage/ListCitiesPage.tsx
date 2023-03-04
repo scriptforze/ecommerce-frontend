@@ -11,9 +11,10 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import { Link } from "react-router-dom";
 import { INITIAL_CITIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { CityTableColums } from "@/modules/cities";
+import { CitiesRoutesList, CityTableColums } from "@/modules/cities";
 import { City, useGetAllCitiesQuery } from "@/services/cities";
 
 const { Title } = Typography;
@@ -67,15 +68,17 @@ export const ListCitiesPage = () => {
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              New city
-            </Button>
+            <Link to={CitiesRoutesList.CREATE_CITY}>
+              <Button
+                size="middle"
+                shape="round"
+                type="primary"
+                style={{ float: "right" }}
+                icon={<PlusOutlined />}
+              >
+                New city
+              </Button>
+            </Link>
           </Col>
         </Row>
 

@@ -1,38 +1,42 @@
 import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Link } from "react-router-dom";
 import { DeleteOrRestoreCityButton } from "../DeleteOrRestoreCityButton";
 import { City } from "@/services/cities";
+import { CitiesRoutesList } from "../../routes";
 
 export const CityTableColums: ColumnsType<City> = [
   {
-    title: "ID",
-    dataIndex: "id",
     key: "id",
+    title: "ID",
     width: "10%",
     sorter: true,
+    dataIndex: "id",
     sortDirections: ["ascend"],
   },
   {
-    title: "Name",
-    dataIndex: "name",
     key: "name",
     sorter: true,
+    title: "Name",
+    dataIndex: "name",
     sortDirections: ["ascend"],
   },
   {
+    key: "status",
     title: "Status",
     dataIndex: "status",
-    key: "status",
     render: (_, record) => <span>{record.status?.name}</span>,
   },
   {
-    title: "Actions",
-    key: "actions",
     width: "15%",
+    key: "actions",
+    title: "Actions",
     render: (_, record) => (
       <>
-        <Button type="link" icon={<EditOutlined />} size="large" />
+        <Link to={`${record.id}/${CitiesRoutesList.EDIT_CITY}`}>
+          <Button type="link" icon={<EditOutlined />} size="large" />
+        </Link>
         <DeleteOrRestoreCityButton city={record} />
       </>
     ),

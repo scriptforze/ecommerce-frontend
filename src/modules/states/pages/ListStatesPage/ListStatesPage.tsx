@@ -11,14 +11,21 @@ import {
 } from "antd";
 import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
+import { Link } from "react-router-dom";
 import { INITIAL_STATES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { StateTableColums } from "@/modules/states";
-import { State, useGetAllStatesQuery } from "@/services/states";
-
-const { Title } = Typography;
+import { StatesRoutesList, StateTableColumns } from "@/modules/states";
+import {
+  DeleteStateApiResponse,
+  State,
+  useDeleteStateMutation,
+  useGetAllStatesQuery,
+} from "@/services/states";
+import { pushNotification } from "@/modules/common/helpers";
+import { GeneralStatuses } from "@/modules/common/constants";
 
 export const ListStatesPage = () => {
+  const { Title } = Typography;
   document.title = "Ecommerce - States";
 
   const [statesApiArgs, setStatesApiArgs] = useState(INITIAL_STATES_API_ARG);
@@ -28,10 +35,31 @@ export const ListStatesPage = () => {
     500
   );
 
+  const [deleteState, { isLoading: isDeleteStateLoading }] =
+    useDeleteStateMutation();
+
   const { data: getAllStatesData, isFetching } = useGetAllStatesQuery({
     ...statesApiArgs,
     search: debouncedSearchQuery,
   });
+
+  const onSuccessDelete = ({ data }: DeleteStateApiResponse) => {
+    pushNotification({
+      type: "success",
+      title: `State ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      }`,
+      message: `State ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      } successfully`,
+    });
+  };
+
+  const handleDelete = (recordId: number) => {
+    deleteState({ state: recordId, include: "status" })
+      .unwrap()
+      .then(onSuccessDelete);
+  };
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -47,6 +75,11 @@ export const ListStatesPage = () => {
       sortBy: column?.key as string,
     });
   };
+
+  const StatesColumns = StateTableColumns({
+    handleDelete,
+    isDeleteStateLoading,
+  });
 
   return (
     <>
@@ -67,15 +100,17 @@ export const ListStatesPage = () => {
             />
           </Col>
           <Col span={4}>
-            <Button
-              style={{ float: "right" }}
-              type="primary"
-              shape="round"
-              icon={<PlusOutlined />}
-              size="middle"
-            >
-              New state
-            </Button>
+            <Link to={StatesRoutesList.CREATE_STATE}>
+              <Button
+                size="middle"
+                shape="round"
+                type="primary"
+                icon={<PlusOutlined />}
+                style={{ float: "right" }}
+              >
+                New state
+              </Button>
+            </Link>
           </Col>
         </Row>
 
@@ -88,7 +123,7 @@ export const ListStatesPage = () => {
             pageSize: statesApiArgs.perPage,
             total: getAllStatesData?.meta?.total,
           }}
-          columns={StateTableColums}
+          columns={StatesColumns}
           onChange={handleTableChange}
         />
       </Card>
