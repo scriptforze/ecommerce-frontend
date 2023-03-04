@@ -3,7 +3,7 @@ import { FC } from "react";
 import { ThemeProvider } from "styled-components";
 import { GlobalThemeProviderProps } from "./types";
 
-const GlobalThemeProvider: FC<GlobalThemeProviderProps> = ({
+export const GlobalThemeProvider: FC<GlobalThemeProviderProps> = ({
   theme,
   children,
 }) => {
@@ -13,5 +13,3 @@ const GlobalThemeProvider: FC<GlobalThemeProviderProps> = ({
     </ThemeProvider>
   );
 };
-
-export default GlobalThemeProvider;
