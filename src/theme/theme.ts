@@ -4,7 +4,7 @@ export const theme: ThemeConfig = {
   token: {
     colorLink: "#00d1b0",
     colorError: "#f5222d",
-    colorPrimary: "#00d1b0",
+    colorPrimary: "#3E79F7",
     colorSuccess: "#52c41a",
     colorWarning: "#faad14",
   },
