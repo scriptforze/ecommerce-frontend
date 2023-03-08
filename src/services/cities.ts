@@ -9,7 +9,7 @@ const injectedRtkApi = api
       getCityById: build.query<GetCityByIdApiResponse, GetCityByIdApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/cities/${queryArg.city}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Cities"],
       }),
@@ -18,7 +18,7 @@ const injectedRtkApi = api
           url: `/api/v1/cities/${queryArg.city}`,
           method: "PUT",
           body: queryArg.updateCityRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Cities"],
       }),
@@ -26,7 +26,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/cities/${queryArg.city}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Cities"],
       }),
@@ -39,6 +39,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Cities"],
@@ -48,7 +49,7 @@ const injectedRtkApi = api
           url: `/api/v1/cities`,
           method: "POST",
           body: queryArg.storeCityRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Cities"],
       }),
@@ -64,6 +65,8 @@ export type GetCityByIdApiArg = {
   city: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateCityApiResponse = /** status 200 success */ {
   data?: City;
@@ -73,6 +76,8 @@ export type UpdateCityApiArg = {
   city: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateCityRequest: UpdateCityRequest;
 };
 export type DeleteCityApiResponse = /** status 200 success */ {
@@ -83,6 +88,8 @@ export type DeleteCityApiArg = {
   city: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllCitiesApiResponse = /** status 200 success */ {
   data?: City[];
@@ -99,6 +106,8 @@ export type GetAllCitiesApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveCityApiResponse = /** status 200 success */ {
   data?: City;
@@ -106,6 +115,8 @@ export type SaveCityApiResponse = /** status 200 success */ {
 export type SaveCityApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeCityRequest: StoreCityRequest;
 };
 export type Status = {

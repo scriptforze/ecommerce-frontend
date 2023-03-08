@@ -4,7 +4,7 @@ import type { RootState } from "./store";
 
 export const ecommerceApi = createApi({
   baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL_API,
+    baseUrl: `${BASE_URL_API}`,
     prepareHeaders: (headers, { getState }) => {
       const { token } = (getState() as RootState).auth;
 

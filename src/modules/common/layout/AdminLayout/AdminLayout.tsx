@@ -10,7 +10,8 @@ import {
   StyledMenuFoldOutlined,
   StyledMenuUnfoldOutlined,
 } from "./styled";
-import { menuTitles } from "./menuTitles";
+import { MenuTitles } from "./MenuTitles";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 const { Header, Sider, Content } = Layout;
 
@@ -18,14 +19,16 @@ export const AdminLayout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const { lang } = useLangTranslation();
   const { token, user } = useAppSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(false);
+  const menuTitles = MenuTitles();
 
   const {
     data: getAuthUserData,
     error: getAuthUserError,
     isLoading,
-  } = useGetAuthUserQuery(undefined, { skip: !token && !!user });
+  } = useGetAuthUserQuery({ lang }, { skip: !token && !!user });
 
   const isFetching = useMemo(() => isLoading, [isLoading]);
 

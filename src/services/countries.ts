@@ -12,7 +12,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/countries/${queryArg.country}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Countries"],
       }),
@@ -24,7 +24,7 @@ const injectedRtkApi = api
           url: `/api/v1/countries/${queryArg.country}`,
           method: "PUT",
           body: queryArg.updateCountryRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Countries"],
       }),
@@ -35,7 +35,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/countries/${queryArg.country}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Countries"],
       }),
@@ -51,6 +51,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Countries"],
@@ -60,7 +61,7 @@ const injectedRtkApi = api
           url: `/api/v1/countries`,
           method: "POST",
           body: queryArg.storeCountryRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Countries"],
       }),
@@ -76,6 +77,8 @@ export type GetCountryByIdApiArg = {
   country: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateCountryApiResponse = /** status 200 success */ {
   data?: Country;
@@ -85,6 +88,8 @@ export type UpdateCountryApiArg = {
   country: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateCountryRequest: UpdateCountryRequest;
 };
 export type DeleteCountryApiResponse = /** status 200 success */ {
@@ -95,6 +100,8 @@ export type DeleteCountryApiArg = {
   country: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllCountriesApiResponse = /** status 200 success */ {
   data?: Country[];
@@ -111,6 +118,8 @@ export type GetAllCountriesApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveCountryApiResponse = /** status 200 success */ {
   data?: Country;
@@ -118,6 +127,8 @@ export type SaveCountryApiResponse = /** status 200 success */ {
 export type SaveCountryApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeCountryRequest: StoreCountryRequest;
 };
 export type Status = {

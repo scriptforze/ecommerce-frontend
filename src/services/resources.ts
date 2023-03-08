@@ -12,6 +12,7 @@ const injectedRtkApi = api
             url: `/api/v1/resources`,
             method: "POST",
             body: queryArg.storeResourceRequest,
+            params: { lang: queryArg.lang },
           }),
           invalidatesTags: ["Resources"],
         }
@@ -24,6 +25,8 @@ export type SaveResourceApiResponse = /** status 200 success */ {
   data?: Resource;
 };
 export type SaveResourceApiArg = {
+  /** Code of language */
+  lang?: string;
   storeResourceRequest: StoreResourceRequest;
 };
 export type ResourceUrls = {

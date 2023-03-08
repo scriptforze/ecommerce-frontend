@@ -43,9 +43,11 @@ const config: ConfigFile = {
     },
     "./src/services/products.ts": {
       filterEndpoints: [
+        "deleteProduct",
+        "finishProduct",
+        "getAllProducts",
         "saveProductGeneral",
         "updateProductGeneral",
-        "finishProduct",
       ],
     },
     "./src/services/productsStocks.ts": {
@@ -53,7 +55,6 @@ const config: ConfigFile = {
     },
     "./src/services/productAttributeOptions.ts": {
       filterEndpoints: [
-        "getAllProducts",
         "saveProductAttributeOption",
         "updateProductAttributeOption",
         "deleteProductAttributeOption",

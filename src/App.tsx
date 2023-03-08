@@ -6,6 +6,8 @@ import { store } from "./store";
 import { theme } from "./theme";
 import { GlobalThemeProvider } from "@/modules/common/components/GlobalThemeProvider";
 
+import "./i18n";
+
 const App = () => {
   return (
     <Provider store={store}>
