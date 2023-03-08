@@ -11,11 +11,15 @@ const injectedRtkApi = api
           url: `/api/v1/auth/login`,
           method: "POST",
           body: queryArg.loginAuthRequest,
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Auth"],
       }),
       getAuthUser: build.query<GetAuthUserApiResponse, GetAuthUserApiArg>({
-        query: () => ({ url: `/api/v1/auth/me` }),
+        query: (queryArg) => ({
+          url: `/api/v1/auth/me`,
+          params: { lang: queryArg.lang },
+        }),
         providesTags: ["Auth"],
       }),
       signInOrSignUpWithSocialNetwork: build.mutation<
@@ -26,6 +30,7 @@ const injectedRtkApi = api
           url: `/api/v1/auth/${queryArg.provider}`,
           method: "POST",
           body: queryArg.providerAuthRequest,
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Auth"],
       }),
@@ -34,6 +39,7 @@ const injectedRtkApi = api
           url: `/api/v1/auth/register`,
           method: "POST",
           body: queryArg.registerAuthRequest,
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Auth"],
       }),
@@ -46,12 +52,17 @@ export type SignInApiResponse = /** status 200 success */ {
   token_type?: string;
 };
 export type SignInApiArg = {
+  /** Code of language */
+  lang?: string;
   loginAuthRequest: LoginAuthRequest;
 };
 export type GetAuthUserApiResponse = /** status 200 success */ {
   data?: User;
 };
-export type GetAuthUserApiArg = void;
+export type GetAuthUserApiArg = {
+  /** Code of language */
+  lang?: string;
+};
 export type SignInOrSignUpWithSocialNetworkApiResponse =
   /** status 200 success */ {
     access_token?: string;
@@ -60,6 +71,8 @@ export type SignInOrSignUpWithSocialNetworkApiResponse =
 export type SignInOrSignUpWithSocialNetworkApiArg = {
   /** Provider name */
   provider: string;
+  /** Code of language */
+  lang?: string;
   providerAuthRequest: ProviderAuthRequest;
 };
 export type SignUpApiResponse = /** status 200 success */ {
@@ -67,6 +80,8 @@ export type SignUpApiResponse = /** status 200 success */ {
   token_type?: string;
 };
 export type SignUpApiArg = {
+  /** Code of language */
+  lang?: string;
   registerAuthRequest: RegisterAuthRequest;
 };
 export type BadRequestException = {
@@ -109,7 +124,7 @@ export type User = {
   username?: string;
   status?: Status;
   roles?: Role[];
-  socialNetworks?: SocialNetwork[];
+  social_networks?: SocialNetwork[];
 };
 export type ProviderAuthRequest = {
   token: string;

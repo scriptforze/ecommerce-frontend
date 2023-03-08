@@ -12,7 +12,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/product_attributes/${queryArg.productAttribute}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Product attributes"],
       }),
@@ -24,7 +24,7 @@ const injectedRtkApi = api
           url: `/api/v1/product_attributes/${queryArg.productAttribute}`,
           method: "PUT",
           body: queryArg.updateProductAttributeRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attributes"],
       }),
@@ -35,7 +35,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/product_attributes/${queryArg.productAttribute}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attributes"],
       }),
@@ -51,6 +51,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Product attributes"],
@@ -63,7 +64,7 @@ const injectedRtkApi = api
           url: `/api/v1/product_attributes`,
           method: "POST",
           body: queryArg.storeProductAttributeRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attributes"],
       }),
@@ -79,6 +80,8 @@ export type GetProductAttributeByIdApiArg = {
   productAttribute: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateProductAttributeApiResponse = /** status 200 success */ {
   data?: ProductAttribute;
@@ -88,6 +91,8 @@ export type UpdateProductAttributeApiArg = {
   productAttribute: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateProductAttributeRequest: UpdateProductAttributeRequest;
 };
 export type DeleteProductAttributeApiResponse = /** status 200 success */ {
@@ -98,6 +103,8 @@ export type DeleteProductAttributeApiArg = {
   productAttribute: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllProductAttributesApiResponse = /** status 200 success */ {
   data?: ProductAttribute[];
@@ -114,6 +121,8 @@ export type GetAllProductAttributesApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveProductAttributeApiResponse = /** status 200 success */ {
   data?: ProductAttribute;
@@ -121,6 +130,8 @@ export type SaveProductAttributeApiResponse = /** status 200 success */ {
 export type SaveProductAttributeApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeProductAttributeRequest: StoreProductAttributeRequest;
 };
 export type Status = {

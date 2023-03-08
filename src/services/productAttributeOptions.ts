@@ -1,27 +1,11 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
-export const addTagTypes = ["Products", "Product attribute options"] as const;
+export const addTagTypes = ["Product attribute options"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
     endpoints: (build) => ({
-      getAllProducts: build.query<
-        GetAllProductsApiResponse,
-        GetAllProductsApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/v1/products`,
-          params: {
-            include: queryArg.include,
-            search: queryArg.search,
-            per_page: queryArg.perPage,
-            page: queryArg.page,
-            sort_by: queryArg.sortBy,
-          },
-        }),
-        providesTags: ["Products"],
-      }),
       getAllProductAttributeOptionsByProductAttribute: build.query<
         GetAllProductAttributeOptionsByProductAttributeApiResponse,
         GetAllProductAttributeOptionsByProductAttributeApiArg
@@ -34,6 +18,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Product attribute options"],
@@ -46,6 +31,7 @@ const injectedRtkApi = api
           url: `/api/v1/product_attribute_options/${queryArg.productAttributeOption}`,
           method: "PUT",
           body: queryArg.updateProductAttributeOptionRequest,
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attribute options"],
       }),
@@ -56,6 +42,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/product_attribute_options/${queryArg.productAttributeOption}`,
           method: "DELETE",
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attribute options"],
       }),
@@ -67,6 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/product_attribute_options`,
           method: "POST",
           body: queryArg.storeProductAttributeOptionRequest,
+          params: { lang: queryArg.lang },
         }),
         invalidatesTags: ["Product attribute options"],
       }),
@@ -74,22 +62,6 @@ const injectedRtkApi = api
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
-export type GetAllProductsApiResponse = /** status 200 success */ {
-  data?: Product[];
-  meta?: Pagination;
-};
-export type GetAllProductsApiArg = {
-  /** Relationships of resource */
-  include?: string;
-  /** String to search */
-  search?: string;
-  /** Number of resources per page */
-  perPage?: number;
-  /** Number of current page */
-  page?: number;
-  /** Name of field to sort */
-  sortBy?: string;
-};
 export type GetAllProductAttributeOptionsByProductAttributeApiResponse =
   /** status 200 success */ {
     data?: ProductAttributeOption[];
@@ -107,6 +79,8 @@ export type GetAllProductAttributeOptionsByProductAttributeApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateProductAttributeOptionApiResponse =
   /** status 200 success */ {
@@ -115,6 +89,8 @@ export type UpdateProductAttributeOptionApiResponse =
 export type UpdateProductAttributeOptionApiArg = {
   /** Id of product attribute option */
   productAttributeOption: number;
+  /** Code of language */
+  lang?: string;
   updateProductAttributeOptionRequest: UpdateProductAttributeOptionRequest;
 };
 export type DeleteProductAttributeOptionApiResponse =
@@ -124,52 +100,21 @@ export type DeleteProductAttributeOptionApiResponse =
 export type DeleteProductAttributeOptionApiArg = {
   /** Id of product attribute option */
   productAttributeOption: number;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveProductAttributeOptionApiResponse = /** status 200 success */ {
   data?: ProductAttributeOption;
 };
 export type SaveProductAttributeOptionApiArg = {
+  /** Code of language */
+  lang?: string;
   storeProductAttributeOptionRequest: StoreProductAttributeOptionRequest;
 };
 export type Status = {
   id: number;
   name: string;
   type: string;
-};
-export type ResourceUrls = {
-  original: string;
-  thumb?: string;
-  small?: string;
-  medium?: string;
-};
-export type Resource = {
-  id: number;
-  owner_id?: number;
-  type_resource?: string;
-  urls: ResourceUrls;
-  options?: object;
-};
-export type Category = {
-  id: number;
-  name: string;
-  slug: string;
-  parent_id?: number;
-  status?: Status;
-  image?: Resource;
-  children?: Category[];
-};
-export type ProductSpecification = {
-  id: number;
-  name: string;
-  value: string;
-  status?: Status;
-  product?: Product;
-};
-export type Tag = {
-  id: number;
-  name: string;
-  slug: string;
-  status?: Status;
 };
 export type ProductAttribute = {
   id: number;
@@ -182,54 +127,7 @@ export type ProductAttributeOption = {
   name: string;
   option: string;
   status?: Status;
-  productAttribute?: ProductAttribute;
-};
-export type ProductStock = {
-  id: number;
-  price: string;
-  sku: string;
-  stock?: number;
-  width?: number;
-  height?: number;
-  length?: number;
-  weight?: number;
-  status?: Status;
-  product?: Product;
-  productAttributeOptions?: ProductAttributeOption[];
-  images?: Resource[];
-};
-export type Product = {
-  id: number;
-  type: string;
-  name: string;
-  slug: string;
-  sku: string;
-  price: string;
-  tax: string;
-  short_description: string;
-  description: string;
-  is_variable: boolean;
-  stock?: number;
-  width?: number;
-  height?: number;
-  length?: number;
-  weight?: number;
-  status?: Status;
-  category?: Category;
-  images?: Resource[];
-  productSpecifications?: ProductSpecification[];
-  tags?: Tag[];
-  productAttributeOptions?: ProductAttributeOption[];
-  productStocks?: ProductStock[];
-  specifications?: ProductSpecification[];
-};
-export type Pagination = {
-  current_page?: number;
-  from?: number;
-  last_page?: number;
-  per_page?: number;
-  to?: number;
-  total?: number;
+  product_attribute?: ProductAttribute;
 };
 export type BadRequestException = {
   error?: string;
@@ -262,7 +160,6 @@ export type StoreProductAttributeOptionRequest = {
   option?: string;
 };
 export const {
-  useGetAllProductsQuery,
   useGetAllProductAttributeOptionsByProductAttributeQuery,
   useUpdateProductAttributeOptionMutation,
   useDeleteProductAttributeOptionMutation,

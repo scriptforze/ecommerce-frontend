@@ -6,6 +6,17 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
+      deleteProduct: build.mutation<
+        DeleteProductApiResponse,
+        DeleteProductApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}`,
+          method: "DELETE",
+          params: { include: queryArg.include, lang: queryArg.lang },
+        }),
+        invalidatesTags: ["Products"],
+      }),
       finishProduct: build.mutation<
         FinishProductApiResponse,
         FinishProductApiArg
@@ -14,9 +25,26 @@ const injectedRtkApi = api
           url: `/api/v1/products/${queryArg.product}/finish`,
           method: "POST",
           body: queryArg.finishProductRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Products"],
+      }),
+      getAllProducts: build.query<
+        GetAllProductsApiResponse,
+        GetAllProductsApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products`,
+          params: {
+            include: queryArg.include,
+            search: queryArg.search,
+            per_page: queryArg.perPage,
+            page: queryArg.page,
+            sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
+          },
+        }),
+        providesTags: ["Products"],
       }),
       saveProductGeneral: build.mutation<
         SaveProductGeneralApiResponse,
@@ -26,7 +54,7 @@ const injectedRtkApi = api
           url: `/api/v1/products/general`,
           method: "POST",
           body: queryArg.storeProductGeneralRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Products"],
       }),
@@ -38,7 +66,7 @@ const injectedRtkApi = api
           url: `/api/v1/products/${queryArg.product}/general`,
           method: "PUT",
           body: queryArg.updateProductGeneralRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Products"],
       }),
@@ -46,6 +74,17 @@ const injectedRtkApi = api
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
+export type DeleteProductApiResponse = /** status 200 success */ {
+  data?: Product;
+};
+export type DeleteProductApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  /** Code of language */
+  lang?: string;
+};
 export type FinishProductApiResponse = /** status 200 success */ {
   data?: Product;
 };
@@ -54,7 +93,27 @@ export type FinishProductApiArg = {
   product: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   finishProductRequest: FinishProductRequest;
+};
+export type GetAllProductsApiResponse = /** status 200 success */ {
+  data?: Product[];
+  meta?: Pagination;
+};
+export type GetAllProductsApiArg = {
+  /** Relationships of resource */
+  include?: string;
+  /** String to search */
+  search?: string;
+  /** Number of resources per page */
+  perPage?: number;
+  /** Number of current page */
+  page?: number;
+  /** Name of field to sort */
+  sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveProductGeneralApiResponse = /** status 200 success */ {
   data?: Product;
@@ -62,6 +121,8 @@ export type SaveProductGeneralApiResponse = /** status 200 success */ {
 export type SaveProductGeneralApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeProductGeneralRequest: StoreProductGeneralRequest;
 };
 export type UpdateProductGeneralApiResponse = /** status 200 success */ {
@@ -72,6 +133,8 @@ export type UpdateProductGeneralApiArg = {
   product: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateProductGeneralRequest: UpdateProductGeneralRequest;
 };
 export type Status = {
@@ -101,13 +164,6 @@ export type Category = {
   image?: Resource;
   children?: Category[];
 };
-export type ProductSpecification = {
-  id: number;
-  name: string;
-  value: string;
-  status?: Status;
-  product?: Product;
-};
 export type Tag = {
   id: number;
   name: string;
@@ -125,7 +181,7 @@ export type ProductAttributeOption = {
   name: string;
   option: string;
   status?: Status;
-  productAttribute?: ProductAttribute;
+  product_attribute?: ProductAttribute;
 };
 export type ProductStock = {
   id: number;
@@ -138,8 +194,15 @@ export type ProductStock = {
   weight?: number;
   status?: Status;
   product?: Product;
-  productAttributeOptions?: ProductAttributeOption[];
+  product_attribute_options?: ProductAttributeOption[];
   images?: Resource[];
+};
+export type ProductSpecification = {
+  id: number;
+  name: string;
+  value: string;
+  status?: Status;
+  product?: Product;
 };
 export type Product = {
   id: number;
@@ -160,10 +223,10 @@ export type Product = {
   status?: Status;
   category?: Category;
   images?: Resource[];
-  productSpecifications?: ProductSpecification[];
+  stock_images?: Resource[];
   tags?: Tag[];
-  productAttributeOptions?: ProductAttributeOption[];
-  productStocks?: ProductStock[];
+  product_attribute_options?: ProductAttributeOption[];
+  product_stocks?: ProductStock[];
   specifications?: ProductSpecification[];
 };
 export type BadRequestException = {
@@ -178,6 +241,10 @@ export type AuthorizationException = {
   error?: string;
   code?: number;
 };
+export type ModelNotFoundException = {
+  error?: string;
+  code?: number;
+};
 export type ValidationException = {
   error?: object;
   code?: number;
@@ -187,6 +254,14 @@ export type FinishProductRequest = {
     name: string;
     value: string;
   }[];
+};
+export type Pagination = {
+  current_page?: number;
+  from?: number;
+  last_page?: number;
+  per_page?: number;
+  to?: number;
+  total?: number;
 };
 export type StoreProductGeneralRequest = {
   type: "product" | "service";
@@ -244,7 +319,9 @@ export type UpdateProductGeneralRequest = {
   };
 };
 export const {
+  useDeleteProductMutation,
   useFinishProductMutation,
+  useGetAllProductsQuery,
   useSaveProductGeneralMutation,
   useUpdateProductGeneralMutation,
 } = injectedRtkApi;

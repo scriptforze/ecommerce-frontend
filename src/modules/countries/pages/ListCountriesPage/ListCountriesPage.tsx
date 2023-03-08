@@ -24,9 +24,8 @@ import {
 import { pushNotification } from "@/modules/common/helpers";
 import { GeneralStatuses } from "@/modules/common/constants";
 
-const { Title } = Typography;
-
 export const ListCountriesPage = () => {
+  const { Title } = Typography;
   document.title = "Ecommerce - Countries";
 
   const [countriesApiArgs, setCountriesApiArgs] = useState(
@@ -58,8 +57,8 @@ export const ListCountriesPage = () => {
     });
   };
 
-  const handleDelete = (record: Country) => {
-    deleteCountry({ country: record.id, include: "status" })
+  const handleDelete = (recordId: number) => {
+    deleteCountry({ country: recordId, include: "status" })
       .unwrap()
       .then(onSuccessDelete);
   };

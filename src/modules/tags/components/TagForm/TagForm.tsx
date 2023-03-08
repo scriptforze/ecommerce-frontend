@@ -10,10 +10,12 @@ import { FormItem } from "@/modules/common/components";
 import { pushNotification } from "@/modules/common/helpers";
 import { TagsRoutesList } from "@/modules/tags/routes";
 import { TagFormProps } from "./types";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 export const TagForm = ({ tag }: TagFormProps) => {
   const { Text } = Typography;
   const navigate = useNavigate();
+  const { translate } = useLangTranslation();
   const { control, handleSubmit } = useForm<StoreTagRequest>({
     defaultValues: {
       name: tag?.name || "",
@@ -24,13 +26,15 @@ export const TagForm = ({ tag }: TagFormProps) => {
   const [updateTag, { isLoading: isUpdateTagLoading }] = useUpdateTagMutation();
 
   const onRequestSuccess = () => {
-    const action = `${!tag ? "Created" : "Updated"}`;
-    pushNotification({
-      type: "success",
-      title: `Tag ${action}`,
-      message: `Tag ${action.toLowerCase()} successfully`,
-    });
+    const createdTitle = translate("tags.form.messages.success.create.title");
+    const createdMessage = translate("tags.form.messages.success.create.msg");
+    const updatedTitle = translate("tags.form.messages.success.update.title");
+    const updatedMessage = translate("tags.form.messages.success.update.msg");
 
+    const title = tag ? updatedTitle : createdTitle;
+    const message = tag ? updatedMessage : createdMessage;
+
+    pushNotification({ type: "success", title, message });
     navigate(TagsRoutesList.TAGS);
   };
 
@@ -50,7 +54,7 @@ export const TagForm = ({ tag }: TagFormProps) => {
         autoComplete="off"
         onFinish={handleSubmit(onSubmit)}
       >
-        <FormItem label="Name:" required>
+        <FormItem label={translate("tags.form.name.label")} required>
           <Controller
             name="name"
             control={control}
@@ -64,7 +68,7 @@ export const TagForm = ({ tag }: TagFormProps) => {
               <>
                 <Input
                   status={error && "error"}
-                  placeholder="Name of the tag"
+                  placeholder={translate("tags.form.name.placeholder")}
                   {...field}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
@@ -79,7 +83,9 @@ export const TagForm = ({ tag }: TagFormProps) => {
             style={{ float: "right" }}
             loading={isSaveTagLoading || isUpdateTagLoading}
           >
-            {!tag ? "Save" : "Update"}
+            {!tag
+              ? translate("tags.form.submit.create")
+              : translate("tags.form.submit.update")}
           </Button>
         </FormItem>
       </Form>

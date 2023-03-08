@@ -12,7 +12,7 @@ const injectedRtkApi = api
       >({
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Categories"],
       }),
@@ -24,7 +24,7 @@ const injectedRtkApi = api
           url: `/api/v1/categories/${queryArg.category}`,
           method: "PUT",
           body: queryArg.updateCategoryRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Categories"],
       }),
@@ -35,7 +35,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/categories/${queryArg.category}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Categories"],
       }),
@@ -51,6 +51,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Categories"],
@@ -61,7 +62,7 @@ const injectedRtkApi = api
             url: `/api/v1/categories`,
             method: "POST",
             body: queryArg.storeCategoryRequest,
-            params: { include: queryArg.include },
+            params: { include: queryArg.include, lang: queryArg.lang },
           }),
           invalidatesTags: ["Categories"],
         }
@@ -78,6 +79,8 @@ export type GetCategoryByIdApiArg = {
   category: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateCategoryApiResponse = /** status 200 success */ {
   data?: Category;
@@ -87,6 +90,8 @@ export type UpdateCategoryApiArg = {
   category: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateCategoryRequest: UpdateCategoryRequest;
 };
 export type DeleteCategoryApiResponse = /** status 200 success */ {
@@ -97,6 +102,8 @@ export type DeleteCategoryApiArg = {
   category: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllCategoriesApiResponse = /** status 200 success */ {
   data?: Category[];
@@ -113,6 +120,8 @@ export type GetAllCategoriesApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveCategoryApiResponse = /** status 200 success */ {
   data?: Category;
@@ -120,6 +129,8 @@ export type SaveCategoryApiResponse = /** status 200 success */ {
 export type SaveCategoryApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeCategoryRequest: StoreCategoryRequest;
 };
 export type Status = {

@@ -8,7 +8,7 @@ import {
 
 export type CustomProductAttributeOptionDto = Omit<
   ProductAttributeOption,
-  "status" | "productAttribute"
+  "status" | "product_attribute"
 >;
 
 export interface ProductAttributeOptionsFormProps {

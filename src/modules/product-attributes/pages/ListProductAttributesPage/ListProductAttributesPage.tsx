@@ -16,9 +16,13 @@ import { INITIAL_PRODUCT_ATTRIBUTES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
 import { ProductAttributesTableColums } from "@/modules/product-attributes";
 import {
+  DeleteProductAttributeApiResponse,
   ProductAttribute,
+  useDeleteProductAttributeMutation,
   useGetAllProductAttributesQuery,
 } from "@/services/productAttributes";
+import { pushNotification } from "@/modules/common/helpers";
+import { GeneralStatuses } from "@/modules/common/constants";
 
 const { Title } = Typography;
 
@@ -34,11 +38,33 @@ export const ListProductAttributesPage = () => {
     500
   );
 
+  const [
+    deleteProductAttribute,
+    { isLoading: isProductAttributeDeleteLoading },
+  ] = useDeleteProductAttributeMutation();
   const { data: getAllProductAttributesData, isFetching } =
     useGetAllProductAttributesQuery({
       ...productAttributesApiArgs,
       search: debouncedSearchQuery,
     });
+
+  const onDeleteSuccess = ({ data }: DeleteProductAttributeApiResponse) => {
+    pushNotification({
+      type: "success",
+      title: `Product Attribute ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      }`,
+      message: `Product Attribute ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      } successfully`,
+    });
+  };
+
+  const handleDelete = (recordId: number) => {
+    deleteProductAttribute({ productAttribute: recordId, include: "status" })
+      .unwrap()
+      .then(onDeleteSuccess);
+  };
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -54,6 +80,11 @@ export const ListProductAttributesPage = () => {
       sortBy: column?.key as string,
     });
   };
+
+  const ProductAttributesColumns = ProductAttributesTableColums({
+    handleDelete,
+    isProductAttributeDeleteLoading,
+  });
 
   return (
     <>
@@ -90,15 +121,15 @@ export const ListProductAttributesPage = () => {
 
         <Table
           loading={isFetching}
+          onChange={handleTableChange}
           rowKey={(record) => record.id}
+          columns={ProductAttributesColumns}
           dataSource={getAllProductAttributesData?.data}
           pagination={{
             current: productAttributesApiArgs.page,
             pageSize: productAttributesApiArgs.perPage,
             total: getAllProductAttributesData?.meta?.total,
           }}
-          columns={ProductAttributesTableColums}
-          onChange={handleTableChange}
         />
       </Card>
     </>

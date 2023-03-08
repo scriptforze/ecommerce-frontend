@@ -11,13 +11,19 @@ import {
 import { FilterValue, SorterResult } from "antd/es/table/interface";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
-import { useGetAllProductsQuery } from "@/services/productAttributeOptions";
+import {
+  useGetAllProductsQuery,
+  Product,
+  useDeleteProductMutation,
+  DeleteProductApiResponse,
+} from "@/services/products";
 import { INITIAL_PRODUCTS_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
-import { ProductTableColums } from "../../components/ProductTableColumns";
-import { Product } from "@/services/products";
+import { ProductTableColumns } from "../../components/ProductTableColumns";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import { ProductsRoutesList } from "@/modules/products/routes";
+import { GeneralStatuses } from "@/modules/common/constants";
+import { pushNotification } from "@/modules/common/helpers";
 
 export const ListProductPage = () => {
   const [productsArgs, setProductsArgs] = useState(INITIAL_PRODUCTS_API_ARG);
@@ -25,10 +31,31 @@ export const ListProductPage = () => {
     productsArgs.search,
     500
   );
+
+  const [deleteProduct, { isLoading: isProductDeleteLoading }] =
+    useDeleteProductMutation();
   const { data: products, isFetching } = useGetAllProductsQuery({
     ...productsArgs,
     search: debouncedSearchQuery,
   });
+
+  const onDeleteSuccess = ({ data }: DeleteProductApiResponse) => {
+    pushNotification({
+      type: "success",
+      title: `Product ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      }`,
+      message: `Product ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      } successfully`,
+    });
+  };
+
+  const handleDelete = (recordId: number) => {
+    deleteProduct({ product: recordId, include: "status" })
+      .unwrap()
+      .then(onDeleteSuccess);
+  };
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -43,6 +70,11 @@ export const ListProductPage = () => {
       sortBy: column?.key as string,
     });
   };
+
+  const ProductColumns = ProductTableColumns({
+    handleDelete,
+    isProductDeleteLoading,
+  });
 
   return (
     <>
@@ -79,8 +111,8 @@ export const ListProductPage = () => {
         </Row>
         <Table
           loading={isFetching}
+          columns={ProductColumns}
           dataSource={products?.data}
-          columns={ProductTableColums}
           onChange={handleTableChange}
           rowKey={(record) => record.id}
           pagination={{
