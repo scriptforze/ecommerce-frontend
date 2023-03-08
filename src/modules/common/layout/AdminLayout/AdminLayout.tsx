@@ -5,6 +5,7 @@ import { InitialAuthState, logout, setUser } from "@/modules/auth";
 import { useGetAuthUserQuery } from "@/services/auth";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import Logo from "@/assets/images/Logo.png";
+import LogoSmall from "@/assets/images/Logo-small.png";
 import {
   StyledLogo,
   StyledMenuFoldOutlined,
@@ -69,11 +70,26 @@ export const AdminLayout = () => {
           bottom: 0,
         }}
       >
-        <StyledLogo>
-          {!collapsed ? <img src={Logo} alt="Logo" /> : <strong>Logo</strong>}
+        <StyledLogo
+          className={`logo-container${collapsed ? "--collapsed" : ""}`}
+        >
+          <img
+            src={Logo}
+            alt="Logo"
+            width="160"
+            height="40"
+            className={`sidebar-logo${collapsed ? "--hide" : ""}`}
+          />
+          <img
+            width="40"
+            height="40"
+            src={LogoSmall}
+            alt="Logo Collapsed"
+            className={`sidebar-logo${!collapsed ? "--hide" : ""}`}
+          />
         </StyledLogo>
         <Menu
-          style={{ height: "calc(100vh - 64px)" }}
+          style={{ height: "calc(100vh - 80px)" }}
           theme="light"
           mode="inline"
           defaultSelectedKeys={[location.pathname]}
