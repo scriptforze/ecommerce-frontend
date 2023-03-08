@@ -9,7 +9,7 @@ const injectedRtkApi = api
       getTagById: build.query<GetTagByIdApiResponse, GetTagByIdApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/tags/${queryArg.tag}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Tags"],
       }),
@@ -18,7 +18,7 @@ const injectedRtkApi = api
           url: `/api/v1/tags/${queryArg.tag}`,
           method: "PUT",
           body: queryArg.updateTagRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Tags"],
       }),
@@ -26,7 +26,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/tags/${queryArg.tag}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Tags"],
       }),
@@ -39,6 +39,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Tags"],
@@ -48,7 +49,7 @@ const injectedRtkApi = api
           url: `/api/v1/tags`,
           method: "POST",
           body: queryArg.storeTagRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Tags"],
       }),
@@ -64,6 +65,8 @@ export type GetTagByIdApiArg = {
   tag: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateTagApiResponse = /** status 200 success */ {
   data?: Tag;
@@ -73,6 +76,8 @@ export type UpdateTagApiArg = {
   tag: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateTagRequest: UpdateTagRequest;
 };
 export type DeleteTagApiResponse = /** status 200 success */ {
@@ -83,6 +88,8 @@ export type DeleteTagApiArg = {
   tag: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllTagsApiResponse = /** status 200 success */ {
   data?: Tag[];
@@ -99,6 +106,8 @@ export type GetAllTagsApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveTagApiResponse = /** status 200 success */ {
   data?: Tag;
@@ -106,6 +115,8 @@ export type SaveTagApiResponse = /** status 200 success */ {
 export type SaveTagApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeTagRequest: StoreTagRequest;
 };
 export type Status = {

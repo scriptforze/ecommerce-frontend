@@ -9,7 +9,7 @@ const injectedRtkApi = api
       getStateById: build.query<GetStateByIdApiResponse, GetStateByIdApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/states/${queryArg.state}`,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["States"],
       }),
@@ -18,7 +18,7 @@ const injectedRtkApi = api
           url: `/api/v1/states/${queryArg.state}`,
           method: "PUT",
           body: queryArg.updateStateRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["States"],
       }),
@@ -26,7 +26,7 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/states/${queryArg.state}`,
           method: "DELETE",
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["States"],
       }),
@@ -39,6 +39,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["States"],
@@ -48,7 +49,7 @@ const injectedRtkApi = api
           url: `/api/v1/states`,
           method: "POST",
           body: queryArg.storeStateRequest,
-          params: { include: queryArg.include },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["States"],
       }),
@@ -64,6 +65,8 @@ export type GetStateByIdApiArg = {
   state: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type UpdateStateApiResponse = /** status 200 success */ {
   data?: State;
@@ -73,6 +76,8 @@ export type UpdateStateApiArg = {
   state: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   updateStateRequest: UpdateStateRequest;
 };
 export type DeleteStateApiResponse = /** status 200 success */ {
@@ -83,6 +88,8 @@ export type DeleteStateApiArg = {
   state: number;
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllStatesApiResponse = /** status 200 success */ {
   data?: State[];
@@ -99,6 +106,8 @@ export type GetAllStatesApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type SaveStateApiResponse = /** status 200 success */ {
   data?: State;
@@ -106,6 +115,8 @@ export type SaveStateApiResponse = /** status 200 success */ {
 export type SaveStateApiArg = {
   /** Relationships of resource */
   include?: string;
+  /** Code of language */
+  lang?: string;
   storeStateRequest: StoreStateRequest;
 };
 export type Status = {

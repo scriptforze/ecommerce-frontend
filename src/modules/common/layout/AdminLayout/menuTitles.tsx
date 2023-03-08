@@ -15,50 +15,54 @@ import { CountriesRoutesList } from "@/modules/countries";
 import { StatesRoutesList } from "@/modules/states";
 import { TagsRoutesList } from "@/modules/tags";
 import { ProductAttributesRoutesList } from "@/modules/product-attributes";
+import { useLangTranslation } from "../../hooks";
 
-export const menuTitles: ItemType[] = [
-  {
-    key: currentMenuKey(DashboardRoutesList.DASHBOARD),
-    label: "Dashboard",
-    icon: <DashboardOutlined />,
-  },
-  {
-    key: currentMenuKey("/products"),
-    label: "Products",
-    icon: <ShoppingCartOutlined />,
-  },
-  {
-    key: currentMenuKey(ProductAttributesRoutesList.PRODUCT_ATTRIBUTES),
-    label: "Product attributes",
-    icon: <ApartmentOutlined />,
-  },
-  {
-    key: currentMenuKey(CategoriesRoutesList.CATEGORIES),
-    label: "Categories",
-    icon: <BookOutlined />,
-  },
-  {
-    key: currentMenuKey(TagsRoutesList.TAGS),
-    label: "Tags",
-    icon: <BorderlessTableOutlined />,
-  },
-  {
-    key: "zones",
-    label: "Zones",
-    children: [
-      {
-        key: currentMenuKey(CountriesRoutesList.COUNTRIES),
-        label: "Countries",
-      },
-      {
-        key: currentMenuKey(StatesRoutesList.STATES),
-        label: "States",
-      },
-      {
-        key: currentMenuKey(CitiesRoutesList.CITIES),
-        label: "Cities",
-      },
-    ],
-    icon: <GlobalOutlined />,
-  },
-];
+export const MenuTitles = (): ItemType[] => {
+  const { translate } = useLangTranslation();
+  return [
+    {
+      key: currentMenuKey(DashboardRoutesList.DASHBOARD),
+      label: translate("menu.dashboard"),
+      icon: <DashboardOutlined />,
+    },
+    {
+      key: currentMenuKey("/products"),
+      label: translate("menu.products"),
+      icon: <ShoppingCartOutlined />,
+    },
+    {
+      key: currentMenuKey(ProductAttributesRoutesList.PRODUCT_ATTRIBUTES),
+      label: translate("menu.productAttributes"),
+      icon: <ApartmentOutlined />,
+    },
+    {
+      key: currentMenuKey(CategoriesRoutesList.CATEGORIES),
+      label: translate("menu.categories"),
+      icon: <BookOutlined />,
+    },
+    {
+      key: currentMenuKey(TagsRoutesList.TAGS),
+      label: translate("menu.tags"),
+      icon: <BorderlessTableOutlined />,
+    },
+    {
+      key: "zones",
+      label: translate("menu.zones.title"),
+      children: [
+        {
+          key: currentMenuKey(CountriesRoutesList.COUNTRIES),
+          label: translate("menu.zones.countries"),
+        },
+        {
+          key: currentMenuKey(StatesRoutesList.STATES),
+          label: translate("menu.zones.states"),
+        },
+        {
+          key: currentMenuKey(CitiesRoutesList.CITIES),
+          label: translate("menu.zones.cities"),
+        },
+      ],
+      icon: <GlobalOutlined />,
+    },
+  ];
+};

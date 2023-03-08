@@ -59,13 +59,6 @@ export type Category = {
   image?: Resource;
   children?: Category[];
 };
-export type ProductSpecification = {
-  id: number;
-  name: string;
-  value: string;
-  status?: Status;
-  product?: Product;
-};
 export type Tag = {
   id: number;
   name: string;
@@ -83,7 +76,14 @@ export type ProductAttributeOption = {
   name: string;
   option: string;
   status?: Status;
-  productAttribute?: ProductAttribute;
+  product_attribute?: ProductAttribute;
+};
+export type ProductSpecification = {
+  id: number;
+  name: string;
+  value: string;
+  status?: Status;
+  product?: Product;
 };
 export type Product = {
   id: number;
@@ -104,10 +104,10 @@ export type Product = {
   status?: Status;
   category?: Category;
   images?: Resource[];
-  productSpecifications?: ProductSpecification[];
+  stock_images?: Resource[];
   tags?: Tag[];
-  productAttributeOptions?: ProductAttributeOption[];
-  productStocks?: ProductStock[];
+  product_attribute_options?: ProductAttributeOption[];
+  product_stocks?: ProductStock[];
   specifications?: ProductSpecification[];
 };
 export type ProductStock = {
@@ -121,7 +121,7 @@ export type ProductStock = {
   weight?: number;
   status?: Status;
   product?: Product;
-  productAttributeOptions?: ProductAttributeOption[];
+  product_attribute_options?: ProductAttributeOption[];
   images?: Resource[];
 };
 export type BadRequestException = {

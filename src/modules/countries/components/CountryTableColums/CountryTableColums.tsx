@@ -1,11 +1,11 @@
-import { DeleteOutlined, EditOutlined, UndoOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { Link } from "react-router-dom";
 import { Country } from "@/services/countries";
 import { CountriesRoutesList } from "../../routes";
 import { CountryTableColumnsProps } from "./types";
-import { GeneralStatuses } from "@/modules/common/constants";
+import { DeleteRestoreButton } from "@/modules/common/components";
 
 export const CountryTableColums = ({
   handleDelete,
@@ -48,25 +48,16 @@ export const CountryTableColums = ({
       key: "actions",
       width: "15%",
       render: (_, record) => {
-        const DeleteRestoreIconStatus =
-          record.status?.name === GeneralStatuses.ENABLED ? (
-            <DeleteOutlined />
-          ) : (
-            <UndoOutlined />
-          );
-
         return (
           <>
             <Link to={`${record.id}/${CountriesRoutesList.EDIT_COUNTRY}`}>
               <Button type="link" icon={<EditOutlined />} size="large" />
             </Link>
-            <Button
-              type="link"
-              size="large"
-              icon={DeleteRestoreIconStatus}
+            <DeleteRestoreButton
+              recordId={record.id}
+              status={record.status!}
+              handleDelete={handleDelete}
               loading={isDeleteCountryLoading}
-              onClick={() => handleDelete(record)}
-              danger={record.status?.name === GeneralStatuses.ENABLED}
             />
           </>
         );

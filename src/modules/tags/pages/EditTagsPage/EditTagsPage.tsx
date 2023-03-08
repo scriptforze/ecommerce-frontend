@@ -5,9 +5,11 @@ import { TagsRoutesList } from "../../routes";
 import { BreadCrumbItem } from "@/modules/common/components/PageHeader/types";
 import { TagForm } from "../../components";
 import { NotFound } from "@/modules/common/components";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 export const EditTagsPage = () => {
   const { id } = useParams();
+  const { translate } = useLangTranslation();
   const BREADCRUMB_ITEMS: BreadCrumbItem[] = [
     {
       title: "Tags",
@@ -31,7 +33,10 @@ export const EditTagsPage = () => {
 
   return (
     <>
-      <PageHeader title="Edit Tag" breadCrumbItems={BREADCRUMB_ITEMS} />
+      <PageHeader
+        breadCrumbItems={BREADCRUMB_ITEMS}
+        title={translate("tags.form.title.update")}
+      />
       <TagForm tag={tagResponse?.data} />
     </>
   );

@@ -15,7 +15,14 @@ import { Link } from "react-router-dom";
 import { INITIAL_CITIES_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
 import { CitiesRoutesList, CityTableColums } from "@/modules/cities";
-import { City, useGetAllCitiesQuery } from "@/services/cities";
+import {
+  City,
+  DeleteCityApiResponse,
+  useDeleteCityMutation,
+  useGetAllCitiesQuery,
+} from "@/services/cities";
+import { pushNotification } from "@/modules/common/helpers";
+import { GeneralStatuses } from "@/modules/common/constants";
 
 const { Title } = Typography;
 
@@ -29,10 +36,30 @@ export const ListCitiesPage = () => {
     500
   );
 
+  const [deleteCity, { isLoading: isDeleteCityLoading }] =
+    useDeleteCityMutation();
   const { data: getAllCitiesData, isFetching } = useGetAllCitiesQuery({
     ...citiesApiArgs,
     search: debouncedSearchQuery,
   });
+
+  const onSuccessDelete = ({ data }: DeleteCityApiResponse) => {
+    pushNotification({
+      type: "success",
+      title: `State ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      }`,
+      message: `State ${
+        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      } successfully`,
+    });
+  };
+
+  const handleDelete = (recordId: number) => {
+    deleteCity({ city: recordId, include: "status" })
+      .unwrap()
+      .then(onSuccessDelete);
+  };
 
   const handleTableChange = (
     pagination: TablePaginationConfig,
@@ -48,6 +75,8 @@ export const ListCitiesPage = () => {
       sortBy: column?.key as string,
     });
   };
+
+  const CitiesColumns = CityTableColums({ isDeleteCityLoading, handleDelete });
 
   return (
     <>
@@ -84,6 +113,8 @@ export const ListCitiesPage = () => {
 
         <Table
           loading={isFetching}
+          columns={CitiesColumns}
+          onChange={handleTableChange}
           rowKey={(record) => record.id}
           dataSource={getAllCitiesData?.data}
           pagination={{
@@ -91,8 +122,6 @@ export const ListCitiesPage = () => {
             pageSize: citiesApiArgs.perPage,
             total: getAllCitiesData?.meta?.total,
           }}
-          columns={CityTableColums}
-          onChange={handleTableChange}
         />
       </Card>
     </>
