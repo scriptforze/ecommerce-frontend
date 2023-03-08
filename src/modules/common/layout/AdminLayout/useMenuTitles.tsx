@@ -17,7 +17,7 @@ import { TagsRoutesList } from "@/modules/tags";
 import { ProductAttributesRoutesList } from "@/modules/product-attributes";
 import { useLangTranslation } from "../../hooks";
 
-export const MenuTitles = (): ItemType[] => {
+export const useMenuTitles = (): ItemType[] => {
   const { translate } = useLangTranslation();
   return [
     {
