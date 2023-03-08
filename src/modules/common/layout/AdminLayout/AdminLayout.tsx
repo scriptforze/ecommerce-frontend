@@ -10,7 +10,7 @@ import {
   StyledMenuFoldOutlined,
   StyledMenuUnfoldOutlined,
 } from "./styled";
-import { MenuTitles } from "./MenuTitles";
+import { useMenuTitles } from "./useMenuTitles";
 import { useLangTranslation } from "@/modules/common/hooks";
 
 const { Header, Sider, Content } = Layout;
@@ -22,7 +22,7 @@ export const AdminLayout = () => {
   const { lang } = useLangTranslation();
   const { token, user } = useAppSelector((state) => state.auth);
   const [collapsed, setCollapsed] = useState(false);
-  const menuTitles = MenuTitles();
+  const menuTitles = useMenuTitles();
 
   const {
     data: getAuthUserData,
