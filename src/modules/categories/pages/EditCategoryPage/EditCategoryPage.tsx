@@ -1,14 +1,16 @@
 import { Breadcrumb, Card, Col, Row, Typography } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { BookOutlined } from "@ant-design/icons";
-import { CategoriesRoutesList, EditCategoryForm } from "@/modules/categories";
+import { CategoriesRoutesList, CategoryForm } from "@/modules/categories";
 import { useGetCategoryByIdQuery } from "@/services/categories";
 import { NotFound } from "@/modules/common/components";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 const { Title } = Typography;
 const { Item: BreadcrumbItem } = Breadcrumb;
 
 export const EditCategoryPage = () => {
+  const { translate } = useLangTranslation();
   document.title = "Ecommerce - Edit category";
 
   const { id } = useParams();
@@ -19,8 +21,8 @@ export const EditCategoryPage = () => {
     isError,
     isFetching,
   } = useGetCategoryByIdQuery({
-    category: categoryId,
     include: "image",
+    category: categoryId,
   });
 
   if (isFetching) {
@@ -35,7 +37,7 @@ export const EditCategoryPage = () => {
     <>
       <Row justify="space-between">
         <Col span={12}>
-          <Title level={1}>Edit category</Title>
+          <Title level={1}>{translate("categories.form.title.update")}</Title>
         </Col>
         <Col
           span={12}
@@ -64,7 +66,7 @@ export const EditCategoryPage = () => {
       </Row>
 
       <Card style={{ background: "#fff" }}>
-        <EditCategoryForm category={getCategoryByIdData!.data!} />
+        <CategoryForm category={getCategoryByIdData?.data} />
       </Card>
     </>
   );

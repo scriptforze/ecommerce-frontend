@@ -1,4 +1,4 @@
-export const menuEn = {
+export const menu = {
   dashboard: "Dashboard",
   products: "Products",
   productAttributes: "Product attributes",

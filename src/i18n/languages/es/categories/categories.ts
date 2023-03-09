@@ -1,6 +1,6 @@
 import { list } from "./list";
 import { form } from "./form";
-export const tagsEn = {
+export const categories = {
   list,
   form,
 };
