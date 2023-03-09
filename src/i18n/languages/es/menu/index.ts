@@ -1,4 +1,4 @@
-export const menuEs = {
+export const menu = {
   dashboard: "Dashboard",
   products: "Productos",
   productAttributes: "Atributos de producto",
