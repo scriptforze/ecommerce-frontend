@@ -53,7 +53,6 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
       product_attribute_options: parsedProductAttributesOptions,
     },
   });
-
   const navigate = useNavigate();
   const [affixed, setAffixed] = useState(false);
   const isVariable = methods.getValues("is_variable");

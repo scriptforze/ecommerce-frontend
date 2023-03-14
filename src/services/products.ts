@@ -209,7 +209,7 @@ export type Product = {
   slug: string;
   sku: string;
   price: number;
-  tax: number;
+  tax: string;
   short_description: string;
   description: string;
   is_variable: boolean;
