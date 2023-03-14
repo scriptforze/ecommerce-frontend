@@ -139,11 +139,19 @@ export type Status = {
   name: string;
   type: string;
 };
+export type ProductAttributeOption = {
+  id: number;
+  name: string;
+  option?: string;
+  status?: Status;
+  product_attribute?: ProductAttribute;
+};
 export type ProductAttribute = {
   id: number;
   name: string;
   type?: string;
   status?: Status;
+  product_attribute_options?: ProductAttributeOption[];
 };
 export type AuthenticationException = {
   error?: string;

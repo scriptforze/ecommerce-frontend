@@ -1,21 +1,27 @@
 import { Button, Card, Col, Row } from "antd";
 import {
   StyledSpace,
-  CustomStepProduct,
   StyledSpaceButtons,
 } from "../../pages/CreateProductPage/styled";
 import { CustomAffixContainer } from "../CustomAffixContainer";
-import { STEPS_ITEMS } from "./constants";
+import { useProductStepsItems } from "./hooks";
+import { CustomStepProduct } from "./styled";
 import { CustomProductStepperProps } from "./types";
 
 export const CustomProductStepper = ({
-  state,
   onNext,
   affixed,
   onPrevius,
   onAffixChanged,
+  isProductVariable,
+  isEditting = false,
+  isSubmitting = false,
 }: CustomProductStepperProps) => {
-  const { submit, discard, currentStep } = state;
+  const { stepperState, stepsItems } = useProductStepsItems({
+    isEditting,
+    isProductVariable,
+  });
+  const { submit, discard, currentStep } = stepperState;
 
   return (
     <CustomAffixContainer
@@ -33,7 +39,7 @@ export const CustomProductStepper = ({
           <Col sm={10} xs={24}>
             <CustomStepProduct
               responsive
-              items={STEPS_ITEMS}
+              items={stepsItems}
               current={currentStep}
               labelPlacement="vertical"
             />
@@ -50,6 +56,7 @@ export const CustomProductStepper = ({
               <Button
                 onClick={onNext}
                 icon={submit.icon}
+                loading={isSubmitting}
                 className={submit.className}
               >
                 {submit.title}

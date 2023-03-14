@@ -1,18 +1,6 @@
 import { ArrowRightOutlined, CloseOutlined } from "@ant-design/icons";
 import { ButtonState, StepButtonsState } from "./types";
 
-export const STEPS_ITEMS = [
-  {
-    title: "General",
-  },
-  {
-    title: "Stocks",
-  },
-  {
-    title: "Specifications",
-  },
-];
-
 export const INITIAL_DISCARD_BUTTON_STATE: ButtonState = {
   targetStep: 0,
   title: "Discard",

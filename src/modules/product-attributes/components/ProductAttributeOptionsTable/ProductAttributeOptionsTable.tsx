@@ -13,7 +13,7 @@ import { ProductAttributeOptionsColumns } from "./ProductAttributeOptionsColumns
 import { ProductAttributeOptionsRow } from "./ProductAttributeOptionsRow";
 import {
   ColumnTypes,
-  CustomProductAttributeOptionDto,
+  CustomProductAttributeOption,
   ProductAttributeOptionsFormProps,
 } from "./types";
 import { FormItem } from "@/modules/common/components";
@@ -68,7 +68,7 @@ export const ProductAttributeOptionsTable = ({
     }
   };
 
-  const handleSave = (record: CustomProductAttributeOptionDto) => {
+  const handleSave = (record: CustomProductAttributeOption) => {
     const { id: productAttributeOption, name } = record;
     const recordBeforeChanges = options?.data?.find(
       (opt) => opt.id === productAttributeOption

@@ -18,6 +18,7 @@ const injectedRtkApi = api
             per_page: queryArg.perPage,
             page: queryArg.page,
             sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
           },
         }),
         providesTags: ["Products"],
@@ -93,6 +94,8 @@ export type GetAllProductsApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
 };
 export type GetAllProductAttributeOptionsByProductAttributeApiResponse =
   /** status 200 success */ {
@@ -170,13 +173,6 @@ export type Category = {
   image?: Resource;
   children?: Category[];
 };
-export type ProductSpecification = {
-  id: number;
-  name: string;
-  value: string;
-  status?: Status;
-  product?: Product;
-};
 export type Tag = {
   id: number;
   name: string;
@@ -188,11 +184,12 @@ export type ProductAttribute = {
   name: string;
   type?: string;
   status?: Status;
+  product_attribute_options?: ProductAttributeOption[];
 };
 export type ProductAttributeOption = {
   id: number;
   name: string;
-  option: string;
+  option?: string;
   status?: Status;
   product_attribute?: ProductAttribute;
 };
@@ -207,8 +204,15 @@ export type ProductStock = {
   weight?: number;
   status?: Status;
   product?: Product;
-  productAttributeOptions?: ProductAttributeOption[];
+  product_attribute_options?: ProductAttributeOption[];
   images?: Resource[];
+};
+export type ProductSpecification = {
+  id: number;
+  name: string;
+  value: string;
+  status?: Status;
+  product?: Product;
 };
 export type Product = {
   id: number;
@@ -216,7 +220,7 @@ export type Product = {
   name: string;
   slug: string;
   sku: string;
-  price: string;
+  price: number;
   tax: string;
   short_description: string;
   description: string;
@@ -229,10 +233,10 @@ export type Product = {
   status?: Status;
   category?: Category;
   images?: Resource[];
-  productSpecifications?: ProductSpecification[];
+  stock_images?: Resource[];
   tags?: Tag[];
-  productAttributeOptions?: ProductAttributeOption[];
-  productStocks?: ProductStock[];
+  product_attribute_options?: ProductAttributeOption[];
+  product_stocks?: ProductStock[];
   specifications?: ProductSpecification[];
 };
 export type Pagination = {

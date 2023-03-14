@@ -1,14 +1,32 @@
+import { StepProps } from "antd";
 import { ReactElement, ReactNode } from "react";
 
 export interface CustomProductStepperProps {
   affixed: boolean;
   onNext?: () => void;
+  isEditting?: boolean;
+  isSubmitting?: boolean;
   onPrevius?: () => void;
-  state: StepButtonsState;
+  isProductVariable: boolean;
   onAffixChanged: (isAffixed?: boolean) => void;
 }
 
-export type ButtonStateAction = { currentStep: number };
+export interface UseProductStepsItemsProps {
+  isEditting: boolean;
+  isProductVariable: boolean;
+}
+
+interface CustomStepProps extends StepProps {
+  key: string;
+}
+
+export interface StepsItemsProps {
+  items: CustomStepProps[];
+}
+
+export type ButtonStateAction = {
+  currentStep: number;
+};
 export type ButtonActions = "next" | "back" | "submit" | "discard";
 
 export interface ButtonState {

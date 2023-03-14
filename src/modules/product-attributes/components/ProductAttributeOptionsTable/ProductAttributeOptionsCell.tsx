@@ -1,8 +1,7 @@
 import { Input, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { EditableCellProps } from "./types";
-import { ProductAttributeOption } from "@/services/productAttributeOptions";
+import { CustomProductAttributeOption, EditableCellProps } from "./types";
 
 export const ProductAttributeOptionsCell = ({
   title,
@@ -16,7 +15,7 @@ export const ProductAttributeOptionsCell = ({
   const { Text } = Typography;
   const [isEditing, setIsEditing] = useState(false);
   const { control, trigger, setValue, setFocus, getValues } =
-    useFormContext<ProductAttributeOption>();
+    useFormContext<CustomProductAttributeOption>();
 
   useEffect(() => {
     if (isEditing) setFocus(`${dataIndex}`);

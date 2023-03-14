@@ -52,6 +52,7 @@ const injectedRtkApi = api
             page: queryArg.page,
             sort_by: queryArg.sortBy,
             lang: queryArg.lang,
+            exclude_id: queryArg.excludeId,
           },
         }),
         providesTags: ["Categories"],
@@ -122,6 +123,8 @@ export type GetAllCategoriesApiArg = {
   sortBy?: string;
   /** Code of language */
   lang?: string;
+  /** Category id to exclude */
+  excludeId?: number;
 };
 export type SaveCategoryApiResponse = /** status 200 success */ {
   data?: Category;

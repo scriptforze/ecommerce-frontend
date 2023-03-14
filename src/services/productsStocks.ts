@@ -1,36 +1,76 @@
 import { ecommerceApi as api } from "../store/ecommerceApi";
-export const addTagTypes = ["Product stocks by product"] as const;
+export const addTagTypes = ["Product stocks"] as const;
 const injectedRtkApi = api
   .enhanceEndpoints({
     addTagTypes,
   })
   .injectEndpoints({
     endpoints: (build) => ({
+      getAllProductStocksByProduct: build.query<
+        GetAllProductStocksByProductApiResponse,
+        GetAllProductStocksByProductApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}/stocks`,
+          params: {
+            include: queryArg.include,
+            search: queryArg.search,
+            per_page: queryArg.perPage,
+            page: queryArg.page,
+            sort_by: queryArg.sortBy,
+            lang: queryArg.lang,
+          },
+        }),
+        providesTags: ["Product stocks"],
+      }),
       saveProductStockByProduct: build.mutation<
         SaveProductStockByProductApiResponse,
         SaveProductStockByProductApiArg
       >({
         query: (queryArg) => ({
-          url: `/api/v1/products/${queryArg.product}/product_stocks`,
+          url: `/api/v1/products/${queryArg.product}/stocks`,
           method: "POST",
-          body: queryArg.storeProductStockRequest,
-          params: { include: queryArg.include },
+          body: queryArg.storeProductProductStockRequest,
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
-        invalidatesTags: ["Product stocks by product"],
+        invalidatesTags: ["Product stocks"],
       }),
     }),
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
+export type GetAllProductStocksByProductApiResponse =
+  /** status 200 success */ {
+    data?: ProductStock[];
+    meta?: Pagination;
+  };
+export type GetAllProductStocksByProductApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  /** String to search */
+  search?: string;
+  /** Number of resources per page */
+  perPage?: number;
+  /** Number of current page */
+  page?: number;
+  /** Name of field to sort */
+  sortBy?: string;
+  /** Code of language */
+  lang?: string;
+};
 export type SaveProductStockByProductApiResponse = /** status 200 success */ {
-  data?: ProductStock;
+  data?: ProductStock[];
 };
 export type SaveProductStockByProductApiArg = {
   /** Id of product */
   product: number;
   /** Relationships of resource */
   include?: string;
-  storeProductStockRequest: StoreProductStockRequest;
+  /** Code of language */
+  lang?: string;
+  storeProductProductStockRequest: StoreProductProductStockRequest;
 };
 export type Status = {
   id: number;
@@ -70,11 +110,12 @@ export type ProductAttribute = {
   name: string;
   type?: string;
   status?: Status;
+  product_attribute_options?: ProductAttributeOption[];
 };
 export type ProductAttributeOption = {
   id: number;
   name: string;
-  option: string;
+  option?: string;
   status?: Status;
   product_attribute?: ProductAttribute;
 };
@@ -91,7 +132,7 @@ export type Product = {
   name: string;
   slug: string;
   sku: string;
-  price: string;
+  price: number;
   tax: string;
   short_description: string;
   description: string;
@@ -124,6 +165,14 @@ export type ProductStock = {
   product_attribute_options?: ProductAttributeOption[];
   images?: Resource[];
 };
+export type Pagination = {
+  current_page?: number;
+  from?: number;
+  last_page?: number;
+  per_page?: number;
+  to?: number;
+  total?: number;
+};
 export type BadRequestException = {
   error?: string;
   code?: number;
@@ -140,14 +189,20 @@ export type ValidationException = {
   error?: object;
   code?: number;
 };
-export type StoreProductStockRequest = {
-  price: number;
+export type StoreProductProductStockRequest = {
   product_attribute_options: number[];
+  price: number;
+  sku?: string;
   stock?: number;
   width?: number;
   height?: number;
   length?: number;
   weight?: number;
-  images?: number[];
+  images?: {
+    attach?: number[];
+  };
 };
-export const { useSaveProductStockByProductMutation } = injectedRtkApi;
+export const {
+  useGetAllProductStocksByProductQuery,
+  useSaveProductStockByProductMutation,
+} = injectedRtkApi;
