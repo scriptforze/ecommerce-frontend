@@ -53,6 +53,6 @@ export const StyledMenuFoldOutlined = styled(MenuFoldOutlined)`
   transition: color 0.3s;
 
   &:hover {
-    color: #00d1b0;
+    color: ${({ theme }) => theme.token?.colorPrimary};
   }
 `;

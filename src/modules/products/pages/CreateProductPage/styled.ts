@@ -1,4 +1,4 @@
-import { Space, Form, Steps } from "antd";
+import { Space, Form } from "antd";
 import styled, { keyframes, css } from "styled-components";
 
 const animateFadeIn = keyframes`
@@ -97,37 +97,4 @@ export const StyledSpaceButtons = styled(Space)`
 
 export const FormGeneralStep = styled(Form)`
   margin-top: 20px;
-`;
-
-export const CustomStepProduct = styled(Steps)`
-  .ant-steps-item-wait {
-    .ant-steps-item-container {
-      .ant-steps-item-icon {
-        background: #ffffff;
-        border: 1px solid #ff8855;
-        span.ant-steps-icon {
-          color: #ff8855;
-        }
-      }
-    }
-  }
-  .ant-steps-item {
-    .ant-steps-item-container {
-      .ant-steps-item-content {
-        margin-top: 5px;
-        .ant-steps-item-title {
-          font-size: 10pt;
-        }
-      }
-    }
-  }
-  .ant-steps-item-process {
-    .ant-steps-item-container {
-      .ant-steps-item-content {
-        .ant-steps-item-title {
-          color: #00d1b0;
-        }
-      }
-    }
-  }
 `;

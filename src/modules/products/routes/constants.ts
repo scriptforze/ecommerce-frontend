@@ -3,7 +3,7 @@ export const ProductsRoutesList = {
   PRODUCTS: "/products",
   PARAM_PRODUCT_ID: ":id",
   CREATE_PRODUCT: "create",
-  CREATE_PRODUCT_FINISH: "finish",
-  CREATE_PRODUCT_STOCKS: "stocks",
-  CREATE_PRODUCT_GENERAL: "general",
+  PRODUCT_FINISH: "finish",
+  PRODUCT_STOCKS: "stocks",
+  PRODUCT_GENERAL: "general",
 };

@@ -1,13 +1,12 @@
 import { FormProvider, useForm } from "react-hook-form";
 import { Form } from "antd";
-import { ProductAttributeOption } from "@/services/productAttributeOptions";
-import { EditableRowProps } from "./types";
+import { CustomProductAttributeOption, EditableRowProps } from "./types";
 
 export const ProductAttributeOptionsRow = ({
   index,
   ...props
 }: EditableRowProps) => {
-  const methods = useForm<ProductAttributeOption>({
+  const methods = useForm<CustomProductAttributeOption>({
     mode: "onChange",
   });
   return (

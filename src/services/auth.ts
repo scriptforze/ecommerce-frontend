@@ -18,7 +18,7 @@ const injectedRtkApi = api
       getAuthUser: build.query<GetAuthUserApiResponse, GetAuthUserApiArg>({
         query: (queryArg) => ({
           url: `/api/v1/auth/me`,
-          params: { lang: queryArg.lang },
+          params: { include: queryArg.include, lang: queryArg.lang },
         }),
         providesTags: ["Auth"],
       }),
@@ -60,6 +60,8 @@ export type GetAuthUserApiResponse = /** status 200 success */ {
   data?: User;
 };
 export type GetAuthUserApiArg = {
+  /** Relationships of resource */
+  include?: string;
   /** Code of language */
   lang?: string;
 };

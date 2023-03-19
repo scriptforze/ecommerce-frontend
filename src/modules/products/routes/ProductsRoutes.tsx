@@ -1,36 +1,51 @@
 import { Navigate, Route } from "react-router-dom";
 import { RoutesWithNotFound } from "@/modules/common/components";
-import { CreateProductPage, ListProductPage } from "../pages";
 import {
-  GeneralStepForm,
-  ShipmentStepForm,
-  StocksStepForm,
-} from "../components";
+  ListProductPage,
+  CreateProductPage,
+  EditStocksStepPage,
+  EditGeneralStepPage,
+  EditSpecificationsStepPage,
+} from "../pages";
 import { ProductsRoutesList } from "./constants";
 import { AuthGuard } from "@/modules/common/guards";
+import { CustomProductStepperProvider } from "../components/CustomProductStepper/CustomProductStepperProvider";
+import { ProductStatusGuard } from "@/modules/products/guards";
 
 export const ProductsRoutes = () => {
   const {
-    CREATE_PRODUCT_GENERAL,
-    CREATE_PRODUCT_STOCKS,
-    CREATE_PRODUCT_FINISH,
+    EDIT_PRODUCT,
+    PRODUCT_STOCKS,
+    PRODUCT_FINISH,
+    CREATE_PRODUCT,
+    PRODUCT_GENERAL,
+    PARAM_PRODUCT_ID,
   } = ProductsRoutesList;
 
-  const RedirectToGeneralCreationStep = (
-    <Navigate to={CREATE_PRODUCT_GENERAL} />
-  );
+  const RedirectToGeneralStep = <Navigate to={PRODUCT_GENERAL} />;
 
   return (
-    <RoutesWithNotFound>
-      <Route element={<AuthGuard />}>
-        <Route path="/" element={<ListProductPage />} />
-        <Route path="/create/*" element={<CreateProductPage />}>
-          <Route index element={RedirectToGeneralCreationStep} />
-          <Route path={CREATE_PRODUCT_STOCKS} element={<StocksStepForm />} />
-          <Route path={CREATE_PRODUCT_GENERAL} element={<GeneralStepForm />} />
-          <Route path={CREATE_PRODUCT_FINISH} element={<ShipmentStepForm />} />
+    <CustomProductStepperProvider>
+      <RoutesWithNotFound>
+        <Route element={<AuthGuard />}>
+          <Route path="/" element={<ListProductPage />} />
+
+          <Route path={CREATE_PRODUCT} element={<CreateProductPage />} />
+
+          <Route
+            element={<ProductStatusGuard />}
+            path={`/${EDIT_PRODUCT}/${PARAM_PRODUCT_ID}/*`}
+          >
+            <Route path={PRODUCT_GENERAL} element={<EditGeneralStepPage />} />
+            <Route path={PRODUCT_STOCKS} element={<EditStocksStepPage />} />
+            <Route
+              path={PRODUCT_FINISH}
+              element={<EditSpecificationsStepPage />}
+            />
+            <Route path="*" element={RedirectToGeneralStep} />
+          </Route>
         </Route>
-      </Route>
-    </RoutesWithNotFound>
+      </RoutesWithNotFound>
+    </CustomProductStepperProvider>
   );
 };

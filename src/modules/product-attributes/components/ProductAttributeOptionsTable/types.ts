@@ -6,7 +6,7 @@ import {
   ProductAttributeOption,
 } from "@/services/productAttributeOptions";
 
-export type CustomProductAttributeOptionDto = Omit<
+export type CustomProductAttributeOption = Omit<
   ProductAttributeOption,
   "status" | "product_attribute"
 >;
@@ -28,8 +28,8 @@ export interface EditableCellProps {
   editable: boolean;
   children: ReactNode;
   record: ProductAttributeOption;
+  dataIndex: keyof CustomProductAttributeOption;
   handleSave: (record: ProductAttributeOption) => void;
-  dataIndex: keyof CustomProductAttributeOptionDto;
 }
 
 export type ColumnTypes = (

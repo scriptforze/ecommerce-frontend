@@ -1,2 +1,5 @@
 export * from "./CreateProductPage";
-export * from "./ListProductsPage/ListProductsPage";
+export * from "./EditGeneralStepPage";
+export * from "./EditSpecificationsStepPage";
+export * from "./EditStocksStepPage";
+export * from "./ListProductsPage";

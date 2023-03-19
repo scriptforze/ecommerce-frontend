@@ -6,6 +6,16 @@ const injectedRtkApi = api
   })
   .injectEndpoints({
     endpoints: (build) => ({
+      getProductById: build.query<
+        GetProductByIdApiResponse,
+        GetProductByIdApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}`,
+          params: { include: queryArg.include, lang: queryArg.lang },
+        }),
+        providesTags: ["Products"],
+      }),
       deleteProduct: build.mutation<
         DeleteProductApiResponse,
         DeleteProductApiArg
@@ -13,18 +23,6 @@ const injectedRtkApi = api
         query: (queryArg) => ({
           url: `/api/v1/products/${queryArg.product}`,
           method: "DELETE",
-          params: { include: queryArg.include, lang: queryArg.lang },
-        }),
-        invalidatesTags: ["Products"],
-      }),
-      finishProduct: build.mutation<
-        FinishProductApiResponse,
-        FinishProductApiArg
-      >({
-        query: (queryArg) => ({
-          url: `/api/v1/products/${queryArg.product}/finish`,
-          method: "POST",
-          body: queryArg.finishProductRequest,
           params: { include: queryArg.include, lang: queryArg.lang },
         }),
         invalidatesTags: ["Products"],
@@ -45,6 +43,30 @@ const injectedRtkApi = api
           },
         }),
         providesTags: ["Products"],
+      }),
+      saveProductSpecificationsStepByProduct: build.mutation<
+        SaveProductSpecificationsStepByProductApiResponse,
+        SaveProductSpecificationsStepByProductApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}/specifications_step`,
+          method: "POST",
+          body: queryArg.storeProductSpecificationStepRequest,
+          params: { include: queryArg.include, lang: queryArg.lang },
+        }),
+        invalidatesTags: ["Products"],
+      }),
+      saveProductStocksStepByProduct: build.mutation<
+        SaveProductStocksStepByProductApiResponse,
+        SaveProductStocksStepByProductApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}/stocks_step`,
+          method: "POST",
+          body: queryArg.storeProductStockStepRequest,
+          params: { include: queryArg.include, lang: queryArg.lang },
+        }),
+        invalidatesTags: ["Products"],
       }),
       saveProductGeneral: build.mutation<
         SaveProductGeneralApiResponse,
@@ -74,6 +96,17 @@ const injectedRtkApi = api
     overrideExisting: false,
   });
 export { injectedRtkApi as ecommerceApi };
+export type GetProductByIdApiResponse = /** status 200 success */ {
+  data?: Product;
+};
+export type GetProductByIdApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  /** Code of language */
+  lang?: string;
+};
 export type DeleteProductApiResponse = /** status 200 success */ {
   data?: Product;
 };
@@ -84,18 +117,6 @@ export type DeleteProductApiArg = {
   include?: string;
   /** Code of language */
   lang?: string;
-};
-export type FinishProductApiResponse = /** status 200 success */ {
-  data?: Product;
-};
-export type FinishProductApiArg = {
-  /** Id of product */
-  product: number;
-  /** Relationships of resource */
-  include?: string;
-  /** Code of language */
-  lang?: string;
-  finishProductRequest: FinishProductRequest;
 };
 export type GetAllProductsApiResponse = /** status 200 success */ {
   data?: Product[];
@@ -114,6 +135,32 @@ export type GetAllProductsApiArg = {
   sortBy?: string;
   /** Code of language */
   lang?: string;
+};
+export type SaveProductSpecificationsStepByProductApiResponse =
+  /** status 200 success */ {
+    data?: Product;
+  };
+export type SaveProductSpecificationsStepByProductApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  /** Code of language */
+  lang?: string;
+  storeProductSpecificationStepRequest: StoreProductSpecificationStepRequest;
+};
+export type SaveProductStocksStepByProductApiResponse =
+  /** status 200 success */ {
+    data?: ProductStock[];
+  };
+export type SaveProductStocksStepByProductApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
+  /** Code of language */
+  lang?: string;
+  storeProductStockStepRequest: StoreProductStockStepRequest;
 };
 export type SaveProductGeneralApiResponse = /** status 200 success */ {
   data?: Product;
@@ -175,11 +222,12 @@ export type ProductAttribute = {
   name: string;
   type?: string;
   status?: Status;
+  product_attribute_options?: ProductAttributeOption[];
 };
 export type ProductAttributeOption = {
   id: number;
   name: string;
-  option: string;
+  option?: string;
   status?: Status;
   product_attribute?: ProductAttribute;
 };
@@ -210,8 +258,8 @@ export type Product = {
   name: string;
   slug: string;
   sku: string;
-  price: string;
-  tax: string;
+  price: number;
+  tax: number;
   short_description: string;
   description: string;
   is_variable: boolean;
@@ -229,6 +277,10 @@ export type Product = {
   product_stocks?: ProductStock[];
   specifications?: ProductSpecification[];
 };
+export type ModelNotFoundException = {
+  error?: string;
+  code?: number;
+};
 export type BadRequestException = {
   error?: string;
   code?: number;
@@ -241,20 +293,6 @@ export type AuthorizationException = {
   error?: string;
   code?: number;
 };
-export type ModelNotFoundException = {
-  error?: string;
-  code?: number;
-};
-export type ValidationException = {
-  error?: object;
-  code?: number;
-};
-export type FinishProductRequest = {
-  specifications: {
-    name: string;
-    value: string;
-  }[];
-};
 export type Pagination = {
   current_page?: number;
   from?: number;
@@ -262,6 +300,29 @@ export type Pagination = {
   per_page?: number;
   to?: number;
   total?: number;
+};
+export type ValidationException = {
+  error?: object;
+  code?: number;
+};
+export type StoreProductSpecificationStepRequest = {
+  specifications: {
+    name: string;
+    value: string;
+  }[];
+};
+export type StoreProductStockStepRequest = {
+  stocks: {
+    product_attribute_options: number[];
+    price: number;
+    sku?: string;
+    stock?: number;
+    width?: number;
+    height?: number;
+    length?: number;
+    weight?: number;
+    images?: number[];
+  }[];
 };
 export type StoreProductGeneralRequest = {
   type: "product" | "service";
@@ -319,9 +380,11 @@ export type UpdateProductGeneralRequest = {
   };
 };
 export const {
+  useGetProductByIdQuery,
   useDeleteProductMutation,
-  useFinishProductMutation,
   useGetAllProductsQuery,
+  useSaveProductSpecificationsStepByProductMutation,
+  useSaveProductStocksStepByProductMutation,
   useSaveProductGeneralMutation,
   useUpdateProductGeneralMutation,
 } = injectedRtkApi;

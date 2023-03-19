@@ -6,6 +6,7 @@ import { ProductsRoutesList } from "@/modules/products/routes";
 import { Product } from "@/services/products";
 import { ProductTableColumnsProps } from "./types";
 import { DeleteRestoreButton } from "@/modules/common/components";
+import { GeneralStatuses } from "@/modules/common/constants";
 
 export const ProductTableColumns = ({
   handleDelete,
@@ -51,9 +52,9 @@ export const ProductTableColumns = ({
       title: "Stock",
       dataIndex: "product_stocks",
       sortDirections: ["ascend"],
-      render: (_, { is_variable, stock }) => {
-        // const [stockObj] = productStocks || [];
-        // const { stock = "-" } = stockObj || {};
+      render: (_, { is_variable, product_stocks }) => {
+        const [stockObj] = product_stocks || [];
+        const { stock = "-" } = stockObj || {};
         return <span>{is_variable ? "Variable" : stock}</span>;
       },
     },
@@ -69,15 +70,19 @@ export const ProductTableColumns = ({
       width: "15%",
       render: (_, record) => (
         <>
-          <Link to={`${record.id}/${ProductsRoutesList.EDIT_PRODUCT}`}>
+          <Link to={`${ProductsRoutesList.EDIT_PRODUCT}/${record.id}`}>
             <Button type="link" icon={<EditOutlined />} size="large" />
           </Link>
-          <DeleteRestoreButton
-            recordId={record.id}
-            status={record.status!}
-            handleDelete={handleDelete}
-            loading={isProductDeleteLoading}
-          />
+          {[GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
+            record.status!.name
+          ) && (
+            <DeleteRestoreButton
+              recordId={record.id}
+              status={record.status!}
+              handleDelete={handleDelete}
+              loading={isProductDeleteLoading}
+            />
+          )}
         </>
       ),
     },

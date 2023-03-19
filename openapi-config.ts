@@ -46,19 +46,36 @@ const config: ConfigFile = {
         "deleteProduct",
         "finishProduct",
         "getAllProducts",
+        "getProductById",
         "saveProductGeneral",
         "updateProductGeneral",
+        "saveProductStocksStepByProduct",
+        "saveProductSpecificationsStepByProduct",
       ],
     },
     "./src/services/productsStocks.ts": {
-      filterEndpoints: ["saveProductStockByProduct"],
+      filterEndpoints: [
+        "saveProductStockByProduct",
+        "getAllProductStocksByProduct",
+      ],
     },
     "./src/services/productAttributeOptions.ts": {
       filterEndpoints: [
+        "getAllProducts",
         "saveProductAttributeOption",
         "updateProductAttributeOption",
         "deleteProductAttributeOption",
         "getAllProductAttributeOptionsByProductAttribute",
+      ],
+    },
+    "./src/services/productSpecifications.ts": {
+      filterEndpoints: [
+        "updateProductSpecification",
+        "getAllProductSpecification",
+        "deleteProductSpecification",
+        "getProductSpecificationById",
+        "saveProductSpecificationByProduct",
+        "getAllProductSpecificationsByProduct",
       ],
     },
     "./src/services/resources.ts": {
