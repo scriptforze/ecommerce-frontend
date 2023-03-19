@@ -6,7 +6,7 @@ export const AttributesHeader = styled(Row)`
     width: 100%;
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 20px 0px;
     justify-content: space-between;
     &__attribute {
       &--title {

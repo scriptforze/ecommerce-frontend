@@ -49,6 +49,8 @@ const config: ConfigFile = {
         "getProductById",
         "saveProductGeneral",
         "updateProductGeneral",
+        "saveProductStocksStepByProduct",
+        "saveProductSpecificationsStepByProduct",
       ],
     },
     "./src/services/productsStocks.ts": {

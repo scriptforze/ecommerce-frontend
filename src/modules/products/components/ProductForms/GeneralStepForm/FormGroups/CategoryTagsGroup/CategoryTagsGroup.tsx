@@ -1,10 +1,10 @@
 import { Select, TreeSelect, Typography } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
-import { CustomCard } from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
 import { useGetAllCategoriesQuery } from "@/services/categories";
 import { useGetAllTagsQuery } from "@/services/tags";
 import { CustomStoreProductDto } from "../../types";
+import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const CategoryTagsGroup = () => {
   const { Text } = Typography;

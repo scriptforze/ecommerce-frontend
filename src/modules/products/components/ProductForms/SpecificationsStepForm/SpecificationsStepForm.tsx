@@ -7,7 +7,7 @@ import {
 } from "@/modules/products/components/CustomProductStepper";
 import { SpecificationsStepFormProps } from "./types";
 import { ProductsRoutesList } from "@/modules/products/routes";
-import { ProductSpecsTable } from "../../ProductSpecsTable";
+import { ProductSpecsTable } from "./ProductSpecsTable";
 import { TableContainer } from "./styled";
 
 export const SpecificationsStepForm = ({

@@ -1,43 +1,5 @@
-import { Card, Form, Badge, Space } from "antd";
-import styled, { css } from "styled-components";
-
-export const FormGeneralStep = styled(Form)<{ $affixed: boolean }>`
-  margin-top: 15px;
-  ${({ $affixed }) =>
-    $affixed &&
-    css`
-      margin-top: 140px;
-      animation-duration: 200ms;
-    `}
-`;
-
-export const CustomCard = styled(Card)`
-  border-radius: 10px;
-  .ant-card-head {
-    border-bottom: none;
-  }
-  .ant-card-head div div {
-    padding: 16px 0px;
-  }
-
-  .ant-card-body {
-    padding-top: 0px;
-  }
-
-  .custom-card {
-    &__footer {
-      &--text {
-        justify-content: center;
-        width: 100%;
-        align-items: center;
-      }
-      &--text p::before {
-        color: #00d1b0;
-        content: "*";
-      }
-    }
-  }
-`;
+import { Badge, Space } from "antd";
+import styled from "styled-components";
 
 export const CustomBadge = styled(Badge)`
   .button-badge {
@@ -58,8 +20,8 @@ export const CustomBadge = styled(Badge)`
       }
       &--checked {
         background-color: white;
-        border: 1px solid #00d1b0;
-        color: #00d1b0;
+        border: 1px solid ${({ theme }) => theme.token?.colorPrimary};
+        color: ${({ theme }) => theme.token?.colorPrimary};
         font-size: 8pt;
         margin-right: 8px;
         padding: 5px 5px;

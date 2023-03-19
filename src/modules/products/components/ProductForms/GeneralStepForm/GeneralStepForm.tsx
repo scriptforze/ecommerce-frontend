@@ -2,7 +2,6 @@ import { Row, Col, Space } from "antd";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { FormGeneralStep } from "./styled";
 import {
   PriceGroup,
   ImagesGroup,
@@ -23,10 +22,12 @@ import {
   useSaveProductGeneralMutation,
   SaveProductGeneralApiResponse,
 } from "@/services/products";
-import { parseDataByAction, parseProductAttributesOptions } from "./utils";
+import { parseDataByAction } from "./utils";
 import { pushNotification } from "@/modules/common/helpers";
 import { ProductsRoutesList } from "@/modules/products/routes";
 import { ProductCreationSteps } from "@/modules/products/components/CustomProductStepper/types";
+import { parseProductAttributesOptions } from "@/modules/products/helpers";
+import { CustomForm } from "../../CustomForm";
 
 export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
   const parsedTags = product?.tags?.map((tag) => tag.id) || [];
@@ -129,7 +130,7 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
         isSubmitting={isProductStoreLoading}
         onNext={methods.handleSubmit(onSubmit)}
       />
-      <FormGeneralStep layout="vertical" autoComplete="off" $affixed={affixed}>
+      <CustomForm layout="vertical" autoComplete="off" $affixed={affixed}>
         <Row gutter={[spacingCards, spacingCards]}>
           <Col span={15}>
             <Space
@@ -155,7 +156,7 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
             </Space>
           </Col>
         </Row>
-      </FormGeneralStep>
+      </CustomForm>
     </FormProvider>
   );
 };

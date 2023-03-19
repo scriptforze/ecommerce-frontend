@@ -7,15 +7,13 @@ import {
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { Controller, useFieldArray, useFormContext } from "react-hook-form";
-import {
-  CustomCard,
-  CustomBadge,
-} from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
+import { CustomBadge } from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
 import {
   StoreResourceRequest,
   useSaveResourceMutation,
 } from "@/services/resources";
 import { CustomStoreProductDto } from "../../types";
+import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const ImagesGroup = () => {
   const { Text } = Typography;

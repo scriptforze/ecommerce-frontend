@@ -1,9 +1,9 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Divider, Switch, Typography } from "antd";
 import { CustomStoreProductDto } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
-import { CustomCard } from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
-import { AttributesGroup } from "./AttributesGroup";
-import { ProductStockGroup } from "./ProductStockGroup";
+import { AttributesGroup } from "@/modules/products/components/ProductForms/CommonFormGroups";
+import { ProductStockGroup } from "../ProductStockGroup";
+import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const ProductVariableGroup = () => {
   const { Text } = Typography;

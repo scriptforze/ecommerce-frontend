@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { FormItem } from "@/modules/common/components";
 import { CustomSpace } from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
 import { useGetAllProductAttributesQuery } from "@/services/productAttributes";
-import { CustomStoreProductDto } from "../../../types";
+import { CustomStoreProductDto } from "../../GeneralStepForm/types";
 import { AttributesHeader } from "./styled";
+import { refineDuplicatedAttributes } from "./utils";
 
 export const AttributesGroup = () => {
   const { Text, Title } = Typography;
@@ -68,7 +69,7 @@ export const AttributesGroup = () => {
               size="large"
               onClick={() => append({})}
               icon={<PlusCircleOutlined />}
-              className="attributes-header__attribute--addbutton"
+              disabled={fields.length === attributes?.data?.length}
             >
               Add new attribute
             </Button>
@@ -76,6 +77,12 @@ export const AttributesGroup = () => {
         </Col>
       </AttributesHeader>
       {controlledFields.map((field, index) => {
+        const attributesData = refineDuplicatedAttributes(
+          field,
+          controlledFields,
+          attributes?.data
+        );
+
         return (
           <Row key={field.id} gutter={[24, 24]}>
             <Col span={12}>
@@ -105,8 +112,14 @@ export const AttributesGroup = () => {
                       }}
                       status={error && "error"}
                       style={{ width: "100%" }}
-                      options={attributes?.data}
-                      value={attributeField.value}
+                      loading={isAttributesFetching}
+                      disabled={isAttributesFetching}
+                      options={attributesData}
+                      value={
+                        attributesData?.length
+                          ? attributeField.value
+                          : undefined
+                      }
                       placeholder="Please select an attribute"
                     />
                     <Text type="danger">{error?.message}</Text>
@@ -130,12 +143,15 @@ export const AttributesGroup = () => {
                       allowClear
                       mode="tags"
                       size="large"
-                      status={error && "error"}
                       style={{ width: "100%" }}
-                      value={optionsField.value}
+                      status={error && "error"}
+                      loading={isAttributesFetching}
                       onChange={optionsField.onChange}
                       fieldNames={{ label: "name", value: "id" }}
                       placeholder="Please select attribute's options"
+                      value={
+                        !isAttributesFetching ? optionsField.value : undefined
+                      }
                       options={
                         field.attribute ? attributeValues[field.attribute] : []
                       }

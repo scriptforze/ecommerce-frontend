@@ -1,12 +1,12 @@
 import { Navigate, Route } from "react-router-dom";
 import { RoutesWithNotFound } from "@/modules/common/components";
 import {
+  ListProductPage,
   CreateProductPage,
+  EditStocksStepPage,
   EditGeneralStepPage,
   EditSpecificationsStepPage,
-  ListProductPage,
 } from "../pages";
-import { StocksStepForm } from "../components";
 import { ProductsRoutesList } from "./constants";
 import { AuthGuard } from "@/modules/common/guards";
 import { CustomProductStepperProvider } from "../components/CustomProductStepper/CustomProductStepperProvider";
@@ -37,7 +37,7 @@ export const ProductsRoutes = () => {
             path={`/${EDIT_PRODUCT}/${PARAM_PRODUCT_ID}/*`}
           >
             <Route path={PRODUCT_GENERAL} element={<EditGeneralStepPage />} />
-            <Route path={PRODUCT_STOCKS} element={<StocksStepForm />} />
+            <Route path={PRODUCT_STOCKS} element={<EditStocksStepPage />} />
             <Route
               path={PRODUCT_FINISH}
               element={<EditSpecificationsStepPage />}
