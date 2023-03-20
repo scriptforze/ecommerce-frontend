@@ -10,13 +10,13 @@ import {
   useUpdateProductSpecificationMutation,
   useDeleteProductSpecificationMutation,
   StoreProductProductSpecificationRequest,
-  useGetAllProductSpecificationsByProductQuery,
   useSaveProductSpecificationByProductMutation,
 } from "@/services/productSpecifications";
-import { useLangTranslation } from "@/modules/common/hooks";
 
 export const ProductSpecsTable = ({
   product,
+  isFetching,
+  specifications,
 }: ProductSpecificationsTableProps) => {
   const {
     control,
@@ -26,14 +26,6 @@ export const ProductSpecsTable = ({
   } = useForm<StoreProductProductSpecificationRequest>({
     mode: "onChange",
   });
-
-  const { lang } = useLangTranslation();
-  const { isFetching, data: specs } =
-    useGetAllProductSpecificationsByProductQuery({
-      lang,
-      product: product.id,
-      include: "status",
-    });
 
   const components = {
     body: {
@@ -60,13 +52,16 @@ export const ProductSpecsTable = ({
         storeProductProductSpecificationRequest,
       })
         .unwrap()
-        .then(() => resetField("name"));
+        .then(() => {
+          resetField("name");
+          resetField("value");
+        });
     }
   };
 
   const handleSave = (record: ProductSpecification) => {
     const { id: productSpecification, name, value } = record;
-    const recordBeforeChanges = specs?.data?.find(
+    const recordBeforeChanges = specifications?.find(
       (spec) => spec.id === productSpecification
     );
 
@@ -145,14 +140,14 @@ export const ProductSpecsTable = ({
         />
         <FormItem>
           <Button type="primary" htmlType="submit" loading={isStoreSpecLoading}>
-            Add Specification
+            Add specification
           </Button>
         </FormItem>
       </Form>
       <Table
         bordered
         components={components}
-        dataSource={specs?.data}
+        dataSource={specifications}
         rowKey={(record) => record.id}
         columns={columns as ColumnTypes}
         rowClassName={() => "editable-row"}

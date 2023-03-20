@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/modules/common/hooks";
 import { setProduct, reset } from "@/modules/products/store";
 import { NotFound } from "@/modules/common/components";
 import { ProductsRoutesList } from "@/modules/products/routes";
+import { PRODUCT_INCLUDES } from "../../constants";
 
 export const ProductStatusGuard = () => {
   const { id } = useParams();
@@ -25,8 +26,7 @@ export const ProductStatusGuard = () => {
   } = useGetProductByIdQuery(
     {
       product: productId,
-      include:
-        "category,tags,product_attribute_options,product_stocks,images,stock_images",
+      include: PRODUCT_INCLUDES,
     },
     { skip: !!product && product.id === productId }
   );

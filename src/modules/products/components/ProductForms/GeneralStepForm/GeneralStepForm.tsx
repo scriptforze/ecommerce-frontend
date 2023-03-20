@@ -1,55 +1,71 @@
-import { Row, Col, Space } from "antd";
+import { Row, Col, Space, Card } from "antd";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 import {
   PriceGroup,
   ImagesGroup,
   BasicInfoGroup,
   OtherInfoGroup,
   CategoryTagsGroup,
-  ProductVariableGroup,
+  ProductStockGroup,
 } from "./FormGroups";
 import { CustomProductStepper } from "../../CustomProductStepper/CustomProductStepper";
 import { useProductStepperContext } from "../../CustomProductStepper/utils";
+import { CustomProductFormValues, GeneralStepFormProps } from "./types";
 import {
-  ActionToPerform,
-  CustomStoreProductDto,
-  GeneralStepFormProps,
-} from "./types";
-import {
-  StoreProductGeneralRequest,
   useSaveProductGeneralMutation,
   SaveProductGeneralApiResponse,
+  useUpdateProductGeneralMutation,
 } from "@/services/products";
-import { parseDataByAction } from "./utils";
-import { pushNotification } from "@/modules/common/helpers";
+import { parseData } from "./utils";
+import { isErrorWithMessage, pushNotification } from "@/modules/common/helpers";
 import { ProductsRoutesList } from "@/modules/products/routes";
 import { ProductCreationSteps } from "@/modules/products/components/CustomProductStepper/types";
 import { parseProductAttributesOptions } from "@/modules/products/helpers";
 import { CustomForm } from "../../CustomForm";
+import { PRODUCT_INCLUDES } from "@/modules/products/constants";
+import { useAppDispatch } from "@/modules/common/hooks";
+import { setProduct } from "@/modules/products/store";
 
 export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
+  const dispatch = useAppDispatch();
   const parsedTags = product?.tags?.map((tag) => tag.id) || [];
+
+  const [mainStock] = product?.product_stocks || [];
+  const { length, height, width, weight, stock } = mainStock || {};
+
+  const parsedImages =
+    product?.images?.map((image) => ({
+      id: image.id,
+      url: image.urls.small,
+    })) || [];
+
   const parsedProductAttributesOptions = parseProductAttributesOptions(
     product?.product_attribute_options
   );
 
-  const methods = useForm<CustomStoreProductDto>({
+  const methods = useForm<CustomProductFormValues>({
     mode: "onChange",
     defaultValues: {
-      tags: parsedTags,
+      stock,
+      width,
+      length,
+      height,
+      weight,
+      type: "product",
       tax: product?.tax,
       name: product?.name,
       price: product?.price,
-      stock: product?.stock,
-      width: product?.width,
-      height: product?.height,
-      length: product?.length,
-      weight: product?.weight,
+      array_tags: parsedTags,
+      array_images: parsedImages,
+      tags: { attach: [], detach: [] },
       description: product?.description,
-      is_variable: product?.is_variable,
+      images: { attach: [], detach: [] },
       category_id: product?.category?.id,
+      is_variable: product?.is_variable || false,
       short_description: product?.short_description,
       product_attribute_options: parsedProductAttributesOptions,
     },
@@ -57,13 +73,13 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
   const navigate = useNavigate();
   const [affixed, setAffixed] = useState(false);
   const isVariable = methods.getValues("is_variable");
-  const [formAction] = useState<ActionToPerform>("create");
   const { stepperState, stepButtonsDispatch } = useProductStepperContext();
-
-  const spacingCards = 15;
 
   const [createProduct, { isLoading: isProductStoreLoading }] =
     useSaveProductGeneralMutation();
+
+  const [updateProduct, { isLoading: isProductUpdateLoading }] =
+    useUpdateProductGeneralMutation();
 
   const onAffixChanged = (affixValue?: boolean) => {
     const isAffixed = affixValue || false;
@@ -76,6 +92,24 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
 
     if (action === "discard") {
       navigate(ProductsRoutesList.PRODUCTS);
+    }
+  };
+
+  const onRequestError = (error?: FetchBaseQueryError | SerializedError) => {
+    if (error && isErrorWithMessage(error)) {
+      const errors = error.data.error;
+      if (typeof errors === "object") {
+        Object.entries(errors).forEach((err) => {
+          const [fieldType, message] = err || [];
+          let field = fieldType as keyof CustomProductFormValues;
+          field = field === "images" ? "array_images" : field;
+
+          methods.setError(field, {
+            type: "custom",
+            message: message.join("\r\n"),
+          });
+        });
+      }
     }
   };
 
@@ -98,24 +132,34 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
       ? ProductsRoutesList.PRODUCT_STOCKS
       : ProductsRoutesList.PRODUCT_FINISH;
 
+    if (product && data) {
+      dispatch(setProduct({ product: data }));
+    }
+
     navigate(
       `${ProductsRoutesList.PRODUCTS}/${ProductsRoutesList.EDIT_PRODUCT}/${data?.id}/${productStepPageToEdit}`
     );
   };
 
-  const onSubmit = (data: CustomStoreProductDto) => {
-    const parsedData = parseDataByAction(formAction, data);
-    switch (formAction) {
-      case "create": {
-        const storeProductGeneralRequest =
-          parsedData as StoreProductGeneralRequest;
-        createProduct({ storeProductGeneralRequest })
-          .unwrap()
-          .then(onRequestSuccess);
-        break;
-      }
-      default:
-        throw new Error(`The action ${formAction} is not supported`);
+  const onSubmit = (data: CustomProductFormValues) => {
+    const parsedData = parseData(data, product);
+
+    if (!product) {
+      createProduct({
+        include: PRODUCT_INCLUDES,
+        storeProductGeneralRequest: { ...parsedData },
+      })
+        .unwrap()
+        .then(onRequestSuccess)
+        .catch(onRequestError);
+    } else {
+      updateProduct({
+        product: product.id,
+        include: PRODUCT_INCLUDES,
+        updateProductGeneralRequest: { ...parsedData },
+      })
+        .unwrap()
+        .then(onRequestSuccess);
     }
   };
 
@@ -127,30 +171,24 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
         isEditting={!!product}
         isProductVariable={isVariable}
         onAffixChanged={onAffixChanged}
-        isSubmitting={isProductStoreLoading}
         onNext={methods.handleSubmit(onSubmit)}
+        isSubmitting={isProductStoreLoading || isProductUpdateLoading}
       />
       <CustomForm layout="vertical" autoComplete="off" $affixed={affixed}>
-        <Row gutter={[spacingCards, spacingCards]}>
+        <Row gutter={[15, 15]}>
           <Col span={15}>
-            <Space
-              size={spacingCards}
-              direction="vertical"
-              style={{ display: "flex" }}
-            >
+            <Space size={15} direction="vertical" style={{ display: "flex" }}>
               <BasicInfoGroup />
               <OtherInfoGroup />
               <PriceGroup />
-              <ProductVariableGroup />
+              <Card>
+                <ProductStockGroup />
+              </Card>
             </Space>
           </Col>
 
           <Col span={9}>
-            <Space
-              size={spacingCards}
-              direction="vertical"
-              style={{ display: "flex" }}
-            >
+            <Space size={15} direction="vertical" style={{ display: "flex" }}>
               <ImagesGroup />
               <CategoryTagsGroup />
             </Space>

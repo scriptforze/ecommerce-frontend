@@ -9,6 +9,8 @@ import { SpecificationsStepFormProps } from "./types";
 import { ProductsRoutesList } from "@/modules/products/routes";
 import { ProductSpecsTable } from "./ProductSpecsTable";
 import { TableContainer } from "./styled";
+import { useLangTranslation } from "@/modules/common/hooks";
+import { useGetAllProductSpecificationsByProductQuery } from "@/services/productSpecifications";
 
 export const SpecificationsStepForm = ({
   product,
@@ -16,6 +18,14 @@ export const SpecificationsStepForm = ({
   const navigate = useNavigate();
   const [affixed, setAffixed] = useState(false);
   const { stepperState, stepButtonsDispatch } = useProductStepperContext();
+
+  const { lang } = useLangTranslation();
+  const { isFetching, data: specifications } =
+    useGetAllProductSpecificationsByProductQuery({
+      lang,
+      product: product.id,
+      include: "status",
+    });
 
   const onAffixChanged = (affixValue?: boolean) => {
     const isAffixed = affixValue || false;
@@ -39,10 +49,14 @@ export const SpecificationsStepForm = ({
         onPrevius={onPrevious}
         onAffixChanged={onAffixChanged}
         isProductVariable={product!.is_variable}
-        onNext={() => {}}
+        onNext={() => navigate(`${ProductsRoutesList.PRODUCTS}`)}
       />
       <TableContainer $affixed={affixed}>
-        <ProductSpecsTable product={product} />
+        <ProductSpecsTable
+          product={product}
+          isFetching={isFetching}
+          specifications={specifications?.data}
+        />
       </TableContainer>
     </>
   );

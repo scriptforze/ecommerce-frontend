@@ -47,6 +47,7 @@ const config: ConfigFile = {
         "finishProduct",
         "getAllProducts",
         "getProductById",
+        "publishProduct",
         "saveProductGeneral",
         "updateProductGeneral",
         "saveProductStocksStepByProduct",

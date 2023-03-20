@@ -44,6 +44,17 @@ const injectedRtkApi = api
         }),
         providesTags: ["Products"],
       }),
+      publishProduct: build.mutation<
+        PublishProductApiResponse,
+        PublishProductApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/products/${queryArg.product}/publish`,
+          method: "POST",
+          params: { include: queryArg.include, lang: queryArg.lang },
+        }),
+        invalidatesTags: ["Products"],
+      }),
       saveProductSpecificationsStepByProduct: build.mutation<
         SaveProductSpecificationsStepByProductApiResponse,
         SaveProductSpecificationsStepByProductApiArg
@@ -133,6 +144,17 @@ export type GetAllProductsApiArg = {
   page?: number;
   /** Name of field to sort */
   sortBy?: string;
+  /** Code of language */
+  lang?: string;
+};
+export type PublishProductApiResponse = /** status 200 success */ {
+  data?: Product[];
+};
+export type PublishProductApiArg = {
+  /** Id of product */
+  product: number;
+  /** Relationships of resource */
+  include?: string;
   /** Code of language */
   lang?: string;
 };
@@ -383,6 +405,7 @@ export const {
   useGetProductByIdQuery,
   useDeleteProductMutation,
   useGetAllProductsQuery,
+  usePublishProductMutation,
   useSaveProductSpecificationsStepByProductMutation,
   useSaveProductStocksStepByProductMutation,
   useSaveProductGeneralMutation,

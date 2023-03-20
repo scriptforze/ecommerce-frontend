@@ -3,8 +3,8 @@ import { ProductAttributeOption } from "@/services/productAttributeOptions";
 export const parseProductAttributesOptions = (
   productAttributeOptions?: ProductAttributeOption[]
 ) => {
-  return (
-    productAttributeOptions?.reduce((result, current) => {
+  const attributeOptions = productAttributeOptions?.reduce(
+    (result, current) => {
       const { product_attribute: attribute, id: valueId } = current;
       const { id: attributeId } = attribute!;
 
@@ -22,6 +22,9 @@ export const parseProductAttributesOptions = (
       }
 
       return result;
-    }, [] as { attribute?: number; value?: number[] }[]) || []
+    },
+    [] as { attribute?: number; value?: number[] }[]
   );
+
+  return attributeOptions;
 };

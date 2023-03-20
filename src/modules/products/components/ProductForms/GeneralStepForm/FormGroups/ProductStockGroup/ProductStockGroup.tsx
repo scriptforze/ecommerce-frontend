@@ -1,11 +1,11 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Col, Input, Row, Typography } from "antd";
-import { CustomStoreProductDto } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
+import { CustomProductFormValues } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
 import { FormItem } from "@/modules/common/components";
 
 export const ProductStockGroup = () => {
   const { Text } = Typography;
-  const { control } = useFormContext<CustomStoreProductDto>();
+  const { control } = useFormContext<CustomProductFormValues>();
   return (
     <>
       <Row gutter={16}>

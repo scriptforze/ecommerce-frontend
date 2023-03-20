@@ -6,18 +6,29 @@ export interface AttributeProps {
   type: string;
 }
 
-export type ActionToPerform = "create" | "update";
-
 export interface GeneralStepFormProps {
   product?: Product;
 }
 
-export interface CustomStoreProductDto
+export interface ImageAttach {
+  id: number;
+  location: number;
+}
+
+export interface CustomProductFormValues
   extends Omit<
     StoreProductGeneralRequest,
-    "product_attribute_options" | "images" | "tags"
+    "product_attribute_options" | "tags" | "images"
   > {
   product_attribute_options: { attribute?: number; value?: number[] }[];
-  images: { id: number; url: string }[];
-  tags: number[];
+  array_images: { id: number; url: string }[];
+  images: {
+    attach: ImageAttach[];
+    detach: number[];
+  };
+  tags: {
+    attach: number[];
+    detach: number[];
+  };
+  array_tags: number[];
 }

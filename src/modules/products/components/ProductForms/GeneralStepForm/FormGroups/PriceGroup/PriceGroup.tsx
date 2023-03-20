@@ -2,12 +2,12 @@ import { Col, Input, Row, Typography } from "antd";
 import { DollarCircleOutlined, PercentageOutlined } from "@ant-design/icons";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
-import { CustomStoreProductDto } from "../../types";
+import { CustomProductFormValues } from "../../types";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const PriceGroup = () => {
   const { Text } = Typography;
-  const { control } = useFormContext<CustomStoreProductDto>();
+  const { control } = useFormContext<CustomProductFormValues>();
 
   return (
     <CustomCard title="Price">

@@ -7,10 +7,13 @@ import { Product } from "@/services/products";
 import { ProductTableColumnsProps } from "./types";
 import { DeleteRestoreButton } from "@/modules/common/components";
 import { GeneralStatuses } from "@/modules/common/constants";
+import { PublishProductButton } from "./PublishProductButton";
 
 export const ProductTableColumns = ({
   handleDelete,
+  handlePublish,
   isProductDeleteLoading,
+  isProductPublishLoading,
 }: ProductTableColumnsProps) => {
   const DEFAULT_COLUMNS: ColumnsType<Product> = [
     {
@@ -68,23 +71,34 @@ export const ProductTableColumns = ({
       title: "Acciones",
       key: "actions",
       width: "15%",
-      render: (_, record) => (
-        <>
-          <Link to={`${ProductsRoutesList.EDIT_PRODUCT}/${record.id}`}>
-            <Button type="link" icon={<EditOutlined />} size="large" />
-          </Link>
-          {[GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
-            record.status!.name
-          ) && (
-            <DeleteRestoreButton
-              recordId={record.id}
-              status={record.status!}
-              handleDelete={handleDelete}
-              loading={isProductDeleteLoading}
-            />
-          )}
-        </>
-      ),
+      render: (_, record) => {
+        return (
+          <>
+            <Link to={`${ProductsRoutesList.EDIT_PRODUCT}/${record.id}`}>
+              <Button type="link" icon={<EditOutlined />} size="large" />
+            </Link>
+            {![GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
+              record.status!.name
+            ) && (
+              <PublishProductButton
+                recordId={record.id}
+                handlePublish={handlePublish}
+                loading={isProductPublishLoading}
+              />
+            )}
+            {[GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
+              record.status!.name
+            ) && (
+              <DeleteRestoreButton
+                recordId={record.id}
+                status={record.status!}
+                handleDelete={handleDelete}
+                loading={isProductDeleteLoading}
+              />
+            )}
+          </>
+        );
+      },
     },
   ];
 
