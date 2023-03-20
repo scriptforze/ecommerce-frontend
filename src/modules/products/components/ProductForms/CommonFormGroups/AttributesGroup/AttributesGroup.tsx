@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import { FormItem } from "@/modules/common/components";
 import { CustomSpace } from "@/modules/products/components/ProductForms/GeneralStepForm/styled";
 import { useGetAllProductAttributesQuery } from "@/services/productAttributes";
-import { CustomStoreProductDto } from "../../GeneralStepForm/types";
+import { CustomProductFormValues } from "../../GeneralStepForm/types";
 import { AttributesHeader } from "./styled";
 import { refineDuplicatedAttributes } from "./utils";
 
 export const AttributesGroup = () => {
   const { Text, Title } = Typography;
-  const { control, watch, setValue } = useFormContext<CustomStoreProductDto>();
+  const { control, watch, setValue } =
+    useFormContext<CustomProductFormValues>();
 
   const { fields, append, remove } = useFieldArray({
     control,

@@ -16,6 +16,7 @@ import {
   Product,
   useDeleteProductMutation,
   DeleteProductApiResponse,
+  usePublishProductMutation,
 } from "@/services/products";
 import { INITIAL_PRODUCTS_API_ARG } from "./constants";
 import { useDebounce } from "@/modules/common/hooks";
@@ -34,6 +35,10 @@ export const ListProductPage = () => {
 
   const [deleteProduct, { isLoading: isProductDeleteLoading }] =
     useDeleteProductMutation();
+
+  const [publishProduct, { isLoading: isProductPublishLoading }] =
+    usePublishProductMutation();
+
   const { data: products, isFetching } = useGetAllProductsQuery({
     ...productsArgs,
     search: debouncedSearchQuery,
@@ -48,6 +53,14 @@ export const ListProductPage = () => {
       message: `Product ${
         data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
       } successfully`,
+    });
+  };
+
+  const onPublishSuccess = () => {
+    pushNotification({
+      type: "success",
+      title: "Product published",
+      message: "Product published successfully",
     });
   };
 
@@ -71,9 +84,15 @@ export const ListProductPage = () => {
     });
   };
 
+  const handlePublish = (recordId: number) => {
+    publishProduct({ product: recordId }).unwrap().then(onPublishSuccess);
+  };
+
   const ProductColumns = ProductTableColumns({
     handleDelete,
+    handlePublish,
     isProductDeleteLoading,
+    isProductPublishLoading,
   });
 
   return (

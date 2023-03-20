@@ -9,6 +9,8 @@ import { Product } from "@/services/products";
 
 export interface ProductSpecificationsTableProps {
   product: Product;
+  isFetching: boolean;
+  specifications?: ProductSpecification[];
 }
 
 export interface ProductSpecificationsFormProps {

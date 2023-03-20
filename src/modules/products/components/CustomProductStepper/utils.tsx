@@ -48,8 +48,8 @@ export const buttonStepReducer = (
         },
         submit: {
           targetStep: 2,
+          title: "Finish",
           action: "submit",
-          title: "Save & Close",
           icon: <SaveOutlined />,
           className: "space-buttons__button--submit",
         },

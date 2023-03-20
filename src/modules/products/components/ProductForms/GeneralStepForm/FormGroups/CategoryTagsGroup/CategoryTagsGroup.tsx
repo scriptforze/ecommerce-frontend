@@ -3,12 +3,13 @@ import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
 import { useGetAllCategoriesQuery } from "@/services/categories";
 import { useGetAllTagsQuery } from "@/services/tags";
-import { CustomStoreProductDto } from "../../types";
+import { CustomProductFormValues } from "../../types";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const CategoryTagsGroup = () => {
   const { Text } = Typography;
-  const { control } = useFormContext<CustomStoreProductDto>();
+  const { control, setValue, getValues } =
+    useFormContext<CustomProductFormValues>();
 
   const { data: categories, isFetching: isCategoryFetching } =
     useGetAllCategoriesQuery({
@@ -19,6 +20,20 @@ export const CategoryTagsGroup = () => {
   const { data: tags, isFetching: isTagsFetching } = useGetAllTagsQuery({
     perPage: 100,
   });
+
+  const handleTagsChange = (value: number[]) => {
+    const tagsValue = getValues("tags");
+    const arrayTags = getValues("array_tags");
+    const tagsToAttach = value.filter((tag) => !arrayTags.includes(tag));
+    const detachedTags = arrayTags.filter((tag) => !value.includes(tag));
+
+    const finalTagsToAttach = [...tagsValue.attach, ...tagsToAttach];
+    const finalTagsToDetach = [...tagsValue.detach, ...detachedTags];
+
+    setValue("array_tags", value);
+    setValue("tags.attach", finalTagsToAttach);
+    setValue("tags.detach", finalTagsToDetach);
+  };
 
   return (
     <CustomCard title="Category and Tags">
@@ -60,7 +75,7 @@ export const CategoryTagsGroup = () => {
       />
 
       <Controller
-        name="tags"
+        name="array_tags"
         control={control}
         rules={{
           required: {
@@ -87,7 +102,7 @@ export const CategoryTagsGroup = () => {
                 disabled={isTagsFetching}
                 style={{ width: "100%" }}
                 status={error && "error"}
-                onChange={field.onChange}
+                onChange={handleTagsChange}
                 placeholder="Please select"
                 value={tags?.data?.length ? field.value : undefined}
               />

@@ -12,21 +12,24 @@ import {
   StoreResourceRequest,
   useSaveResourceMutation,
 } from "@/services/resources";
-import { CustomStoreProductDto } from "../../types";
+import { CustomProductFormValues } from "../../types";
 import { CustomCard } from "@/modules/products/components/CustomCard";
+import { useAppSelector } from "@/modules/common/hooks";
 
 export const ImagesGroup = () => {
   const { Text } = Typography;
   const {
+    watch,
     control,
     setValue,
-    watch,
+    getValues,
     formState: { errors },
-  } = useFormContext<CustomStoreProductDto>();
+  } = useFormContext<CustomProductFormValues>();
+  const product = useAppSelector((state) => state.products.product);
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "images",
     keyName: "fieldId",
+    name: "array_images",
     rules: {
       required: true,
       validate: (value) => {
@@ -35,7 +38,7 @@ export const ImagesGroup = () => {
     },
   });
 
-  const watchImages = watch("images");
+  const watchImages = watch("array_images");
   const [isEditing, setIsEditing] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [resourceToEdit, setResourceToEdit] = useState<{
@@ -54,22 +57,33 @@ export const ImagesGroup = () => {
   ] = useSaveResourceMutation();
 
   useEffect(() => {
-    if (isCreating && dataResource && isResourceSuccess) {
-      const { id = 0, urls } = dataResource.data || {};
-      const { small = "" } = urls || {};
-      append({ id, url: small });
+    if (isCreating && isResourceSuccess && dataResource && dataResource.data) {
+      const images = getValues("images");
+      const { id, urls } = dataResource.data;
+      const location = images.attach.length + 1;
+
+      append({ id, url: urls.small! });
+      setValue("images.attach", [...images.attach, { id, location }]);
       setIsCreating(false);
     }
   }, [isCreating, isResourceSuccess, dataResource]);
 
   useEffect(() => {
-    if (isEditing && dataResource && resourceToEdit && isResourceSuccess) {
-      const { id = 0, urls } = dataResource.data || {};
-      const { small = "" } = urls || {};
+    if (
+      isEditing &&
+      dataResource &&
+      resourceToEdit &&
+      isResourceSuccess &&
+      dataResource.data
+    ) {
       const { index } = resourceToEdit;
+      const images = getValues("images");
 
-      setValue(`images.${index}.id`, id);
-      setValue(`images.${index}.url`, small);
+      const { id, urls } = dataResource.data;
+
+      setValue(`array_images.${index}.id`, id);
+      setValue(`array_images.${index}.url`, urls.small!);
+      if (images.attach[index]) setValue(`images.attach.${index}.id`, id);
 
       setIsEditing(false);
       setResourceToEdit(null);
@@ -92,6 +106,19 @@ export const ImagesGroup = () => {
     </div>
   );
 
+  const handleRemove = (index: number, id: number) => {
+    remove(index);
+    if (product) {
+      const images = getValues("images");
+      const attachedImages = images.attach;
+      const detachedImages = images.detach;
+
+      if (!attachedImages.find((image) => image.id === id)) {
+        setValue("images.detach", [...detachedImages, id]);
+      }
+    }
+  };
+
   const controlledFields = fields.map((field, index) => ({
     ...field,
     ...watchImages[index],
@@ -103,7 +130,7 @@ export const ImagesGroup = () => {
         <Controller
           control={control}
           key={field.fieldId}
-          name={`images.${index}`}
+          name={`array_images.${index}`}
           render={() => (
             <CustomBadge
               count={
@@ -113,7 +140,7 @@ export const ImagesGroup = () => {
                   </Space>
                 ) : (
                   <Button
-                    onClick={() => remove(index)}
+                    onClick={() => handleRemove(index, field.id)}
                     className="button-badge__button--remove"
                   >
                     <CloseOutlined />
@@ -188,9 +215,12 @@ export const ImagesGroup = () => {
           </Space>
         </Space>
       )}
-      {errors.images?.root?.type === "required" && (
+      {errors.array_images?.root?.type === "required" && (
         <Space className="custom-card__footer--text" size={1}>
-          <Text type="danger">* Select at least one picture</Text>
+          <Text type="danger">
+            {errors.array_images?.root?.message ||
+              "* Select at least one picture"}
+          </Text>
         </Space>
       )}
     </CustomCard>

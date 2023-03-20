@@ -1,13 +1,14 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Divider, Switch, Typography } from "antd";
-import { CustomStoreProductDto } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
+import { CustomProductFormValues } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
 import { AttributesGroup } from "@/modules/products/components/ProductForms/CommonFormGroups";
 import { ProductStockGroup } from "../ProductStockGroup";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const ProductVariableGroup = () => {
   const { Text } = Typography;
-  const { control, getValues, watch } = useFormContext<CustomStoreProductDto>();
+  const { control, getValues, watch } =
+    useFormContext<CustomProductFormValues>();
   const isVariable = getValues("is_variable");
   watch("is_variable");
 

@@ -1,6 +1,6 @@
 import { ProductAttributeOption } from "@/services/productAttributeOptions";
 import { Product, StoreProductStockStepRequest } from "@/services/products";
-import { CustomStoreProductDto } from "../GeneralStepForm/types";
+import { CustomProductFormValues } from "../GeneralStepForm/types";
 
 export interface StocksStepFormProps {
   product: Product;
@@ -47,7 +47,7 @@ export interface Variation {
 }
 
 export interface CustomStocksStepFormValues
-  extends CustomStoreProductDto,
+  extends CustomProductFormValues,
     StoreProductStockStepRequest {
   variationsGroupedByAttributeId: number | null;
 }

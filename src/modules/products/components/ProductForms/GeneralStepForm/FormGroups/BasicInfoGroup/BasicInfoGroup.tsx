@@ -2,12 +2,12 @@ import { Input, Typography } from "antd";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
 import { characterCount } from "@/modules/products/components/ProductForms/GeneralStepForm/utils";
-import { CustomStoreProductDto } from "../../types";
+import { CustomProductFormValues } from "../../types";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const BasicInfoGroup = () => {
   const { Text } = Typography;
-  const { control } = useFormContext<CustomStoreProductDto>();
+  const { control } = useFormContext<CustomProductFormValues>();
 
   return (
     <CustomCard title="Basic Information">
