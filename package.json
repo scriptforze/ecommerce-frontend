@@ -1,13 +1,12 @@
 {
   "name": "ecommerce-frontend",
-  "homepage": "https://scriptforze.github.io/ecommerce-frontend",
   "private": false,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
     "build-dev": "tsc && vite build",
-    "build-prod": "tsc && vite build --base=/ecommerce-frontend/",
+    "build-ga": "PUBLIC_URL=/ecommerce-frontend tsc && vite build --base=/ecommerce-frontend/",
     "apigen": "npx @rtk-query/codegen-openapi openapi-config.ts",
     "prepare": "husky install"
   },
