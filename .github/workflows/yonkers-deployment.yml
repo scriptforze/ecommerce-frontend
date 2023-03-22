@@ -1,0 +1,39 @@
+name: yonkers deployment
+
+on:
+  push:
+    branches:
+      - yonkers
+
+jobs:
+  deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    environment: yonkers
+    env:
+      VITE_BASE_URL_API: ${{ vars.VITE_BASE_URL_API }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        uses: bahmutov/npm-install@v1
+
+      - name: Build project
+        run: npm run build-prod
+
+      - name: scp ssh pipelines
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_CERT }}
+          source: "./dist"
+          target: "admin_yonkersgarage"
