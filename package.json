@@ -7,6 +7,7 @@
     "preview": "vite preview",
     "build-dev": "tsc && vite build",
     "build-ga": "PUBLIC_URL=/ecommerce-frontend tsc && vite build --base=/ecommerce-frontend/",
+    "build-prod": "tsc && vite build",
     "apigen": "npx @rtk-query/codegen-openapi openapi-config.ts",
     "prepare": "husky install"
   },
