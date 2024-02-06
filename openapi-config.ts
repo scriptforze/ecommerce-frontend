@@ -82,6 +82,18 @@ const config: ConfigFile = {
     "./src/services/resources.ts": {
       filterEndpoints: ["saveResource"],
     },
+    "./src/services/users.ts": {
+      filterEndpoints: [
+        "getUserById",
+        "updateUser",
+        "deleteUser",
+        "getAllUser",
+        "saveUser",
+      ],
+    },
+    "./src/services/roles.ts": {
+      filterEndpoints: ["getAllRoles"],
+    },
   },
   hooks: true,
   tag: true,

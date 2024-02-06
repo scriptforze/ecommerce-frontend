@@ -5,6 +5,7 @@ import {
   DashboardOutlined,
   GlobalOutlined,
   ShoppingCartOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { ItemType } from "antd/lib/menu/hooks/useItems";
 import { CategoriesRoutesList } from "@/modules/categories";
@@ -16,6 +17,7 @@ import { StatesRoutesList } from "@/modules/states";
 import { TagsRoutesList } from "@/modules/tags";
 import { ProductAttributesRoutesList } from "@/modules/product-attributes";
 import { useLangTranslation } from "../../hooks";
+import { UsersRoutesList } from "@/modules/users/routes/constants";
 
 export const useMenuTitles = (): ItemType[] => {
   const { translate } = useLangTranslation();
@@ -44,6 +46,11 @@ export const useMenuTitles = (): ItemType[] => {
       key: currentMenuKey(TagsRoutesList.TAGS),
       label: translate("menu.tags"),
       icon: <BorderlessTableOutlined />,
+    },
+    {
+      key: currentMenuKey(UsersRoutesList.USERS),
+      label: translate("menu.users"),
+      icon: <UserOutlined />,
     },
     {
       key: "zones",

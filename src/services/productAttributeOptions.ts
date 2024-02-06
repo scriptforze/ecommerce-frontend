@@ -19,6 +19,18 @@ const injectedRtkApi = api
             page: queryArg.page,
             sort_by: queryArg.sortBy,
             lang: queryArg.lang,
+            id: queryArg.id,
+            status: queryArg.status,
+            category: queryArg.category,
+            type: queryArg["type"],
+            name: queryArg.name,
+            price: queryArg.price,
+            tax: queryArg.tax,
+            slug: queryArg.slug,
+            description: queryArg.description,
+            is_variable: queryArg.isVariable,
+            amount_viewed: queryArg.amountViewed,
+            quantity_sold: queryArg.quantitySold,
           },
         }),
         providesTags: ["Products"],
@@ -96,6 +108,18 @@ export type GetAllProductsApiArg = {
   sortBy?: string;
   /** Code of language */
   lang?: string;
+  id?: number;
+  status?: number;
+  category?: number;
+  type?: string;
+  name?: string;
+  price?: number;
+  tax?: number;
+  slug?: string;
+  description?: string;
+  isVariable?: boolean;
+  amountViewed?: number;
+  quantitySold?: number;
 };
 export type GetAllProductAttributeOptionsByProductAttributeApiResponse =
   /** status 200 success */ {
@@ -225,6 +249,8 @@ export type Product = {
   short_description: string;
   description: string;
   is_variable: boolean;
+  amount_viewed: number;
+  quantity_sold: number;
   stock?: number;
   width?: number;
   height?: number;
