@@ -221,6 +221,8 @@ export type Product = {
   short_description: string;
   description: string;
   is_variable: boolean;
+  amount_viewed: number;
+  quantity_sold: number;
   stock?: number;
   width?: number;
   height?: number;

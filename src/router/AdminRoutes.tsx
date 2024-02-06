@@ -15,37 +15,44 @@ import {
   ProductAttributesRoutes,
   ProductAttributesRoutesList,
 } from "@/modules/product-attributes";
+import { UsersRoutesList } from "@/modules/users/routes/constants";
+import { UsersRoutes } from "@/modules/users";
+import { ProductsRoutesList } from "@/modules/products";
 
 export const AdminRoutes = () => {
   return (
     <RoutesWithNotFound>
       <Route path="/" element={<AdminLayout />}>
         <Route
-          path={`${DashboardRoutesList.DASHBOARD}/*`}
           element={<DashboardRoutes />}
+          path={`${DashboardRoutesList.DASHBOARD}/*`}
         />
-        <Route path="/products/*" element={<ProductsRoutes />} />
         <Route
-          path={`${ProductAttributesRoutesList.PRODUCT_ATTRIBUTES}/*`}
+          element={<ProductsRoutes />}
+          path={`${ProductsRoutesList.PRODUCTS}/*`}
+        />
+        <Route
           element={<ProductAttributesRoutes />}
+          path={`${ProductAttributesRoutesList.PRODUCT_ATTRIBUTES}/*`}
         />
         <Route
-          path={`${CategoriesRoutesList.CATEGORIES}/*`}
           element={<CategoriesRoutes />}
+          path={`${CategoriesRoutesList.CATEGORIES}/*`}
         />
         <Route path={`${TagsRoutesList.TAGS}/*`} element={<TagsRoutes />} />
         <Route
-          path={`${CountriesRoutesList.COUNTRIES}/*`}
           element={<CountriesRoutes />}
+          path={`${CountriesRoutesList.COUNTRIES}/*`}
         />
         <Route
-          path={`${StatesRoutesList.STATES}/*`}
           element={<StatesRoutes />}
+          path={`${StatesRoutesList.STATES}/*`}
         />
         <Route
-          path={`${CitiesRoutesList.CITIES}/*`}
           element={<CitiesRoutes />}
+          path={`${CitiesRoutesList.CITIES}/*`}
         />
+        <Route path={`${UsersRoutesList.USERS}/*`} element={<UsersRoutes />} />
       </Route>
     </RoutesWithNotFound>
   );
