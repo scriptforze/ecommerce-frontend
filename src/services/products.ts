@@ -184,8 +184,8 @@ export type PublishProductApiArg = {
 };
 export type SaveProductSpecificationsStepByProductApiResponse =
   /** status 200 success */ {
-    data?: Product;
-  };
+  data?: Product;
+};
 export type SaveProductSpecificationsStepByProductApiArg = {
   /** Id of product */
   product: number;
@@ -197,8 +197,8 @@ export type SaveProductSpecificationsStepByProductApiArg = {
 };
 export type SaveProductStocksStepByProductApiResponse =
   /** status 200 success */ {
-    data?: ProductStock[];
-  };
+  data?: ProductStock[];
+};
 export type SaveProductStocksStepByProductApiArg = {
   /** Id of product */
   product: number;

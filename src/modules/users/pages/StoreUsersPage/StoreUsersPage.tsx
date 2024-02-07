@@ -1,3 +1,3 @@
 export const StoreUsersPage = () => {
-  return <div>StoreUsersPage</div>;
+  return <div>Página de usuarios de la tienda</div>;
 };

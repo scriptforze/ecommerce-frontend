@@ -48,12 +48,10 @@ export const ListCountriesPage = () => {
   const onSuccessDelete = ({ data }: DeleteCountryApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Country ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      }`,
-      message: `Country ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      } successfully`,
+      title: `Country ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        }`,
+      message: `Country ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        } successfully`,
     });
   };
 
@@ -85,13 +83,13 @@ export const ListCountriesPage = () => {
 
   return (
     <>
-      <Title level={1}>Countries</Title>
+      <Title level={1}>Países</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Search"
+              placeholder="Buscar"
               onChange={(e) =>
                 setCountriesApiArgs({
                   ...countriesApiArgs,
@@ -110,7 +108,7 @@ export const ListCountriesPage = () => {
                 icon={<PlusOutlined />}
                 size="middle"
               >
-                New country
+                Nuevo país
               </Button>
             </Link>
           </Col>

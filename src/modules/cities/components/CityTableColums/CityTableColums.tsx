@@ -23,20 +23,20 @@ export const CityTableColums = ({
     {
       key: "name",
       sorter: true,
-      title: "Name",
+      title: "Nombre",
       dataIndex: "name",
       sortDirections: ["ascend"],
     },
     {
       key: "status",
-      title: "Status",
+      title: "Estado",
       dataIndex: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
       width: "15%",
       key: "actions",
-      title: "Actions",
+      title: "Acciones",
       render: (_, record) => (
         <>
           <Link to={`${record.id}/${CitiesRoutesList.EDIT_CITY}`}>

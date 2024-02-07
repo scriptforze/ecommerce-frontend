@@ -20,25 +20,25 @@ export const ProductAttributesTableColums = ({
       sortDirections: ["ascend"],
     },
     {
-      title: "Name",
+      title: "Nombre",
       dataIndex: "name",
       key: "name",
       sorter: true,
       sortDirections: ["ascend"],
     },
     {
-      title: "Type",
+      title: "Tipo",
       dataIndex: "type",
       key: "type",
     },
     {
-      title: "Status",
+      title: "Estado",
       dataIndex: "status",
       key: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: "Actions",
+      title: "Acciones",
       key: "actions",
       width: "15%",
       render: (_, record) => (

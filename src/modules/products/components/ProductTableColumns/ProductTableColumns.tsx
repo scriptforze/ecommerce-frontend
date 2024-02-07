@@ -34,7 +34,7 @@ export const ProductTableColumns = ({
     {
       sorter: true,
       key: "category",
-      title: "Category",
+      title: "Categoría",
       dataIndex: "category",
       sortDirections: ["ascend"],
       render: (_, record) => <span>{record.category?.name}</span>,
@@ -42,7 +42,7 @@ export const ProductTableColumns = ({
     {
       sorter: true,
       key: "price",
-      title: "Price",
+      title: "Precio",
       dataIndex: "price",
       sortDirections: ["ascend"],
       render: (_, record) => (
@@ -52,7 +52,7 @@ export const ProductTableColumns = ({
     {
       sorter: true,
       key: "stock",
-      title: "Stock",
+      title: "Cantidad",
       dataIndex: "product_stocks",
       sortDirections: ["ascend"],
       render: (_, { is_variable, product_stocks }) => {
@@ -63,7 +63,7 @@ export const ProductTableColumns = ({
     },
     {
       key: "status",
-      title: "Status",
+      title: "Estado",
       dataIndex: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
@@ -80,22 +80,22 @@ export const ProductTableColumns = ({
             {![GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
               record.status!.name
             ) && (
-              <PublishProductButton
-                recordId={record.id}
-                handlePublish={handlePublish}
-                loading={isProductPublishLoading}
-              />
-            )}
+                <PublishProductButton
+                  recordId={record.id}
+                  handlePublish={handlePublish}
+                  loading={isProductPublishLoading}
+                />
+              )}
             {[GeneralStatuses.DISABLED, GeneralStatuses.ENABLED].includes(
               record.status!.name
             ) && (
-              <DeleteRestoreButton
-                recordId={record.id}
-                status={record.status!}
-                handleDelete={handleDelete}
-                loading={isProductDeleteLoading}
-              />
-            )}
+                <DeleteRestoreButton
+                  recordId={record.id}
+                  status={record.status!}
+                  handleDelete={handleDelete}
+                  loading={isProductDeleteLoading}
+                />
+              )}
           </>
         );
       },

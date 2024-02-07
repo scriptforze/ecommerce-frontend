@@ -1,3 +1,3 @@
 export const EditUsersPage = () => {
-  return <div>EditUsersPage</div>;
+  return <div>Editar la página de usuarios</div>;
 };

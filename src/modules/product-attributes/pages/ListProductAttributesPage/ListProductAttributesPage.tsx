@@ -27,7 +27,7 @@ import { GeneralStatuses } from "@/modules/common/constants";
 const { Title } = Typography;
 
 export const ListProductAttributesPage = () => {
-  document.title = "Ecommerce - Product attributes";
+  document.title = "Ecommerce - Atributos del producto";
 
   const [productAttributesApiArgs, setProductAttributesApiArgs] = useState(
     INITIAL_PRODUCT_ATTRIBUTES_API_ARG
@@ -51,12 +51,10 @@ export const ListProductAttributesPage = () => {
   const onDeleteSuccess = ({ data }: DeleteProductAttributeApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Product Attribute ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      }`,
-      message: `Product Attribute ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      } successfully`,
+      title: `Product Attribute ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        }`,
+      message: `Product Attribute ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        } successfully`,
     });
   };
 
@@ -88,13 +86,13 @@ export const ListProductAttributesPage = () => {
 
   return (
     <>
-      <Title level={1}>Product attributes</Title>
+      <Title level={1}>Atributos del producto</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Search"
+              placeholder="Buscar"
               onChange={(e) =>
                 setProductAttributesApiArgs({
                   ...productAttributesApiArgs,
@@ -113,7 +111,7 @@ export const ListProductAttributesPage = () => {
                 icon={<PlusOutlined />}
                 style={{ float: "right" }}
               >
-                New product attribute
+                Nuevo atributo del producto
               </Button>
             </Link>
           </Col>
