@@ -46,12 +46,10 @@ export const ListStatesPage = () => {
   const onSuccessDelete = ({ data }: DeleteStateApiResponse) => {
     pushNotification({
       type: "success",
-      title: `State ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      }`,
-      message: `State ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      } successfully`,
+      title: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        }`,
+      message: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        } successfully`,
     });
   };
 
@@ -83,13 +81,13 @@ export const ListStatesPage = () => {
 
   return (
     <>
-      <Title level={1}>States</Title>
+      <Title level={1}>Estados</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Search"
+              placeholder="Buscar"
               onChange={(e) =>
                 setStatesApiArgs({
                   ...statesApiArgs,
@@ -108,7 +106,7 @@ export const ListStatesPage = () => {
                 icon={<PlusOutlined />}
                 style={{ float: "right" }}
               >
-                New state
+                Nuevo estado
               </Button>
             </Link>
           </Col>

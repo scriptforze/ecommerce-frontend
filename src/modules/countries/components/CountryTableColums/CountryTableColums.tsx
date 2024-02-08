@@ -21,30 +21,30 @@ export const CountryTableColums = ({
       sortDirections: ["ascend"],
     },
     {
-      title: "Name",
+      title: "Nombre",
       dataIndex: "name",
       key: "name",
       sorter: true,
       sortDirections: ["ascend"],
     },
     {
-      title: "Short Name",
+      title: "Nombre Corto",
       dataIndex: "short_name",
       key: "short_name",
     },
     {
-      title: "Phone Code",
+      title: "Código Telefónico",
       dataIndex: "phone_code",
       key: "phone_code",
     },
     {
-      title: "Status",
+      title: "Estado",
       dataIndex: "status",
       key: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: "Actions",
+      title: "Acciones",
       key: "actions",
       width: "15%",
       render: (_, record) => {

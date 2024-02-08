@@ -47,12 +47,10 @@ export const ListProductPage = () => {
   const onDeleteSuccess = ({ data }: DeleteProductApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Product ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      }`,
-      message: `Product ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      } successfully`,
+      title: `Product ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        }`,
+      message: `Product ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        } successfully`,
     });
   };
 
@@ -97,14 +95,14 @@ export const ListProductPage = () => {
 
   return (
     <>
-      <PageHeader title="Products" />
+      <PageHeader title="Productos" />
       <Card>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
               autoComplete="off"
-              placeholder="Search"
+              placeholder="Buscar"
               onChange={(e) =>
                 setProductsArgs({
                   ...productsArgs,

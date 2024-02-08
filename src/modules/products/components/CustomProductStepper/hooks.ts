@@ -34,23 +34,23 @@ export const useProductStepsItems = ({
         }
       },
     },
-    {
-      title: "Variations",
-      disabled: !isProductVariable,
-      className: `${isProductVariable ? "step" : "step--disabled"}`,
-      onClick: () => {
-        if (
-          isEditting &&
-          isProductVariable &&
-          currentStep !== ProductCreationSteps.SECOND
-        ) {
-          stepButtonsDispatch({ currentStep: ProductCreationSteps.SECOND });
-          navigate(
-            `${PRODUCTS}/${EDIT_PRODUCT}/${product?.id}/${PRODUCT_STOCKS}`
-          );
-        }
-      },
-    },
+    // {
+    //   title: "Variations",
+    //   disabled: !isProductVariable,
+    //   className: `${isProductVariable ? "step" : "step--disabled"}`,
+    //   onClick: () => {
+    //     if (
+    //       isEditting &&
+    //       isProductVariable &&
+    //       currentStep !== ProductCreationSteps.SECOND
+    //     ) {
+    //       stepButtonsDispatch({ currentStep: ProductCreationSteps.SECOND });
+    //       navigate(
+    //         `${PRODUCTS}/${EDIT_PRODUCT}/${product?.id}/${PRODUCT_STOCKS}`
+    //       );
+    //     }
+    //   },
+    // },
     {
       className: "step",
       title: "Specifications",

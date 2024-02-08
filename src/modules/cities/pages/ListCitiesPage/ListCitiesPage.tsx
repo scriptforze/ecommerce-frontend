@@ -46,12 +46,10 @@ export const ListCitiesPage = () => {
   const onSuccessDelete = ({ data }: DeleteCityApiResponse) => {
     pushNotification({
       type: "success",
-      title: `State ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      }`,
-      message: `State ${
-        data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-      } successfully`,
+      title: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        }`,
+      message: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+        } successfully`,
     });
   };
 
@@ -80,13 +78,13 @@ export const ListCitiesPage = () => {
 
   return (
     <>
-      <Title level={1}>Cities</Title>
+      <Title level={1}>Ciudades</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Search"
+              placeholder="Buscar"
               onChange={(e) =>
                 setCitiesApiArgs({
                   ...citiesApiArgs,
@@ -105,7 +103,7 @@ export const ListCitiesPage = () => {
                 style={{ float: "right" }}
                 icon={<PlusOutlined />}
               >
-                New city
+                Nueva ciudad
               </Button>
             </Link>
           </Col>
