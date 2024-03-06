@@ -1,6 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { Button, Card, Form, Input, Select, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useLangTranslation } from "@/modules/common/hooks";
 import {
   StoreStateRequest,
   useSaveStateMutation,
@@ -13,6 +14,7 @@ import { pushNotification } from "@/modules/common/helpers";
 import { StatesRoutesList } from "@/modules/states/routes";
 
 export const StateForm = ({ state }: StateFormProps) => {
+  const { translate } = useLangTranslation();
   const { Text } = Typography;
   const navigate = useNavigate();
   const { control, handleSubmit } = useForm<StoreStateRequest>({
@@ -31,8 +33,10 @@ export const StateForm = ({ state }: StateFormProps) => {
   const onSuccess = () => {
     pushNotification({
       type: "success",
-      title: `State ${state ? "updated" : "created"}`,
-      message: `State ${state ? "updated" : "created"} successfully`,
+      title: `${translate("common.columns.status")} ${state ? translate("common.updated") : translate("common.created")
+        }`,
+      message: `${translate("common.columns.status")} ${state ? translate("common.updated") : translate("common.created")
+        } ${translate("common.successfully")}`,
     });
 
     navigate(StatesRoutesList.STATES);
@@ -61,11 +65,11 @@ export const StateForm = ({ state }: StateFormProps) => {
           rules={{
             required: {
               value: true,
-              message: "The country is required",
+              message: translate("zones.form.validation.countryRequired"),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Country:" required>
+            <FormItem label={`${translate("zones.list.country")}:`} required>
               <Select
                 fieldNames={{
                   value: "id",
@@ -73,7 +77,9 @@ export const StateForm = ({ state }: StateFormProps) => {
                 }}
                 status={error && "error"}
                 options={countries?.data}
-                placeholder="Select a country"
+                placeholder={translate(
+                  "zones.form.title.labels.placeholder.selectCountry"
+                )}
                 onChange={(value) => field.onChange(value)}
                 disabled={isCountriesLoading || !countries?.data?.length}
                 value={countries?.data?.length ? field.value : undefined}
@@ -88,13 +94,18 @@ export const StateForm = ({ state }: StateFormProps) => {
           rules={{
             required: {
               value: true,
-              message: "The name is required",
+              message: translate("zones.form.validation.name"),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="State name:" required>
+            <FormItem
+              label={`${translate("zones.form.title.stateName")}:`}
+              required
+            >
               <Input
-                placeholder="Enter the state name"
+                placeholder={translate(
+                  "zones.form.title.labels.placeholder.enterStateName"
+                )}
                 status={error && "error"}
                 {...field}
               />
@@ -109,7 +120,9 @@ export const StateForm = ({ state }: StateFormProps) => {
             style={{ float: "right" }}
             loading={isSaveStateLoading || isUpdateStateLoading}
           >
-            {state ? "Update" : "Save"}
+            {state
+              ? translate("common.submit.update")
+              : translate("common.submit.create")}
           </Button>
         </FormItem>
       </Form>

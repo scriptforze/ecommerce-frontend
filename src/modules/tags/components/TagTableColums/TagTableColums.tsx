@@ -15,7 +15,7 @@ export const TagTableColums = ({
   const { translate } = useLangTranslation();
   const DEFAULT_COLUMNS: ColumnsType<Tag> = [
     {
-      title: translate("tags.list.columns.id"),
+      title: "ID",
       dataIndex: "id",
       key: "id",
       width: "10%",
@@ -23,25 +23,25 @@ export const TagTableColums = ({
       sortDirections: ["ascend"],
     },
     {
-      title: translate("tags.list.columns.name"),
+      title: translate("common.columns.name"),
       dataIndex: "name",
       key: "name",
       sorter: true,
       sortDirections: ["ascend"],
     },
     {
-      title: translate("tags.list.columns.slug"),
+      title: "Slug",
       dataIndex: "slug",
       key: "slug",
     },
     {
-      title: translate("tags.list.columns.status"),
+      title: translate("common.columns.status"),
       dataIndex: "status",
       key: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: translate("tags.list.columns.actions"),
+      title: translate("common.columns.actions"),
       key: "actions",
       width: "15%",
       render: (_, record) => (

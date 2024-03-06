@@ -16,6 +16,7 @@ import {
   CustomProductAttributeOption,
   ProductAttributeOptionsFormProps,
 } from "./types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { FormItem } from "@/modules/common/components";
 
 export const ProductAttributeOptionsTable = ({
@@ -33,6 +34,8 @@ export const ProductAttributeOptionsTable = ({
       product_attribute_id: productAttribute.id,
     },
   });
+
+  const { translate } = useLangTranslation();
 
   const { isFetching, data: options } =
     useGetAllProductAttributeOptionsByProductAttributeQuery({
@@ -122,7 +125,9 @@ export const ProductAttributeOptionsTable = ({
           render={({ field, fieldState: { error } }) => (
             <FormItem>
               <Input
-                placeholder="Enter the option name"
+                placeholder={translate(
+                  "products.list.placeholder.enterOptionName"
+                )}
                 disabled={isStoreOptionLoading}
                 status={error && "error"}
                 {...field}
@@ -136,7 +141,7 @@ export const ProductAttributeOptionsTable = ({
             htmlType="submit"
             loading={isStoreOptionLoading}
           >
-            Add Option
+            {translate("products.form.addOption")}
           </Button>
         </FormItem>
       </Form>

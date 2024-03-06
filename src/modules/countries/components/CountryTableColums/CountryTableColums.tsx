@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { Country } from "@/services/countries";
 import { CountriesRoutesList } from "../../routes";
 import { CountryTableColumnsProps } from "./types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { DeleteRestoreButton } from "@/modules/common/components";
 
 export const CountryTableColums = ({
   handleDelete,
   isDeleteCountryLoading,
 }: CountryTableColumnsProps) => {
+  const { translate } = useLangTranslation();
   const DEFAULT_COLUMS: ColumnsType<Country> = [
     {
       title: "ID",
@@ -21,30 +23,30 @@ export const CountryTableColums = ({
       sortDirections: ["ascend"],
     },
     {
-      title: "Nombre",
+      title: translate("common.columns.name"),
       dataIndex: "name",
       key: "name",
       sorter: true,
       sortDirections: ["ascend"],
     },
     {
-      title: "Nombre Corto",
+      title: translate("common.columns.shortName"),
       dataIndex: "short_name",
       key: "short_name",
     },
     {
-      title: "Código Telefónico",
+      title: translate("common.columns.phoneCode"),
       dataIndex: "phone_code",
       key: "phone_code",
     },
     {
-      title: "Estado",
+      title: translate("common.columns.status"),
       dataIndex: "status",
       key: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: "Acciones",
+      title: translate("common.columns.actions"),
       key: "actions",
       width: "15%",
       render: (_, record) => {

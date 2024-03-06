@@ -11,7 +11,7 @@ const { Item: BreadcrumbItem } = Breadcrumb;
 
 export const EditCategoryPage = () => {
   const { translate } = useLangTranslation();
-  document.title = "Ecommerce - Edit category";
+  document.title = `Ecommerce - ${translate("categories.form.title.update")}`;
 
   const { id } = useParams();
   const categoryId = parseInt(id!, 10);
@@ -26,7 +26,7 @@ export const EditCategoryPage = () => {
   });
 
   if (isFetching) {
-    return <strong>cargando...</strong>;
+    return <strong>{`${translate("common.loading")}...`}</strong>;
   }
 
   if (isError) {
@@ -52,7 +52,7 @@ export const EditCategoryPage = () => {
             <BreadcrumbItem>
               <Link to={CategoriesRoutesList.CATEGORIES}>
                 <BookOutlined style={{ marginRight: "5px" }} />
-                <span>Categories</span>
+                <span>{translate("categories.form.title.update")}</span>
               </Link>
             </BreadcrumbItem>
             <BreadcrumbItem>
@@ -60,7 +60,9 @@ export const EditCategoryPage = () => {
                 <span>{categoryId}</span>
               </Link>
             </BreadcrumbItem>
-            <BreadcrumbItem>Edit category</BreadcrumbItem>
+            <BreadcrumbItem>
+              {translate("common.columns.category")}
+            </BreadcrumbItem>
           </Breadcrumb>
         </Col>
       </Row>

@@ -20,25 +20,25 @@ export const CategoryTableColumns = ({
       sorter: true,
       dataIndex: "id",
       sortDirections: ["ascend"],
-      title: translate("categories.list.columns.id"),
+      title: "ID",
     },
     {
       key: "name",
       sorter: true,
       dataIndex: "name",
       sortDirections: ["ascend"],
-      title: translate("categories.list.columns.name"),
+      title: translate("common.columns.name"),
     },
     {
       key: "status",
       dataIndex: "status",
-      title: translate("categories.list.columns.status"),
+      title: translate("common.columns.status"),
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
       width: "15%",
       key: "actions",
-      title: translate("categories.list.columns.actions"),
+      title: translate("common.columns.actions"),
       render: (_, record) => (
         <>
           <Link to={`${record.id}/${CategoriesRoutesList.EDIT_CATEGORY}`}>

@@ -19,7 +19,7 @@ import {
   usePublishProductMutation,
 } from "@/services/products";
 import { INITIAL_PRODUCTS_API_ARG } from "./constants";
-import { useDebounce } from "@/modules/common/hooks";
+import { useDebounce, useLangTranslation } from "@/modules/common/hooks";
 import { ProductTableColumns } from "../../components/ProductTableColumns";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import { ProductsRoutesList } from "@/modules/products/routes";
@@ -27,6 +27,7 @@ import { GeneralStatuses } from "@/modules/common/constants";
 import { pushNotification } from "@/modules/common/helpers";
 
 export const ListProductPage = () => {
+  const { translate } = useLangTranslation();
   const [productsArgs, setProductsArgs] = useState(INITIAL_PRODUCTS_API_ARG);
   const debouncedSearchQuery = useDebounce<string | undefined>(
     productsArgs.search,
@@ -47,18 +48,22 @@ export const ListProductPage = () => {
   const onDeleteSuccess = ({ data }: DeleteProductApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Product ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      title: `${translate("products.list.title")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
         }`,
-      message: `Product ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-        } successfully`,
+      message: `${translate("products.list.title")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
+        } ${translate("common.successfully")}`,
     });
   };
 
   const onPublishSuccess = () => {
     pushNotification({
       type: "success",
-      title: "Product published",
-      message: "Product published successfully",
+      title: translate("products.form.messages.success.published.title"),
+      message: translate("products.form.messages.success.published.msg"),
     });
   };
 
@@ -95,14 +100,14 @@ export const ListProductPage = () => {
 
   return (
     <>
-      <PageHeader title="Productos" />
+      <PageHeader title={translate("products.list.title")} />
       <Card>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
               autoComplete="off"
-              placeholder="Buscar"
+              placeholder={translate("common.submit.search")}
               onChange={(e) =>
                 setProductsArgs({
                   ...productsArgs,
@@ -121,7 +126,7 @@ export const ListProductPage = () => {
                 icon={<PlusOutlined />}
                 style={{ float: "right" }}
               >
-                Nuevo producto
+                {translate("products.form.title.create")}
               </Button>
             </Link>
           </Col>

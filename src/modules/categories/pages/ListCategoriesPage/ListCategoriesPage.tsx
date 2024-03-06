@@ -30,8 +30,8 @@ import { GeneralStatuses } from "@/modules/common/constants";
 const { Title } = Typography;
 
 export const ListCategoriesPage = () => {
-  document.title = "Ecommerce - Categories";
   const { translate } = useLangTranslation();
+  document.title = `Ecommerce - ${translate("menu.categories")}`;
   const [categoriesApiArgs, setCategoriesApiArgs] = useState(
     INITIAL_CATEGORIES_API_ARG
   );

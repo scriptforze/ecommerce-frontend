@@ -4,6 +4,7 @@ import { FormItem } from "@/modules/common/components";
 import { useGetAllCategoriesQuery } from "@/services/categories";
 import { useGetAllTagsQuery } from "@/services/tags";
 import { CustomProductFormValues } from "../../types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const CategoryTagsGroup = () => {
@@ -34,21 +35,29 @@ export const CategoryTagsGroup = () => {
     setValue("tags.attach", finalTagsToAttach);
     setValue("tags.detach", finalTagsToDetach);
   };
+  const { translate } = useLangTranslation();
 
   return (
-    <CustomCard title="Category and Tags">
+    <CustomCard title={translate("products.form.titleCreate.category")}>
       <Controller
         control={control}
         name="category_id"
         rules={{
           required: {
             value: true,
-            message: "Category is required",
+            message: translate(
+              "products.list.messages.success.validation.requiredCat"
+            ),
           },
         }}
         render={({ field, fieldState: { error } }) => {
           return (
-            <FormItem label="Select a category:" required>
+            <FormItem
+              label={`${translate(
+                "products.list.messages.success.subtitle.select"
+              )}:`}
+              required
+            >
               <TreeSelect
                 showSearch
                 allowClear
@@ -58,7 +67,9 @@ export const CategoryTagsGroup = () => {
                 loading={isCategoryFetching}
                 disabled={isCategoryFetching}
                 treeData={categories?.data || []}
-                placeholder="Please select a category"
+                placeholder={translate(
+                  "products.list.messages.success.subtitle.select"
+                )}
                 dropdownStyle={{ maxHeight: 400, overflow: "auto" }}
                 fieldNames={{
                   value: "id",
@@ -80,14 +91,18 @@ export const CategoryTagsGroup = () => {
         rules={{
           required: {
             value: true,
-            message: "Tags are required",
+            message: translate(
+              "products.list.messages.success.validation.requiredTag"
+            ),
           },
         }}
         render={({ field, fieldState: { error } }) => {
           return (
             <FormItem
               required
-              label="Put labels on your products to improve your search:"
+              label={`${translate(
+                "products.list.messages.success.subtitle.labels"
+              )}:`}
             >
               <Select
                 allowClear
@@ -103,7 +118,9 @@ export const CategoryTagsGroup = () => {
                 style={{ width: "100%" }}
                 status={error && "error"}
                 onChange={handleTagsChange}
-                placeholder="Please select"
+                placeholder={translate(
+                  "products.list.messages.success.subtitle.select"
+                )}
                 value={tags?.data?.length ? field.value : undefined}
               />
               <Text type="danger">{error?.message} &nbsp;</Text>

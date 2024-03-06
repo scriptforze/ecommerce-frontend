@@ -13,7 +13,7 @@ import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { INITIAL_PRODUCT_ATTRIBUTES_API_ARG } from "./constants";
-import { useDebounce } from "@/modules/common/hooks";
+import { useDebounce, useLangTranslation } from "@/modules/common/hooks";
 import { ProductAttributesTableColums } from "@/modules/product-attributes";
 import {
   DeleteProductAttributeApiResponse,
@@ -27,7 +27,10 @@ import { GeneralStatuses } from "@/modules/common/constants";
 const { Title } = Typography;
 
 export const ListProductAttributesPage = () => {
-  document.title = "Ecommerce - Atributos del producto";
+  const { translate } = useLangTranslation();
+  document.title = `Ecommerce - ${translate(
+    "products.form.title.productAttributes"
+  )}`;
 
   const [productAttributesApiArgs, setProductAttributesApiArgs] = useState(
     INITIAL_PRODUCT_ATTRIBUTES_API_ARG
@@ -51,10 +54,14 @@ export const ListProductAttributesPage = () => {
   const onDeleteSuccess = ({ data }: DeleteProductAttributeApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Product Attribute ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      title: `${translate("products.form.title.productAttributes")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
         }`,
-      message: `Product Attribute ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-        } successfully`,
+      message: `${translate("products.form.title.productAttributes")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
+        } ${translate("common.successfully")}`,
     });
   };
 
@@ -86,13 +93,15 @@ export const ListProductAttributesPage = () => {
 
   return (
     <>
-      <Title level={1}>Atributos del producto</Title>
+      <Title level={1}>
+        {translate("products.form.title.productAttributes")}
+      </Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Buscar"
+              placeholder={translate("common.search")}
               onChange={(e) =>
                 setProductAttributesApiArgs({
                   ...productAttributesApiArgs,
@@ -111,7 +120,7 @@ export const ListProductAttributesPage = () => {
                 icon={<PlusOutlined />}
                 style={{ float: "right" }}
               >
-                Nuevo atributo del producto
+                {translate("products.form.newProductAttributes")}
               </Button>
             </Link>
           </Col>

@@ -34,10 +34,10 @@ export const CategoryForm = ({ category }: CategoryFormProps) => {
 
   const defaultValues = category
     ? {
-        name: category.name,
-        image: category.image?.id,
-        parent_id: category.parent_id,
-      }
+      name: category.name,
+      image: category.image?.id,
+      parent_id: category.parent_id,
+    }
     : STORE_CATEGORY_DEFAULT;
 
   const { control, handleSubmit, setValue, setError } =
@@ -172,7 +172,7 @@ export const CategoryForm = ({ category }: CategoryFormProps) => {
             rules={{
               validate: (value) => {
                 if (!value) {
-                  return "Image is required";
+                  return translate("common.messages.while.validation.image");
                 }
 
                 return true;
@@ -221,7 +221,7 @@ export const CategoryForm = ({ category }: CategoryFormProps) => {
                 rules={{
                   required: {
                     value: true,
-                    message: "Name is required",
+                    message: translate("common.messages.while.validation.name"),
                   },
                 }}
                 render={({ field, fieldState: { error } }) => (

@@ -56,3 +56,12 @@ export const StyledMenuFoldOutlined = styled(MenuFoldOutlined)`
     color: ${({ theme }) => theme.token?.colorPrimary};
   }
 `;
+
+export const Logout = styled.div`
+  display: flex;
+  position: relative;
+  cursor: pointer;
+  flex-direction: row;
+  right: 230px;
+  align-items: center;
+`;

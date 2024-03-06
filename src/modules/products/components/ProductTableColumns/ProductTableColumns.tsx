@@ -8,6 +8,7 @@ import { ProductTableColumnsProps } from "./types";
 import { DeleteRestoreButton } from "@/modules/common/components";
 import { GeneralStatuses } from "@/modules/common/constants";
 import { PublishProductButton } from "./PublishProductButton";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 export const ProductTableColumns = ({
   handleDelete,
@@ -15,6 +16,7 @@ export const ProductTableColumns = ({
   isProductDeleteLoading,
   isProductPublishLoading,
 }: ProductTableColumnsProps) => {
+  const { translate } = useLangTranslation();
   const DEFAULT_COLUMNS: ColumnsType<Product> = [
     {
       key: "sku",
@@ -27,14 +29,14 @@ export const ProductTableColumns = ({
     {
       key: "name",
       sorter: true,
-      title: "Nombre",
+      title: translate("common.columns.name"),
       dataIndex: "name",
       sortDirections: ["ascend"],
     },
     {
       sorter: true,
       key: "category",
-      title: "Categoría",
+      title: translate("common.columns.category"),
       dataIndex: "category",
       sortDirections: ["ascend"],
       render: (_, record) => <span>{record.category?.name}</span>,
@@ -42,7 +44,7 @@ export const ProductTableColumns = ({
     {
       sorter: true,
       key: "price",
-      title: "Precio",
+      title: translate("common.columns.price"),
       dataIndex: "price",
       sortDirections: ["ascend"],
       render: (_, record) => (
@@ -52,7 +54,7 @@ export const ProductTableColumns = ({
     {
       sorter: true,
       key: "stock",
-      title: "Cantidad",
+      title: translate("common.columns.quantity"),
       dataIndex: "product_stocks",
       sortDirections: ["ascend"],
       render: (_, { is_variable, product_stocks }) => {
@@ -63,12 +65,12 @@ export const ProductTableColumns = ({
     },
     {
       key: "status",
-      title: "Estado",
+      title: translate("common.columns.status"),
       dataIndex: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: "Acciones",
+      title: translate("common.columns.actions"),
       key: "actions",
       width: "15%",
       render: (_, record) => {

@@ -11,12 +11,14 @@ import { ProductAttributeFormProps } from "./types";
 import { ProductAttributeOptionsTable } from "../ProductAttributeOptionsTable";
 import { FormItem } from "@/modules/common/components";
 import { pushNotification } from "@/modules/common/helpers";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { ProductAttributesRoutesList } from "@/modules/product-attributes/routes";
 
 export const ProductAttributeForm = ({
   productAttribute,
 }: ProductAttributeFormProps) => {
   const navigate = useNavigate();
+  const { translate } = useLangTranslation();
 
   const { control, handleSubmit } = useForm<StoreProductAttributeRequest>({
     mode: "onChange",
@@ -37,13 +39,16 @@ export const ProductAttributeForm = ({
   }: SaveProductAttributeApiResponse) => {
     pushNotification({
       type: "success",
-      title: `Attribute Created`,
-      message: `Attribute created successfull`,
+      title: translate(
+        "products.form.messages.success.createAttribute.titleAttribute"
+      ),
+      message: translate(
+        "products.form.messages.success.createAttribute.msgAttribute"
+      ),
     });
 
     navigate(
-      `${ProductAttributesRoutesList.PRODUCT_ATTRIBUTES}/${
-        ProductAttributesRoutesList.EDIT_PRODUCT_ATTRIBUTE
+      `${ProductAttributesRoutesList.PRODUCT_ATTRIBUTES}/${ProductAttributesRoutesList.EDIT_PRODUCT_ATTRIBUTE
       }/${productCreated!.id}`
     );
   };
@@ -51,8 +56,12 @@ export const ProductAttributeForm = ({
   const onUpdateSuccess = () => {
     pushNotification({
       type: "success",
-      title: `Attribute Updated`,
-      message: `Attribute updated successfull`,
+      title: translate(
+        "products.form.messages.success.updateAttribute.msgAttribute"
+      ),
+      message: translate(
+        "products.form.messages.success.updateAttribute.msgAttribute"
+      ),
     });
   };
 
@@ -85,14 +94,18 @@ export const ProductAttributeForm = ({
           rules={{
             required: {
               value: true,
-              message: "Attribute name is required",
+              message: translate(
+                "products.list.messages.success.validation.requireAttribute"
+              ),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Name:" required>
+            <FormItem label={`${translate("common.columns.name")}:`} required>
               <Input
                 status={error && "error"}
-                placeholder="Name of the attribute"
+                placeholder={translate(
+                  "products.list.placeholder.enterNameAttribute"
+                )}
                 {...field}
               />
             </FormItem>
@@ -105,7 +118,9 @@ export const ProductAttributeForm = ({
             style={{ float: "right" }}
             loading={isStoreAttrLoading || isUpdateAttrLoading}
           >
-            {!productAttribute ? "Save" : "Update"}
+            {!productAttribute
+              ? translate("common.submit.create")
+              : translate("common.submit.update")}
           </Button>
         </FormItem>
       </Form>

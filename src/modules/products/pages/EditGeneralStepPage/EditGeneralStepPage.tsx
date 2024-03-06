@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
-import { useAppSelector } from "@/modules/common/hooks";
+import { useAppSelector, useLangTranslation } from "@/modules/common/hooks";
 import { GeneralStepForm } from "@/modules/products/components";
 import {
   ProductCreationSteps,
@@ -8,7 +8,8 @@ import {
 } from "@/modules/products/components/CustomProductStepper";
 
 export const EditGeneralStepPage = () => {
-  document.title = "Ecommerce - Edit Product";
+  const { translate } = useLangTranslation();
+  document.title = `Ecommerce - ${translate("products.form.title.update")}`;
   const { stepperState, stepButtonsDispatch } = useProductStepperContext();
   const { product } = useAppSelector((state) => state.products);
   const { currentStep } = stepperState;
@@ -20,7 +21,9 @@ export const EditGeneralStepPage = () => {
 
   return (
     <>
-      <PageHeader title="Product general information" />
+      <PageHeader
+        title={translate("products.form.titleCreate.productGeneralInformation")}
+      />
       <GeneralStepForm product={product!} />
     </>
   );

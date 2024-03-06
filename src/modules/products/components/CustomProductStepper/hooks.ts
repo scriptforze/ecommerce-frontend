@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ProductsRoutesList } from "@/modules/products/routes";
 import { ProductCreationSteps, UseProductStepsItemsProps } from "./types";
 import { useProductStepperContext } from "./utils";
-import { useAppSelector } from "@/modules/common/hooks";
+import { useAppSelector, useLangTranslation } from "@/modules/common/hooks";
 
 export const useProductStepsItems = ({
   isEditting,
@@ -21,9 +21,13 @@ export const useProductStepsItems = ({
     PRODUCT_GENERAL,
   } = ProductsRoutesList;
 
+  const { translate } = useLangTranslation();
+  const stepGeneral = translate("products.list.steps.general");
+  // const stepVariation = translate("products.list.steps.variation");
+  const stepSpecifications = translate("products.list.steps.specifications");
   const stepsItems: StepProps[] = [
     {
-      title: "General",
+      title: `${stepGeneral}`,
       className: "step",
       onClick: () => {
         if (isEditting && currentStep !== ProductCreationSteps.FIRST) {
@@ -35,7 +39,7 @@ export const useProductStepsItems = ({
       },
     },
     // {
-    //   title: "Variations",
+    //   title: `${stepVariation}`,
     //   disabled: !isProductVariable,
     //   className: `${isProductVariable ? "step" : "step--disabled"}`,
     //   onClick: () => {
@@ -53,7 +57,7 @@ export const useProductStepsItems = ({
     // },
     {
       className: "step",
-      title: "Specifications",
+      title: `${stepSpecifications}`,
       onClick: () => {
         if (isEditting && currentStep !== ProductCreationSteps.THIRD) {
           stepButtonsDispatch({ currentStep: ProductCreationSteps.THIRD });
