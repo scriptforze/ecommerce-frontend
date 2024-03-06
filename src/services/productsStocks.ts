@@ -133,6 +133,8 @@ export type Product = {
   slug: string;
   sku: string;
   price: number;
+  min_price: number;
+  max_price: number;
   tax: number;
   short_description: string;
   description: string;
