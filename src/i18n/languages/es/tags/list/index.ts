@@ -2,13 +2,6 @@ export const list = {
   title: "Etiquetas",
   search: "Buscar",
   create: "Nueva Etiqueta",
-  columns: {
-    id: "ID",
-    name: "Nombre",
-    slug: "Slug",
-    status: "Estado",
-    actions: "Acciones",
-  },
   messages: {
     success: {
       delete: {

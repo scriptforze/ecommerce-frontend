@@ -2,13 +2,6 @@ export const list = {
   title: "Tags",
   search: "Search",
   create: "New Tag",
-  columns: {
-    id: "ID",
-    name: "Name",
-    slug: "Slug",
-    status: "Status",
-    actions: "Actions",
-  },
   messages: {
     success: {
       delete: {

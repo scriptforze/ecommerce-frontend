@@ -2,14 +2,8 @@ export const list = {
   title: "Usuarios",
   search: "Buscar",
   create: "Nuevo usuario",
-  columns: {
-    id: "ID",
-    name: "Nombre",
-    status: "Estado",
-    actions: "Acciones",
-    username: "Nombre de usuario",
-  },
   messages: {
+    updateWhile: "Editar la página de usuarios",
     success: {
       delete: {
         title: "Usuario eliminado",

@@ -2,12 +2,6 @@ export const list = {
   title: "Categorías",
   search: "Buscar",
   create: "Nueva Categoría",
-  columns: {
-    id: "ID",
-    name: "Nombre",
-    status: "Estado",
-    actions: "Acciones",
-  },
   messages: {
     success: {
       delete: {

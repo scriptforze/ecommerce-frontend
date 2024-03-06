@@ -4,6 +4,7 @@ export const menu = {
   productAttributes: "Product attributes",
   categories: "Categories",
   tags: "Tags",
+  users: "Users",
   zones: {
     title: "Zones",
     countries: "Countries",
