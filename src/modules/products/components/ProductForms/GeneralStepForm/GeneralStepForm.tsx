@@ -27,7 +27,7 @@ import { ProductCreationSteps } from "@/modules/products/components/CustomProduc
 import { parseProductAttributesOptions } from "@/modules/products/helpers";
 import { CustomForm } from "../../CustomForm";
 import { PRODUCT_INCLUDES } from "@/modules/products/constants";
-import { useAppDispatch } from "@/modules/common/hooks";
+import { useAppDispatch, useLangTranslation } from "@/modules/common/hooks";
 import { setProduct } from "@/modules/products/store";
 
 export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
@@ -42,6 +42,8 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
       id: image.id,
       url: image.urls.small,
     })) || [];
+
+  const { translate } = useLangTranslation();
 
   const parsedProductAttributesOptions = parseProductAttributesOptions(
     product?.product_attribute_options
@@ -116,8 +118,8 @@ export const GeneralStepForm = ({ product }: GeneralStepFormProps) => {
   const onRequestSuccess = ({ data }: SaveProductGeneralApiResponse) => {
     pushNotification({
       type: "success",
-      title: "Product created",
-      message: "Product was created successfully.",
+      title: translate("products.form.messages.success.update.title"),
+      message: translate("products.form.messages.success.update.msg"),
     });
 
     const { targetStep } = stepperState.submit;

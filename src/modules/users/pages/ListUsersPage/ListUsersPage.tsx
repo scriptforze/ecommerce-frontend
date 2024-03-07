@@ -27,8 +27,8 @@ import { pushNotification } from "@/modules/common/helpers";
 
 export const ListUsersPage = () => {
   const { Title } = Typography;
-  document.title = "Ecommerce - Users";
   const { translate, lang } = useLangTranslation();
+  document.title = `Ecommerce - ${translate("users.list.title")}`;
   const [usersApiArgs, setUsersApiArgs] = useState(INITIAL_USERS_API_ARG);
 
   const debouncedSearchQuery = useDebounce<string | undefined>(

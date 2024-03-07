@@ -5,6 +5,7 @@ import {
 } from "../../pages/CreateProductPage/styled";
 import { CustomAffixContainer } from "./CustomAffixContainer";
 import { useProductStepsItems } from "./hooks";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { CustomStepProduct } from "./styled";
 import { CustomProductStepperProps } from "./types";
 
@@ -22,6 +23,7 @@ export const CustomProductStepper = ({
     isProductVariable,
   });
   const { submit, discard, currentStep } = stepperState;
+  const { translate } = useLangTranslation();
 
   return (
     <CustomAffixContainer
@@ -33,7 +35,7 @@ export const CustomProductStepper = ({
         <Row justify="space-evenly" gutter={[24, 24]}>
           <Col sm={7} xs={24}>
             <StyledSpace $affixed={affixed}>
-              <h2>New Product</h2>
+              <h2>{translate("products.list.create")}</h2>
             </StyledSpace>
           </Col>
           <Col sm={10} xs={24}>

@@ -61,7 +61,7 @@ export const TagForm = ({ tag }: TagFormProps) => {
             rules={{
               required: {
                 value: true,
-                message: "Tag name is required",
+                message: translate("common.messages.while.validation.tag"),
               },
             }}
             render={({ field, fieldState: { error } }) => (

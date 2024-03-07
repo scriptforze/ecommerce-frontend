@@ -8,9 +8,11 @@ import { useGetAllStatesQuery } from "@/services/states";
 import { CityFormProps, CustomCityRequest } from "./types";
 import { pushNotification } from "@/modules/common/helpers";
 import { CitiesRoutesList } from "@/modules/cities/routes";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { useSaveCityMutation, useUpdateCityMutation } from "@/services/cities";
 
 export const CityForm = ({ city }: CityFormProps) => {
+  const { translate } = useLangTranslation();
   const { Text } = Typography;
   const navigate = useNavigate();
   const [country, setCountry] = useState<number | null>(city ? 47 : null);
@@ -35,8 +37,10 @@ export const CityForm = ({ city }: CityFormProps) => {
   const onSuccess = () => {
     pushNotification({
       type: "success",
-      title: `City ${city ? "updated" : "created"}`,
-      message: `City ${city ? "updated" : "created"} successfully`,
+      title: `${translate("common.columns.city")} ${city ? translate("common.updated") : translate("common.created")
+        }`,
+      message: `${translate("common.columns.city")} ${city ? translate("common.updated") : translate("common.created")
+        } ${translate("common.successfully")}`,
     });
 
     navigate(CitiesRoutesList.CITIES);
@@ -71,11 +75,14 @@ export const CityForm = ({ city }: CityFormProps) => {
               rules={{
                 required: {
                   value: true,
-                  message: "The country is required",
+                  message: translate("zones.form.validation.countryRequired"),
                 },
               }}
               render={({ field, fieldState: { error } }) => (
-                <FormItem label="Country:" required>
+                <FormItem
+                  label={`${translate("zones.list.country")}:`}
+                  required
+                >
                   <Select
                     fieldNames={{
                       value: "id",
@@ -84,7 +91,9 @@ export const CityForm = ({ city }: CityFormProps) => {
                     status={error && "error"}
                     options={countries?.data}
                     disabled={isCountriesLoading}
-                    placeholder="Select a country"
+                    placeholder={translate(
+                      "zones.form.title.labels.placeholder.selectCountry"
+                    )}
                     onChange={(value) => {
                       field.onChange(value);
                       setCountry(value);
@@ -103,11 +112,14 @@ export const CityForm = ({ city }: CityFormProps) => {
               rules={{
                 required: {
                   value: true,
-                  message: "The state is required",
+                  message: translate("zones.form.validation.stateRequired"),
                 },
               }}
               render={({ field, fieldState: { error } }) => (
-                <FormItem label="State:" required>
+                <FormItem
+                  label={`${translate("common.columns.status")}:`}
+                  required
+                >
                   <Select
                     fieldNames={{
                       value: "id",
@@ -116,7 +128,9 @@ export const CityForm = ({ city }: CityFormProps) => {
                     options={states?.data}
                     status={error && "error"}
                     loading={isStatesLoading}
-                    placeholder="Select a state"
+                    placeholder={translate(
+                      "zones.form.title.labels.placeholder.selectState"
+                    )}
                     disabled={isStatesLoading || !country}
                     onChange={(value) => field.onChange(value)}
                     value={states?.data?.length ? field.value : undefined}
@@ -130,10 +144,20 @@ export const CityForm = ({ city }: CityFormProps) => {
         <Controller
           name="name"
           control={control}
-          rules={{ required: { value: true, message: "The name is required" } }}
+          rules={{
+            required: {
+              value: true,
+              message: translate("zones.form.validation.stateName"),
+            },
+          }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Name:" required>
-              <Input {...field} placeholder="Enter name" />
+            <FormItem label={`${translate("common.columns.name")}:`} required>
+              <Input
+                {...field}
+                placeholder={translate(
+                  "zones.form.title.labels.placeholder.enterName"
+                )}
+              />
               <Text type="danger">{error?.message} &nbsp;</Text>
             </FormItem>
           )}
@@ -145,7 +169,9 @@ export const CityForm = ({ city }: CityFormProps) => {
             style={{ float: "right" }}
             loading={isSaveCityLoading || isUpdateCityLoading}
           >
-            {city ? "Update" : "Save"}
+            {city
+              ? translate("common.submit.update")
+              : translate("common.submit.create")}
           </Button>
         </FormItem>
       </Form>

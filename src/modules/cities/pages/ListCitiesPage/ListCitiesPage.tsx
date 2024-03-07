@@ -13,7 +13,7 @@ import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { INITIAL_CITIES_API_ARG } from "./constants";
-import { useDebounce } from "@/modules/common/hooks";
+import { useDebounce, useLangTranslation } from "@/modules/common/hooks";
 import { CitiesRoutesList, CityTableColums } from "@/modules/cities";
 import {
   City,
@@ -27,7 +27,8 @@ import { GeneralStatuses } from "@/modules/common/constants";
 const { Title } = Typography;
 
 export const ListCitiesPage = () => {
-  document.title = "Ecommerce - Cities";
+  const { translate } = useLangTranslation();
+  document.title = `Ecommerce - ${translate("menu.zones.cities")}`;
 
   const [citiesApiArgs, setCitiesApiArgs] = useState(INITIAL_CITIES_API_ARG);
 
@@ -46,10 +47,14 @@ export const ListCitiesPage = () => {
   const onSuccessDelete = ({ data }: DeleteCityApiResponse) => {
     pushNotification({
       type: "success",
-      title: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      title: `${translate("zones.list.city")}  ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
         }`,
-      message: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-        } successfully`,
+      message: `${translate("zones.list.city")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
+        } ${translate("common.successfully")}`,
     });
   };
 
@@ -78,13 +83,13 @@ export const ListCitiesPage = () => {
 
   return (
     <>
-      <Title level={1}>Ciudades</Title>
+      <Title level={1}>{translate("menu.zones.cities")}</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Buscar"
+              placeholder={translate("common.search")}
               onChange={(e) =>
                 setCitiesApiArgs({
                   ...citiesApiArgs,
@@ -103,7 +108,7 @@ export const ListCitiesPage = () => {
                 style={{ float: "right" }}
                 icon={<PlusOutlined />}
               >
-                Nueva ciudad
+                {translate("zones.form.createCity")}
               </Button>
             </Link>
           </Col>

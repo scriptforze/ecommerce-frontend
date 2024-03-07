@@ -12,6 +12,7 @@ import {
   StoreProductProductSpecificationRequest,
   useSaveProductSpecificationByProductMutation,
 } from "@/services/productSpecifications";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 export const ProductSpecsTable = ({
   product,
@@ -33,6 +34,8 @@ export const ProductSpecsTable = ({
       cell: ProductSpecsTableCell,
     },
   };
+
+  const { translate } = useLangTranslation();
 
   const [updateSpec, { isLoading: isUpdateSpecLoading }] =
     useUpdateProductSpecificationMutation();
@@ -115,7 +118,9 @@ export const ProductSpecsTable = ({
           render={({ field, fieldState: { error } }) => (
             <FormItem>
               <Input
-                placeholder="Enter the name"
+                placeholder={translate(
+                  "products.list.placeholder.enterProductName"
+                )}
                 disabled={isStoreSpecLoading}
                 status={error && "error"}
                 {...field}
@@ -130,7 +135,9 @@ export const ProductSpecsTable = ({
           render={({ field, fieldState: { error } }) => (
             <FormItem>
               <Input
-                placeholder="Enter the value"
+                placeholder={translate(
+                  "products.list.placeholder.enterProductValue"
+                )}
                 disabled={isStoreSpecLoading}
                 status={error && "error"}
                 {...field}
@@ -140,7 +147,7 @@ export const ProductSpecsTable = ({
         />
         <FormItem>
           <Button type="primary" htmlType="submit" loading={isStoreSpecLoading}>
-            Add specification
+            {translate("products.list.addSpecification")}
           </Button>
         </FormItem>
       </Form>

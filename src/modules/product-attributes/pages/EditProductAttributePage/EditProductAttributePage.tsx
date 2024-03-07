@@ -4,17 +4,19 @@ import { BreadCrumbItem } from "@/modules/common/components/PageHeader/types";
 import { PageHeader } from "@/modules/common/components/PageHeader/PageHeader";
 import { useGetProductAttributeByIdQuery } from "@/services/productAttributes";
 import { NotFound } from "@/modules/common/components";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { ProductAttributeForm } from "../../components/ProductAttributeForm";
 
 export const EditProductAttributePage = () => {
+  const { translate } = useLangTranslation();
   const { id } = useParams();
   const BREADCRUMB_ITEMS: BreadCrumbItem[] = [
     {
-      title: "Product Attributes",
+      title: translate("products.form.title.productAttributes"),
       link: ProductAttributesRoutesList.PRODUCT_ATTRIBUTES,
     },
     {
-      title: "Edit Product Attribute",
+      title: translate("products.form.titleCreate.editProductAttribute"),
     },
   ];
 
@@ -28,13 +30,13 @@ export const EditProductAttributePage = () => {
     productAttribute,
   });
 
-  if (isFetching) return <>loading...</>;
+  if (isFetching) return <>{`${translate("common.loading")}...`}</>;
   if (isError) return <NotFound />;
 
   return (
     <>
       <PageHeader
-        title="Edit Product Attribute"
+        title={translate("products.form.titleCreate.editProductAttribute")}
         breadCrumbItems={BREADCRUMB_ITEMS}
       />
       <ProductAttributeForm productAttribute={productAttributeData?.data} />

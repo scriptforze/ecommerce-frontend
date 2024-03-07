@@ -1,9 +1,11 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { Col, Input, Row, Typography } from "antd";
 import { CustomProductFormValues } from "@/modules/products/components/ProductForms/GeneralStepForm/types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { FormItem } from "@/modules/common/components";
 
 export const ProductStockGroup = () => {
+  const { translate } = useLangTranslation();
   const { Text } = Typography;
   const { control } = useFormContext<CustomProductFormValues>();
   return (
@@ -16,16 +18,23 @@ export const ProductStockGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Width is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireWidth"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Width:" required>
+              <FormItem
+                label={`${translate("products.list.dimensions.width")}:`}
+                required
+              >
                 <Input
                   {...field}
                   type="number"
                   status={error && "error"}
-                  placeholder="Enter the product width"
+                  placeholder={translate(
+                    "products.list.placeholder.enterProductWidth"
+                  )}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
               </FormItem>
@@ -39,16 +48,23 @@ export const ProductStockGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Height is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireHeight"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Height:" required>
+              <FormItem
+                label={`${translate("products.list.dimensions.height")}:`}
+                required
+              >
                 <Input
                   {...field}
                   type="number"
                   status={error && "error"}
-                  placeholder="Enter the product height"
+                  placeholder={translate(
+                    "products.list.placeholder.enterProductHeight"
+                  )}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
               </FormItem>
@@ -64,16 +80,23 @@ export const ProductStockGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Length is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireLength"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Length:" required>
+              <FormItem
+                label={`${translate("products.list.dimensions.length")}:`}
+                required
+              >
                 <Input
                   {...field}
                   type="number"
                   status={error && "error"}
-                  placeholder="Enter the product length"
+                  placeholder={translate(
+                    "products.list.placeholder.enterProductLength"
+                  )}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
               </FormItem>
@@ -87,16 +110,23 @@ export const ProductStockGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Weight is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireWeight"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Weight:" required>
+              <FormItem
+                label={`${translate("products.list.dimensions.weight")}:`}
+                required
+              >
                 <Input
                   {...field}
                   type="number"
                   status={error && "error"}
-                  placeholder="Enter the product weight"
+                  placeholder={translate(
+                    "products.list.placeholder.enterProductWeight"
+                  )}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
               </FormItem>
@@ -112,16 +142,23 @@ export const ProductStockGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Stock is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireStock"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Stock:" required>
+              <FormItem
+                label={`${translate("products.list.dimensions.stock")}:`}
+                required
+              >
                 <Input
                   {...field}
                   type="number"
                   status={error && "error"}
-                  placeholder="Enter the product stock"
+                  placeholder={translate(
+                    "products.list.placeholder.enterProductStock"
+                  )}
                 />
                 <Text type="danger">{error?.message} &nbsp;</Text>
               </FormItem>

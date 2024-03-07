@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { State } from "@/services/states";
 import { StatesRoutesList } from "../../routes";
 import { StateTableColumnsProps } from "./types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { DeleteRestoreButton } from "@/modules/common/components";
 
 export const StateTableColumns = ({
   handleDelete,
   isDeleteStateLoading,
 }: StateTableColumnsProps) => {
+  const { translate } = useLangTranslation();
   const DEFAULT_COLUMNS: ColumnsType<State> = [
     {
       title: "ID",
@@ -21,20 +23,20 @@ export const StateTableColumns = ({
       sortDirections: ["ascend"],
     },
     {
-      title: "Nombre",
+      title: translate("common.columns.name"),
       dataIndex: "name",
       key: "name",
       sorter: true,
       sortDirections: ["ascend"],
     },
     {
-      title: "Estados",
+      title: translate("common.columns.status"),
       dataIndex: "status",
       key: "status",
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
-      title: "Acciones",
+      title: translate("common.columns.actions"),
       key: "actions",
       width: "15%",
       render: (_, record) => {

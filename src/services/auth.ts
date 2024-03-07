@@ -43,6 +43,18 @@ const injectedRtkApi = api
         }),
         invalidatesTags: ["Auth"],
       }),
+      logoutAuthUser: build.mutation<
+        LogoutAuthUserApiResponse,
+        LogoutAuthUserApiArg
+      >({
+        query: (queryArg) => ({
+          url: `/api/v1/auth/logout`,
+          method: "POST",
+          body: queryArg.logoutRequest,
+          params: { lang: queryArg.lang },
+        }),
+        invalidatesTags: ["Auth"],
+      }),
     }),
     overrideExisting: false,
   });
@@ -85,6 +97,13 @@ export type SignUpApiArg = {
   /** Code of language */
   lang?: string;
   registerAuthRequest: RegisterAuthRequest;
+};
+export type LogoutAuthUserApiResponse =
+  /** status 200 success */ ResponseMessage;
+export type LogoutAuthUserApiArg = {
+  /** Code of language */
+  lang?: string;
+  logoutRequest: LogoutRequest;
 };
 export type BadRequestException = {
   error?: string;
@@ -138,9 +157,21 @@ export type RegisterAuthRequest = {
   password: string;
   password_confirmation: string;
 };
+export type ResponseMessage = {
+  message?: string;
+  code?: number;
+};
+export type AuthenticationException = {
+  error?: string;
+  code?: number;
+};
+export type LogoutRequest = {
+  all?: boolean;
+};
 export const {
   useSignInMutation,
   useGetAuthUserQuery,
   useSignInOrSignUpWithSocialNetworkMutation,
   useSignUpMutation,
+  useLogoutAuthUserMutation,
 } = injectedRtkApi;

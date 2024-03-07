@@ -12,11 +12,11 @@ export const EditTagsPage = () => {
   const { translate } = useLangTranslation();
   const BREADCRUMB_ITEMS: BreadCrumbItem[] = [
     {
-      title: "Tags",
+      title: translate("tags.list.title"),
       link: TagsRoutesList.TAGS,
     },
     {
-      title: "New tag",
+      title: translate("tags.list.create"),
     },
   ];
 
@@ -28,7 +28,7 @@ export const EditTagsPage = () => {
     isError,
   } = useGetTagByIdQuery({ tag });
 
-  if (isFetching) return <>loading...</>;
+  if (isFetching) return <>{`${translate("common.loading")}...`}</>;
   if (isError) return <NotFound />;
 
   return (

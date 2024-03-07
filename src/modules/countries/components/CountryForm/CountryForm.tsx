@@ -9,10 +9,12 @@ import {
 import { FormItem } from "@/modules/common/components";
 import { CountryFormProps } from "./types";
 import { pushNotification } from "@/modules/common/helpers";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { CountriesRoutesList } from "@/modules/countries/routes";
 
 export const CountryForm = ({ country }: CountryFormProps) => {
   const { Text } = Typography;
+  const { translate } = useLangTranslation();
   const navigate = useNavigate();
   const { control, handleSubmit } = useForm<StoreCountryRequest>({
     mode: "onChange",
@@ -26,8 +28,10 @@ export const CountryForm = ({ country }: CountryFormProps) => {
   const onSuccess = () => {
     pushNotification({
       type: "success",
-      title: `Country ${country ? "updated" : "created"}`,
-      message: `Country ${country ? "updated" : "created"} successfully`,
+      title: `${translate("zones.list.country")} ${country ? translate("common.updated") : translate("common.created")
+        }`,
+      message: `${translate("zones.list.country")} ${country ? translate("common.updated") : translate("common.created")
+        } ${translate("common.successfully")}`,
     });
 
     navigate(CountriesRoutesList.COUNTRIES);
@@ -62,11 +66,11 @@ export const CountryForm = ({ country }: CountryFormProps) => {
           rules={{
             required: {
               value: true,
-              message: "The name is required",
+              message: translate("common.messages.while.validation.name"),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Name:" required>
+            <FormItem label={`${translate("common.columns.name")}:`} required>
               <Input status={error && "error"} {...field} />
               <Text type="danger">{error?.message} &nbsp;</Text>
             </FormItem>
@@ -78,11 +82,14 @@ export const CountryForm = ({ country }: CountryFormProps) => {
           rules={{
             required: {
               value: true,
-              message: "The phone code is required",
+              message: translate("common.messages.while.validation.phoneCode"),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Phone code:" required>
+            <FormItem
+              label={`${translate("common.columns.phoneCode")}:`}
+              required
+            >
               <Input status={error && "error"} {...field} />
               <Text type="danger">{error?.message} &nbsp;</Text>
             </FormItem>
@@ -94,11 +101,14 @@ export const CountryForm = ({ country }: CountryFormProps) => {
           rules={{
             required: {
               value: true,
-              message: "The short name is required",
+              message: translate("common.messages.while.validation.shortName"),
             },
           }}
           render={({ field, fieldState: { error } }) => (
-            <FormItem label="Short Name:" required>
+            <FormItem
+              label={`${translate("common.columns.shortName")}:`}
+              required
+            >
               <Input status={error && "error"} {...field} />
               <Text type="danger">{error?.message} &nbsp;</Text>
             </FormItem>
@@ -111,7 +121,9 @@ export const CountryForm = ({ country }: CountryFormProps) => {
             style={{ float: "right" }}
             loading={isSaveCountryLoading || isUpdateCountrySuccess}
           >
-            {country ? "Update" : "Save"}
+            {country
+              ? translate("common.submit.update")
+              : translate("common.submit.create")}
           </Button>
         </FormItem>
       </Form>

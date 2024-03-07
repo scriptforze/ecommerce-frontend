@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { Outlet, Navigate, useParams, useLocation } from "react-router-dom";
 import { useGetProductByIdQuery } from "@/services/products";
-import { useAppDispatch, useAppSelector } from "@/modules/common/hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useLangTranslation,
+} from "@/modules/common/hooks";
 import { setProduct, reset } from "@/modules/products/store";
 import { NotFound } from "@/modules/common/components";
 import { ProductsRoutesList } from "@/modules/products/routes";
@@ -10,6 +14,7 @@ import { PRODUCT_INCLUDES } from "../../constants";
 export const ProductStatusGuard = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
+  const { translate } = useLangTranslation();
 
   const { pathname } = useLocation();
   const { product } = useAppSelector((state) => state.products);
@@ -40,7 +45,7 @@ export const ProductStatusGuard = () => {
     };
   }, [productData]);
 
-  if (isProductDataFetching) return <>Loading..</>;
+  if (isProductDataFetching) return <>{`${translate("common.loading")}...`}</>;
   if (isProductDataError) return <NotFound />;
   if (!product) return null;
 

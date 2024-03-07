@@ -3,14 +3,16 @@ import { DollarCircleOutlined, PercentageOutlined } from "@ant-design/icons";
 import { Controller, useFormContext } from "react-hook-form";
 import { FormItem } from "@/modules/common/components";
 import { CustomProductFormValues } from "../../types";
+import { useLangTranslation } from "@/modules/common/hooks";
 import { CustomCard } from "@/modules/products/components/CustomCard";
 
 export const PriceGroup = () => {
   const { Text } = Typography;
+  const { translate } = useLangTranslation();
   const { control } = useFormContext<CustomProductFormValues>();
 
   return (
-    <CustomCard title="Price">
+    <CustomCard title={translate("products.list.price")}>
       <Row gutter={[24, 24]}>
         <Col span={12}>
           <Controller
@@ -19,11 +21,18 @@ export const PriceGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Price is required",
+                message: translate(
+                  "products.list.messages.success.validation.requirePrice"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Base price:" required>
+              <FormItem
+                label={translate(
+                  "products.list.messages.success.subtitle.pricebase"
+                )}
+                required
+              >
                 <Input
                   min={0}
                   size="large"
@@ -44,11 +53,16 @@ export const PriceGroup = () => {
             rules={{
               required: {
                 value: true,
-                message: "Tax is required",
+                message: translate(
+                  "products.list.messages.success.validation.requireTax"
+                ),
               },
             }}
             render={({ field, fieldState: { error } }) => (
-              <FormItem label="Tax:" required>
+              <FormItem
+                label={translate("products.list.messages.success.subtitle.tax")}
+                required
+              >
                 <Input
                   min={0}
                   size="large"

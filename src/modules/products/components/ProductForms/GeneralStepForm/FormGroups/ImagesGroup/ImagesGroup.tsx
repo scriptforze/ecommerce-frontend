@@ -14,9 +14,10 @@ import {
 } from "@/services/resources";
 import { CustomProductFormValues } from "../../types";
 import { CustomCard } from "@/modules/products/components/CustomCard";
-import { useAppSelector } from "@/modules/common/hooks";
+import { useAppSelector, useLangTranslation } from "@/modules/common/hooks";
 
 export const ImagesGroup = () => {
+  const { translate } = useLangTranslation();
   const { Text } = Typography;
   const {
     watch,
@@ -100,7 +101,9 @@ export const ImagesGroup = () => {
       ) : (
         <>
           <PlusOutlined />
-          <div style={{ marginTop: 8 }}>Image</div>
+          <div style={{ marginTop: 8 }}>
+            {translate("common.placeholder.image")}
+          </div>
         </>
       )}
     </div>
@@ -125,7 +128,7 @@ export const ImagesGroup = () => {
   }));
 
   return (
-    <CustomCard title="Product Images">
+    <CustomCard title={translate("products.list.productImage")}>
       {controlledFields.map((field, index) => (
         <Controller
           control={control}
@@ -168,16 +171,18 @@ export const ImagesGroup = () => {
                   }}
                 >
                   {isEditing &&
-                  isResourceLoading &&
-                  resourceToEdit?.index === index ? (
+                    isResourceLoading &&
+                    resourceToEdit?.index === index ? (
                     <>
                       <LoadingOutlined />
-                      <div style={{ marginTop: 8 }}>Updating</div>
+                      <div style={{ marginTop: 8 }}>
+                        {translate("common.updating")}
+                      </div>
                     </>
                   ) : (
                     <img
                       src={field.url}
-                      alt="Product Media"
+                      alt={translate("common.alt.productmedia")}
                       style={{
                         width: "100%",
                         maxHeight: "100%",
@@ -219,7 +224,9 @@ export const ImagesGroup = () => {
         <Space className="custom-card__footer--text" size={1}>
           <Text type="danger">
             {errors.array_images?.root?.message ||
-              "* Select at least one picture"}
+              `* ${translate(
+                "products.list.messages.success.validation.requireImage"
+              )}`}
           </Text>
         </Space>
       )}

@@ -13,7 +13,7 @@ import { useState } from "react";
 import { SorterResult, FilterValue } from "antd/lib/table/interface";
 import { Link } from "react-router-dom";
 import { INITIAL_STATES_API_ARG } from "./constants";
-import { useDebounce } from "@/modules/common/hooks";
+import { useDebounce, useLangTranslation } from "@/modules/common/hooks";
 import { StatesRoutesList, StateTableColumns } from "@/modules/states";
 import {
   DeleteStateApiResponse,
@@ -25,8 +25,9 @@ import { pushNotification } from "@/modules/common/helpers";
 import { GeneralStatuses } from "@/modules/common/constants";
 
 export const ListStatesPage = () => {
+  const { translate } = useLangTranslation();
   const { Title } = Typography;
-  document.title = "Ecommerce - States";
+  document.title = `Ecommerce - ${translate("menu.zones.states")}`;
 
   const [statesApiArgs, setStatesApiArgs] = useState(INITIAL_STATES_API_ARG);
 
@@ -46,10 +47,14 @@ export const ListStatesPage = () => {
   const onSuccessDelete = ({ data }: DeleteStateApiResponse) => {
     pushNotification({
       type: "success",
-      title: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
+      title: `${translate("common.columns.status")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
         }`,
-      message: `State ${data?.status?.name === GeneralStatuses.DISABLED ? "deleted" : "restored"
-        } successfully`,
+      message: `${translate("common.columns.status")} ${data?.status?.name === GeneralStatuses.DISABLED
+          ? translate("common.deleted")
+          : translate("common.restored")
+        } ${translate("common.successfully")}`,
     });
   };
 
@@ -81,13 +86,13 @@ export const ListStatesPage = () => {
 
   return (
     <>
-      <Title level={1}>Estados</Title>
+      <Title level={1}>{translate("menu.zones.states")}</Title>
       <Card style={{ background: "#fff" }}>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Col span={6}>
             <Input
               id="search"
-              placeholder="Buscar"
+              placeholder={translate("common.search")}
               onChange={(e) =>
                 setStatesApiArgs({
                   ...statesApiArgs,
@@ -106,7 +111,7 @@ export const ListStatesPage = () => {
                 icon={<PlusOutlined />}
                 style={{ float: "right" }}
               >
-                Nuevo estado
+                {translate("zones.form.createState")}
               </Button>
             </Link>
           </Col>

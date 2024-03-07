@@ -15,6 +15,7 @@ const config: ConfigFile = {
         "getAuthUser",
         "signUp",
         "signInOrSignUpWithSocialNetwork",
+        "logoutAuthUser",
       ],
     },
     "./src/services/productAttributes.ts": {

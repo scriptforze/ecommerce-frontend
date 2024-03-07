@@ -6,7 +6,7 @@ import { useLangTranslation } from "@/modules/common/hooks";
 
 export const CreateCategoryPage = () => {
   const { translate } = useLangTranslation();
-  document.title = "Ecommerce - New category";
+  document.title = `Ecommerce - ${translate("categories.form.title.create")}`;
   return (
     <>
       <PageHeader

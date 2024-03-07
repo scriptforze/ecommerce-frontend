@@ -25,6 +25,8 @@ const injectedRtkApi = api
             type: queryArg["type"],
             name: queryArg.name,
             price: queryArg.price,
+            min_price: queryArg.minPrice,
+            max_price: queryArg.maxPrice,
             tax: queryArg.tax,
             slug: queryArg.slug,
             description: queryArg.description,
@@ -114,6 +116,8 @@ export type GetAllProductsApiArg = {
   type?: string;
   name?: string;
   price?: number;
+  minPrice?: number;
+  maxPrice?: number;
   tax?: number;
   slug?: string;
   description?: string;
@@ -245,6 +249,8 @@ export type Product = {
   slug: string;
   sku: string;
   price: number;
+  min_price: number;
+  max_price: number;
   tax: number;
   short_description: string;
   description: string;

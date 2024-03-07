@@ -28,7 +28,7 @@ import { useLangTranslation } from "@/modules/common/hooks/useLangTranslation";
 export const ListTagsPage = () => {
   const { Title } = Typography;
   const { translate, lang } = useLangTranslation();
-  document.title = "Ecommerce - Tags";
+  document.title = `Ecommerce - ${translate("tags.list.title")}`;
 
   const [tagsApiArgs, setTagsApiArgs] = useState(INITIAL_TAGS_API_ARG);
 

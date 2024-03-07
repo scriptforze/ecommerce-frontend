@@ -1,3 +1,7 @@
+import { useLangTranslation } from "@/modules/common/hooks";
+
 export const EditUsersPage = () => {
-  return <div>Editar la página de usuarios</div>;
+  const { translate } = useLangTranslation();
+
+  return <div>{translate("users.list.messages.updateWhile")}</div>;
 };

@@ -2,6 +2,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import { PublishProductButtonProps } from "./types";
+import { useLangTranslation } from "@/modules/common/hooks";
 
 export const PublishProductButton = ({
   loading,
@@ -9,6 +10,7 @@ export const PublishProductButton = ({
   handlePublish,
 }: PublishProductButtonProps) => {
   const [resourceId, setResourceId] = useState<number | null>(null);
+  const { translate } = useLangTranslation();
 
   useEffect(() => {
     if (!loading && resourceId != null) {
@@ -22,7 +24,9 @@ export const PublishProductButton = ({
   };
 
   return (
-    <Tooltip title="Publish Product">
+    <Tooltip
+      title={translate("products.form.messages.success.published.bottom")}
+    >
       <Button
         type="link"
         size="large"

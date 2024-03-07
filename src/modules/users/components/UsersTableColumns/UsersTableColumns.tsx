@@ -19,33 +19,33 @@ export const UsersTableColumns = ({
       width: "10%",
       sorter: true,
       dataIndex: "id",
-      title: translate("users.list.columns.id"),
+      title: "ID",
       sortDirections: ["ascend"],
     },
     {
       key: "name",
       sorter: true,
       dataIndex: "name",
-      title: translate("users.list.columns.name"),
+      title: translate("common.columns.name"),
       sortDirections: ["ascend"],
     },
     {
       key: "username",
       sorter: true,
       dataIndex: "username",
-      title: translate("users.list.columns.username"),
+      title: translate("common.columns.username"),
       sortDirections: ["ascend"],
     },
     {
       key: "status",
       dataIndex: "status",
-      title: translate("users.list.columns.status"),
+      title: translate("common.columns.status"),
       render: (_, record) => <span>{record.status?.name}</span>,
     },
     {
       width: "15%",
       key: "actions",
-      title: translate("users.list.columns.actions"),
+      title: translate("common.columns.actions"),
       render: (_, record) => (
         <>
           <Link to={`${record.id}/${UsersRoutesList.EDIT_USERS}`}>

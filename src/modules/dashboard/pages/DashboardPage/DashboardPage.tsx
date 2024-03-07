@@ -1,7 +1,13 @@
-import { useAppSelector } from "@/modules/common/hooks";
+import { useAppSelector, useLangTranslation } from "@/modules/common/hooks";
 
 export const DashboardPage = () => {
+  const { translate } = useLangTranslation();
   const { user } = useAppSelector((state) => state.auth);
+  const msg = translate("common.messages.while.dashboard.msg");
 
-  return <div>DashboardPage {user?.name}</div>;
+  return (
+    <div>
+      {msg} {user?.name}
+    </div>
+  );
 };

@@ -31,12 +31,12 @@ export const parseData = (data: CustomProductFormValues, product?: Product) => {
   );
   const product_attribute_options = hasValidOptions
     ? options?.reduce(
-        (result, { value = [] }) => {
-          result.attach.push(...value.filter((opt) => opt));
-          return { ...result };
-        },
-        { attach: [] } as { attach: number[] }
-      )
+      (result, { value = [] }) => {
+        result.attach.push(...value.filter((opt) => opt));
+        return { ...result };
+      },
+      { attach: [] } as { attach: number[] }
+    )
     : undefined;
 
   /* const images = productImages.reduce(
