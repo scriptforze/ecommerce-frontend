@@ -60,8 +60,10 @@ export const ImagesGroup = () => {
   useEffect(() => {
     if (isCreating && isResourceSuccess && dataResource && dataResource.data) {
       const images = getValues("images");
+      const arrayImages = getValues("array_images");
+
       const { id, urls } = dataResource.data;
-      const location = images.attach.length + 1;
+      const location = arrayImages.length + 1;
 
       append({ id, url: urls.small! });
       setValue("images.attach", [...images.attach, { id, location }]);
@@ -72,19 +74,25 @@ export const ImagesGroup = () => {
   useEffect(() => {
     if (
       isEditing &&
-      dataResource &&
+      dataResource?.data &&
       resourceToEdit &&
-      isResourceSuccess &&
-      dataResource.data
+      isResourceSuccess
     ) {
       const { index } = resourceToEdit;
       const images = getValues("images");
+      const arrayImages = getValues("array_images");
 
       const { id, urls } = dataResource.data;
+      const { id: previousId } = arrayImages?.[index] || {};
 
       setValue(`array_images.${index}.id`, id);
       setValue(`array_images.${index}.url`, urls.small!);
-      if (images.attach[index]) setValue(`images.attach.${index}.id`, id);
+
+      setValue(`images.attach`, [
+        ...images.attach,
+        { id, location: index + 1 },
+      ]);
+      setValue(`images.detach`, [...images.detach, previousId]);
 
       setIsEditing(false);
       setResourceToEdit(null);
@@ -171,8 +179,8 @@ export const ImagesGroup = () => {
                   }}
                 >
                   {isEditing &&
-                    isResourceLoading &&
-                    resourceToEdit?.index === index ? (
+                  isResourceLoading &&
+                  resourceToEdit?.index === index ? (
                     <>
                       <LoadingOutlined />
                       <div style={{ marginTop: 8 }}>
